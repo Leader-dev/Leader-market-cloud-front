@@ -1,0 +1,10 @@
+{
+    "site": {
+        "corp": "Leader",
+        "product": "Market Cloud"
+    },
+    "navbar": {
+        "language": "Language",
+        "login_or_register": "Sign Up"
+    }
+}

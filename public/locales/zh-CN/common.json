@@ -1,0 +1,13 @@
+{
+    "site": {
+        "corp": "麟者",
+        "product": "市场云"
+    },
+    "navbar": {
+        "home": "首页",
+        "projects": "项目",
+        "partners": "合作方",
+        "language": "语言",
+        "login_or_register": "登录/注册"
+    }
+}
