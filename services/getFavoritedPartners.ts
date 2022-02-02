@@ -1,12 +1,12 @@
 import { request } from "utils/request";
 import { createService } from "services";
+
 import { UserProfile, ContactDetails } from "types/user";
 
 export default createService<
   Array<UserProfile & { contacts?: ContactDetails }>
 >({
-  url: () => "/get-individual-partners",
-  //   get: (url) => request.get<{ data: { partners: User[] } }>(url).then(({ data }) => data.partners),
+  url: () => "/get-favorited-partners",
   get: async (url) => [
     {
       id: 1,
@@ -34,17 +34,8 @@ export default createService<
       popularity: 3,
       contacts: {
         phone: "12345678900",
-        email: "johnDoe@gmail.com",
+        email: "firefox@yahoo.com.cn",
       },
-    },
-    {
-      id: 3,
-      username: "Example Partner",
-      avatar: "https://picsum.photos/id/3/400/300",
-      bio: "This is JP Morgan working experience 114514 years. He is 1919810 years old",
-      projectCount: 0,
-      popularity: 1,
-      contacts: {}
     },
   ],
 });

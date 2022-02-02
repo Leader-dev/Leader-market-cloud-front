@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import NavBar from "components/navbar";
 import Footer from "components/footer";
 
+/** NextPage wrapper */
 export const BasicLayout: React.FC<{
   pageTitle?: string;
   backgroundColor?: string;

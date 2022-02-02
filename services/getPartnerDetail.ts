@@ -3,7 +3,7 @@ import { createService } from "services";
 import { Org, User } from "types/user";
 import { Project } from "types/project";
 
-type GetPartnerDetailResponse = (Omit<User, "org"> & {
+type GetPartnerDetailResponse = (User & {
   projects: Omit<Project, "owner">[];
 }) &
   ({ isSelf: false } | { isSelf: true; orgs: Org[] });
@@ -18,11 +18,32 @@ export default createService<GetPartnerDetailResponse, { id: string }>({
     id: 1,
     username: "Example Partner",
     avatar: "https://picsum.photos/id/1/400/300",
+    org: { name: "Eample Org", id: 1, verified: true },
+    bio: "Lorem ipsum asuk dolor sit amet consectetur adipisicing elit. Quisquam, quaerat. Lorem ipsum asuk dolor sit amet consectetur adipisicing elit. Quisquam, quaerat.",
     projects: [
       {
         id: 1,
         title: "Example Project",
         banner: "https://picsum.photos/id/1/400/300",
+        tags: ["线上", "需要资金"],
+      },
+      {
+        id: 2,
+        title: "Example Project",
+        banner: "https://picsum.photos/id/1/400/300",
+        tags: ["线上", "需要资金"],
+      },
+      {
+        id: 3,
+        title: "Example Project",
+        banner: "https://picsum.photos/id/1/400/300",
+        tags: ["线上", "需要资金"],
+      },
+      {
+        id: 4,
+        title: "Example Project",
+        banner: "https://picsum.photos/id/1/400/300",
+        tags: ["线上", "需要资金"],
       },
     ],
     orgs: [

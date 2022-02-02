@@ -52,11 +52,6 @@ export const styles = {
   sizes: {},
   // The variant styles for each part
   variants: {
-    sharp: {
-      card: {
-        borderRadius: 0,
-      },
-    },
     interactive: {
       card: {
         transition: "box-shadow 0.2s",

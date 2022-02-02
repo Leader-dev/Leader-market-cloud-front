@@ -30,3 +30,8 @@ export type OrgProfile = Org & {
   memberCount: number;
   projectCount: number;
 };
+
+export type ContactDetails = {
+  email?: string;
+  phone?: string;
+};

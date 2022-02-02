@@ -19,6 +19,7 @@ export default createService<
         id: 1,
         title: "Example Project",
         banner: "https://picsum.photos/id/1/400/300",
+        tags: ["tag1", "tag2"],
       },
     ],
   }),

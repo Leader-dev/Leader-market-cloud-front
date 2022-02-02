@@ -33,105 +33,17 @@ import { SiteLink } from "components/siteLink";
 import { SearchBar } from "components/searchBar";
 import { Card } from "components/card";
 import { Divider } from "components/divider";
+import {PartnerList} from 'components/partnerList'
 
 import getIndividualPartners from "services/getIndividualPartners";
 import getOrganizationPartners from "services/getOrganizationPartners";
 
+
+
+
 const IndividualPartners = () => {
-  const { t } = useTranslation("partners");
-  const { push } = useRouter();
   const { data: partners } = useQuery(getIndividualPartners({}));
-  return (
-    <Grid bg="gray.100" templateColumns="repeat(3, 1fr)" gap={10} p={8}>
-      {partners?.map((partner) => (
-        <GridItem key={partner.id} pt={12}>
-          <Card
-            overflow="visible"
-            overflowX="visible"
-            variant="interactive"
-            // @ts-ignore
-            href={`/partner/${partner.id}`}
-            onClick={() => push(`/partners/${partner.id}`)}
-          >
-            <Card.Content>
-              <Flex
-                mt={-8}
-                align="center"
-                position="relative"
-                zIndex={1}
-                pointerEvents="none"
-              >
-                <Avatar
-                  size="xl"
-                  name={partner.username}
-                  src={partner.avatar}
-                  pointerEvents="auto"
-                />
-                <Spacer />
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alert(`${partner.username} liked!`);
-                  }}
-                  variant="solid"
-                  colorScheme="blue"
-                  borderRadius="full"
-                  size="sm"
-                  mr={2}
-                  pointerEvents="auto"
-                >
-                  {t("interested")}
-                </Button>
-                <IconButton
-                  variant="ghost"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alert(`${partner.username} followed!`);
-                  }}
-                  aria-label="follow"
-                  icon={<Icon w={6} h={6} as={AiOutlineStar} />}
-                  pointerEvents="auto"
-                />
-              </Flex>
-            </Card.Content>
-            <Card.Title pb={0} mb={1}>
-              {partner.username}
-            </Card.Title>
-            <Card.Subtitle pt={0} mt={0} mb={2} pb={1}>
-              {partner.org && <Box>{partner.org.name}</Box>}
-            </Card.Subtitle>
-            <Card.Content pt={1}>
-              {partner.bio && <Box color="gray.800">{partner.bio}</Box>}
-              <Flex mt={2}>
-                <Center w="calc(50% - 1px)">
-                  <Box textAlign="center">
-                    <Box fontSize="xl" fontWeight="bold">
-                      {partner.popularity}
-                    </Box>
-                    <Box>合作人气</Box>
-                  </Box>
-                </Center>
-                <Divider
-                  vertical
-                  h="64px"
-                  color="gray.300"
-                  alignSelf="center"
-                />
-                <Center w="calc(50% - 1px)">
-                  <Box textAlign="center">
-                    <Box fontSize="xl" fontWeight="bold">
-                      {partner.projectCount}
-                    </Box>
-                    <Box>项目</Box>
-                  </Box>
-                </Center>
-              </Flex>
-            </Card.Content>
-          </Card>
-        </GridItem>
-      ))}
-    </Grid>
-  );
+  return <PartnerList partners={partners!} />
 };
 
 const OrganizationPartners = () => {

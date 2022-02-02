@@ -1,5 +1,14 @@
 {
   "pageTitle": "合作方",
   "individuals": "个人",
-  "organizations": "组织"
+  "organizations": "组织",
+  "my_projects": "我的项目",
+  "collab_wanted": "意向合作",
+  "favorites": "收藏",
+  "drafts": "草稿",
+  "partners_want_to_collab_with_you": "已有<1>一位</1>合作方希望与您合作",
+  "partners_want_to_collab_with_you_plural": "已有<1>{{count}}</1>位合作方希望与您合作",
+  "partnersYouInterestedIn": "您感兴趣的合作方",
+  "show_contacts": "展示",
+  "hide_contacts": "隐藏"
 }
