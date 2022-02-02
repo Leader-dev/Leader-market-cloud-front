@@ -11,6 +11,8 @@ export const BasicLayout: React.FC<{
   backgroundColor?: string;
 }> = ({ children, pageTitle, backgroundColor }) => {
   const { t } = useTranslation("common");
+
+  // TODO: add more SEO-friendly tags (`meta`, etc.)
   return (
     <>
       <Head>
