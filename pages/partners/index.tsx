@@ -33,17 +33,14 @@ import { SiteLink } from "components/siteLink";
 import { SearchBar } from "components/searchBar";
 import { Card } from "components/card";
 import { Divider } from "components/divider";
-import {PartnerList} from 'components/partnerList'
+import { PartnerList } from "components/partnerList";
 
 import getIndividualPartners from "services/getIndividualPartners";
 import getOrganizationPartners from "services/getOrganizationPartners";
 
-
-
-
 const IndividualPartners = () => {
   const { data: partners } = useQuery(getIndividualPartners({}));
-  return <PartnerList partners={partners!} />
+  return <PartnerList partners={partners!} />;
 };
 
 const OrganizationPartners = () => {

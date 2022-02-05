@@ -6,6 +6,6 @@ import { styles as Carousel } from "components/carousel";
 export default extendTheme({
   components: {
     Card,
-    Carousel
+    Carousel,
   },
 });

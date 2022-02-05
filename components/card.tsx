@@ -58,9 +58,9 @@ export const styles = {
         cursor: "pointer",
         "&:hover": {
           boxShadow: "lg",
-        }
+        },
       },
-    }
+    },
   },
   // The default `size` or `variant` values
   defaultProps: {},

@@ -104,7 +104,6 @@ export const Carousel: React.FC<CarouselProps> = ({
     }
   }, [autoSwipe, next]);
 
-
   return (
     <ChakraBox __css={styles.carousel} {...props} bgColor="black">
       <IconButton

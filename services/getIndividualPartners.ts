@@ -44,7 +44,7 @@ export default createService<
       bio: "This is JP Morgan working experience 114514 years. He is 1919810 years old",
       projectCount: 0,
       popularity: 1,
-      contacts: {}
+      contacts: {},
     },
   ],
 });

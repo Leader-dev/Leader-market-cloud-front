@@ -15,12 +15,12 @@ import { useTranslation } from "next-i18next";
 import { AiOutlineStar } from "react-icons/ai";
 
 import { Card } from "components/card";
-import { Divider} from 'components/divider'
+import { Divider } from "components/divider";
 
 import { UserProfile, ContactDetails } from "types/user";
 
 export const PartnerList: React.FC<{
-  partners: Array<UserProfile & { contacts?: ContactDetails }>
+  partners: Array<UserProfile & { contacts?: ContactDetails }>;
 }> = ({ partners }) => {
   const { t } = useTranslation("partners");
   const { push } = useRouter();

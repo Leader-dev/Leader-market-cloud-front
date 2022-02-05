@@ -193,7 +193,7 @@ const PartnerDetailsPage: NextPage = () => {
           <Spacer />
           <Box>
             <Stack spacing={4}>
-              <Box  textAlign="right">
+              <Box textAlign="right">
                 <Button
                   leftIcon={<AiOutlinePlus />}
                   variant="outline"

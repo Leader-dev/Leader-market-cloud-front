@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { Card } from "components/card";
 import { SiteLink } from "components/siteLink";
-import {Tags} from "components/tags";
+import { Tags } from "components/tags";
 
 import { Project } from "types/project";
 

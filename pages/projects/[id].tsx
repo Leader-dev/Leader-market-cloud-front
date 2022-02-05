@@ -86,8 +86,16 @@ const ProjectDetailPage: NextPage<
               <Tags tags={tags} />
             </Box>
             <Box>
-              <Box color="gray.600" mb={4}>{t("project_description")}</Box>
-              <Box>{description.split("\n").map(l => <Box as="p" my={2} key={l}>{l}</Box>)}</Box>
+              <Box color="gray.600" mb={4}>
+                {t("project_description")}
+              </Box>
+              <Box>
+                {description.split("\n").map((l) => (
+                  <Box as="p" my={2} key={l}>
+                    {l}
+                  </Box>
+                ))}
+              </Box>
             </Box>
           </Box>
         </Container>
