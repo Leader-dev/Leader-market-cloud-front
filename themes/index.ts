@@ -3,7 +3,6 @@ import { extendTheme } from "@chakra-ui/react";
 import { styles as Card } from "components/card";
 import { styles as Carousel } from "components/carousel";
 
-
 export default extendTheme({
   components: {
     Card,
@@ -15,24 +14,24 @@ export default extendTheme({
     bgBlack: "#212121",
   },
   fonts: {
-    heading: 'myFont, sans-serif',
-    body: 'myFont, sans-serif',
+    heading: "myFont, sans-serif",
+    body: "myFont, sans-serif",
   },
   textStyles: {
     h1: {
-      fontSize: ['46px', '54px'],
-      fontWeight: 'bold',
-      lineHeight: '110%',
+      fontSize: ["46px", "54px"],
+      fontWeight: "bold",
+      lineHeight: "110%",
     },
     h2: {
-      fontSize: ['36px', '48px'],
-      fontWeight: 'normal',
-      lineHeight: '110%',
+      fontSize: ["36px", "48px"],
+      fontWeight: "normal",
+      lineHeight: "110%",
     },
     p: {
-      fontSize: ['18px', '20px'],
-      color: 'grey',
-      fontWeight: 'semibold',
-    }
+      fontSize: ["18px", "20px"],
+      color: "grey",
+      fontWeight: "semibold",
+    },
   },
 });

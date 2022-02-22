@@ -4,9 +4,10 @@ import {
   useControllableState,
   BoxProps,
   InputGroup,
-  InputProps, InputLeftElement
+  InputProps,
+  InputLeftElement,
 } from "@chakra-ui/react";
-import { Search2Icon } from '@chakra-ui/icons'
+import { Search2Icon } from "@chakra-ui/icons";
 
 export const SearchBar = ({
   value,
@@ -21,12 +22,12 @@ export const SearchBar = ({
   inputProps?: InputProps;
   inputGroupProps?: BoxProps;
 }) => {
-  const [v, oC] = useControllableState({ defaultValue: "", value, onChange});
+  const [v, oC] = useControllableState({ defaultValue: "", value, onChange });
   return (
     <Box w="100%" px={7} py={6} {...boxProps}>
       <InputGroup {...inputGroupProps}>
-        <InputLeftElement pointerEvents='none' h={'100%'}>
-          <Search2Icon color='gray.400'/>
+        <InputLeftElement pointerEvents="none" h={"100%"}>
+          <Search2Icon color="gray.400" />
         </InputLeftElement>
         <Input
           value={v}
@@ -34,7 +35,7 @@ export const SearchBar = ({
           borderRadius="full"
           placeholder="Search"
           bg="gray.100"
-          h={'100%'}
+          h={"100%"}
           {...inputProps}
         />
       </InputGroup>
