@@ -6,8 +6,10 @@ import { BasicLayout } from "layouts/basicLayout";
 import { SearchBar } from "components/searchBar";
 import { ProjectsList } from "components/projectList";
 
+
 import type { User } from "types/user";
 import type { Project } from "types/project";
+import {Center} from "@chakra-ui/react";
 
 const ProjectsPage: NextPage = () => {
   const { t } = useTranslation("projects");
@@ -47,7 +49,13 @@ const ProjectsPage: NextPage = () => {
   ];
   return (
     <BasicLayout pageTitle={t("pageTitle")}>
-      <SearchBar />
+      <Center mt={10} >
+        <SearchBar
+          boxProps={{w: '80%'}}
+          inputProps={{boxShadow: '2px 2px 4px #C0C0C0'}}
+          inputGroupProps={{h: '45px'}}
+        />
+      </Center>
       <ProjectsList projects={projects} />
     </BasicLayout>
   );

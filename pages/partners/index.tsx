@@ -124,7 +124,7 @@ const PartnersPage: NextPage<
           >
             {t("organizations")}
           </Tab>
-          <SearchBar boxProps={{ w: "600px", flexGrow: 1 }} />
+          <SearchBar boxProps={{ w: "600px", flexGrow: 1 }} inputGroupProps={{h: '35px'}} />
         </TabList>
         <TabPanels>
           <TabPanel p={0}>

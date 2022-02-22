@@ -35,7 +35,7 @@ const FooterLink: React.FC<{ href: string }> = ({ children, href }) => {
 
 const Footer = () => {
   return (
-    <Box as="footer" bg="black" color="white" px={16} pt={14} pb={8}>
+    <Box as="footer" bg="bgBlack" color="white" px={16} pt={14} pb={8}>
       <Grid templateColumns="repeat(4, 1fr)" gap={4} p={8} pb={14}>
         <GridItem colSpan={2}>BIG ICON</GridItem>
         <GridItem colSpan={1}>

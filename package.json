@@ -10,7 +10,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@babel/core": "^7.17.5",
+    "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.1",
+    "@chakra-ui/system": "^1.11.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "axios": "^0.24.0",

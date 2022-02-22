@@ -14,7 +14,7 @@ export default createService<string>({
 
 `request` 是封装好的 `axios` 库，可以使用 `request.get` 和 `request.post` 来发送请求。理论上来讲雷董设计的后端应该只有 `POST` 函数。
 
-`createService` 工厂函数的定义在 `services/index.ts` 中。
+`createService` 工厂函数的定义在 `services/index.tsx` 中。
 
 可以适当的引用 `/types` 下的内容进行类型定义。
 

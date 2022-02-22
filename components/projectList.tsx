@@ -28,17 +28,17 @@ export const ProjectsList: React.FC<ProjectsListProps> = ({
 
   return (
     <SimpleGrid
-      columns={2}
-      spacingX={28}
+      columns={3}
+      spacingX={5}
       spacingY={20}
       py={10}
       px={10}
-      bg="gray.100"
+      bg="white"
     >
       {projects.map((project) => (
         <Box key={project.id}>
           <Card
-            borderRadius="0"
+            borderRadius="20px"
             variant="interactive"
             onClick={() => {
               push(`/projects/${project.id}`);

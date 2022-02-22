@@ -1,12 +1,11 @@
 import {
   Box as ChakraBox,
   BoxProps,
-  Flex,
   StylesProvider,
   useMultiStyleConfig,
   useStyles,
   IconButton,
-  Icon,
+  Icon, HStack
 } from "@chakra-ui/react";
 import { Children, useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -104,8 +103,45 @@ export const Carousel: React.FC<CarouselProps> = ({
     }
   }, [autoSwipe, next]);
 
+
+  const CircleIcon: React.FC<
+    React.ComponentProps<typeof Icon> & {
+    isCurrent: boolean
+  }
+  > = ({isCurrent, ...props}) => (
+    <Icon viewBox='0 0 200 200' {...props} color={isCurrent ? '#83CCFE' : '#5C5C5C'}>
+      <path
+        fill='currentColor'
+        d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
+      />
+    </Icon>
+  )
+
+
   return (
     <ChakraBox __css={styles.carousel} {...props} bgColor="black">
+      <Box
+        position="absolute"
+        bottom={0}
+        width={"100%"}
+        height={"15%"}
+        bgColor="rgba(21,21,21,0.6)"
+        zIndex={1}>
+        <HStack
+          spacing={8}
+          position="absolute"
+          left={"50%"}
+          transform="translateX(-50%)"
+          bottom={"2px"}
+          margin={"auto 0"}
+        >
+          {Children.map(children, (child, index) => {
+            return (
+              <CircleIcon boxSize={4} isCurrent={index == current}/>
+            )
+          })}
+        </HStack>
+      </Box>
       <IconButton
         aria-label="Previous"
         borderRadius="full"

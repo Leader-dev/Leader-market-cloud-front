@@ -13,15 +13,18 @@ import {
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
-  BoxProps,
+  BoxProps, HStack,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { Image } from "components/image";
 
 import { AiOutlineUser, AiOutlineGlobal } from "react-icons/ai";
 
 import { SiteLink } from "components/siteLink";
 import { useLoginStatus } from "utils/auth";
+
+import LeaderCloud from "public/leader-cloud.svg";
 
 const NavLink: React.FC<
   React.ComponentProps<typeof SiteLink> & {
@@ -39,6 +42,7 @@ const NavLink: React.FC<
         color: "white",
       }}
       textDecoration="underline"
+      textUnderlineOffset={"8px"}
       textDecorationThickness="4px"
       textDecorationColor={isActive && !disabled ? "blue.400" : "transparent"}
       transition="text-decoration 0.1s"
@@ -55,9 +59,12 @@ const NavBarHeading = ({
   subtitle: string;
 }) => {
   return (
-    <Heading as="h1" size="md" py={5} px={4} fontWeight="medium" color="white">
-      {title}·{subtitle}
-    </Heading>
+    <HStack py={5} px={4} spacing={4}>
+      <Image src={LeaderCloud}/>
+      <Heading as="h1" size="md" fontWeight="medium" color="white">
+        {title} · {subtitle}
+      </Heading>
+    </HStack>
   );
 };
 
@@ -67,7 +74,7 @@ const NavBarItem: React.FC<BoxProps> = (props) => {
       <Box
         color="white"
         fontSize="lg"
-        fontWeight="bold"
+        // fontWeight="bold"
         px={2}
         mx={2}
         py={5}
@@ -88,7 +95,7 @@ const NavBar = () => {
 
   const { t } = useTranslation("common");
   return (
-    <Flex as="nav" px={2} bg="black">
+    <Flex as="nav" px={2} bg="bgBlack">
       <NavBarHeading title={t("site.corp")} subtitle={t("site.product")} />
       <Spacer />
       <NavBarItem>

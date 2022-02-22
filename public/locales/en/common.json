@@ -1,10 +1,13 @@
 {
   "site": {
     "corp": "Leader",
-    "product": "Market Cloud"
+    "product": "Cloud Platform"
   },
   "navbar": {
     "language": "Language",
-    "login_or_register": "Sign Up"
+    "login_or_register": "Sign Up",
+    "home": "Home",
+    "projects": "Projects",
+    "partners": "Partners"
   }
 }

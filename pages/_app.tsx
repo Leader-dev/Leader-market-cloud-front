@@ -5,6 +5,7 @@ import { QueryClientProvider, Hydrate, QueryClient } from "react-query";
 import { appWithTranslation } from "next-i18next";
 
 import theme from "themes";
+import Fonts from "fonts";
 
 function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -12,6 +13,7 @@ function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.prefetchedState}>
         <ChakraProvider theme={theme}>
+          <Fonts />
           <Component {...pageProps} />
         </ChakraProvider>
       </Hydrate>
