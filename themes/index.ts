@@ -19,12 +19,12 @@ export default extendTheme({
   },
   textStyles: {
     h1: {
-      fontSize: ["46px", "54px"],
-      fontWeight: "bold",
+      fontSize: ["46px", "52px"],
+      fontWeight: "semibold",
       lineHeight: "110%",
     },
     h2: {
-      fontSize: ["36px", "48px"],
+      fontSize: ["44px", "48px"],
       fontWeight: "normal",
       lineHeight: "110%",
     },
