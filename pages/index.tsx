@@ -18,19 +18,19 @@ import watermelon from "public/images/watermelon.jpeg";
 const IndexPage: NextPage = () => {
   return (
     <BasicLayout>
-      <Carousel w="full" h="60vh" infinite autoSwipe={5}>
+      <Carousel w="full" h="62vh" infinite autoSwipe={5}>
         <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
         <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
         <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
         <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
       </Carousel>
 
-      <VStack h={"30vh"} justify={"center"}>
+      <VStack h={"25vh"} justify={"center"}>
         <Center textStyle={"h2"} mt={8}>
           创意 · 永恒
         </Center>
         <Center textStyle={"p"} mt={4} mb={8}>
-          ⻘年主创项⽬赋能平台 · 让你的创意影响世界！
+          赋能高校学生主创活动 · 让你的创意影响世界！
         </Center>
       </VStack>
 

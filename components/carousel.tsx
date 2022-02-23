@@ -132,11 +132,11 @@ export const Carousel: React.FC<CarouselProps> = ({
         zIndex={1}
       >
         <HStack
-          spacing={8}
+          spacing={6}
           position="absolute"
           left={"50%"}
           transform="translateX(-50%)"
-          bottom={"2px"}
+          bottom={"3px"}
           margin={"auto 0"}
         >
           {Children.map(children, (child, index) => {
