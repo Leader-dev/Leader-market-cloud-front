@@ -2,6 +2,8 @@
 
 鳞者项目云仓库
 
+**Lets use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)!!!**
+
 ## 安装项目
 
 ```bash
