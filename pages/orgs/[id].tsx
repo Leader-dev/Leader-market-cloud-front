@@ -6,7 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { BasicLayout } from "layouts/basicLayout";
 import { SiteLink } from "components/siteLink";
-import getOrgDetail from "services/getOrgDetail";
+import getOrgDetail from "services/org/getOrgDetail";
 import getLoginStatus from "services/getLoginStatus";
 
 const OrgDetailsPage: NextPage = () => {

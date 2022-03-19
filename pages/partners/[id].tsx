@@ -45,7 +45,7 @@ import getPartnerDetail from "services/getPartnerDetail";
 import getLoginStatus from "services/getLoginStatus";
 import getWantedCollaborators from "services/getWantedCollaborators";
 import getFavoritedPartners from "services/getFavoritedPartners";
-import getDrafts from "services/getDrafts";
+import getDrafts from "services/project/manage/getProjectDrafts";
 
 const ProjectPanel = ProjectsList;
 

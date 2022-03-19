@@ -46,7 +46,7 @@ export const ProjectsList: React.FC<ProjectsListProps> = ({
           >
             <Card.Media>
               {/* <NextImage src={project.banner} alt={project.title} /> */}
-              <Img w="100%" src={project.banner} alt={project.title} />
+              <Img w="100%" src={project.coverUrl} alt={project.title} />
             </Card.Media>
             <Card.Content px={5} py={3}>
               <Box fontSize="md">{project.title}</Box>

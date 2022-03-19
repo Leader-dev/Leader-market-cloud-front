@@ -1,17 +1,18 @@
 import { Id } from "./common";
 
-export type User = {
+export type EditableUser = {
+  name: string;
+  description: string;
+  showContact: boolean;
+  phone: string;
+  email: string;
+}
+
+export type User = EditableUser & {
   id: Id;
-  /** username */
-  username: string;
   /** url of avatar */
-  avatar?: string;
-  bio?: string;
-  org?: {
-    id: Id;
-    verified: boolean;
-    name: string;
-  };
+  avatarUrl: string;
+  orgInfo: Org[];
 };
 
 export type UserProfile = User & {
@@ -19,11 +20,15 @@ export type UserProfile = User & {
   popularity: number;
 };
 
-export type Org = {
-  id: Id;
+export type EditableOrg = {
   name: string;
-  avatar: string;
-  bio: string;
+  description: string;
+  avatarUrl: string;
+}
+
+export type Org = EditableOrg & {
+  id: Id;
+  certification: boolean;
 };
 
 export type OrgProfile = Org & {
@@ -31,7 +36,3 @@ export type OrgProfile = Org & {
   projectCount: number;
 };
 
-export type ContactDetails = {
-  email?: string;
-  phone?: string;
-};

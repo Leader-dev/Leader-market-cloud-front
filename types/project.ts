@@ -1,18 +1,27 @@
 import { Org, User } from "./user";
+import {Id, Timestamp} from "./common";
 
-export type Project = {
+export type EditableProject = {
+  id: Id;
   /** title of project */
   title: string;
-  owner: User;
   /** image url of banner */
-  banner: string;
-  id: any;
   tags: string[];
+  coverUrl: string;
+  status: "active" | "pass";
+}
+
+export type Project = EditableProject & {
+  draft: boolean;
+  publishDate: Timestamp;
+  updateDate: Timestamp;
+  orgId: Id;
+  orgInfo: Org;
+  agentId: Id;
+  agentInfo: User;
 };
 
 export type ProjectDetail = Project & {
   /** rich text */
-  description: string;
-  status: string;
-  org: Org;
+  content: string;
 };

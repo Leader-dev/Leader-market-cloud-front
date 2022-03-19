@@ -22,7 +22,7 @@ const ProjectsPage: NextPage = () => {
         id: "12345",
       },
       id: 1,
-      banner: "https://picsum.photos/id/1/400/300",
+      coverUrl: "https://picsum.photos/id/1/400/300",
       tags: ["商赛", "线下", "需要资金"],
     },
     {
@@ -32,7 +32,7 @@ const ProjectsPage: NextPage = () => {
         id: "12345",
       },
       id: 2,
-      banner: "https://picsum.photos/id/1/400/300",
+      coverUrl: "https://picsum.photos/id/1/400/300",
       tags: ["赞助商", "提供资金"],
     },
     {
@@ -42,7 +42,7 @@ const ProjectsPage: NextPage = () => {
         id: "12345",
       },
       id: 3,
-      banner: "https://picsum.photos/id/1/400/300",
+      coverUrl: "https://picsum.photos/id/1/400/300",
       tags: ["网课"],
     },
   ];

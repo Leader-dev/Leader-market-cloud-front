@@ -54,6 +54,22 @@ export const styles = {
   },
 };
 
+const CircleIcon: React.FC<
+  React.ComponentProps<typeof Icon> & {
+  isCurrent: boolean;
+}> = ({ isCurrent, ...props }) => (
+  <Icon
+    viewBox="0 0 200 200"
+    {...props}
+    color={isCurrent ? "#83CCFE" : "#5C5C5C"}
+  >
+    <path
+      fill="currentColor"
+      d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
+    />
+  </Icon>
+);
+
 export type CarouselProps = React.ComponentProps<typeof ChakraBox> & {
   variant?: keyof typeof styles.variants;
   size?: keyof typeof styles.sizes;
@@ -103,23 +119,6 @@ export const Carousel: React.FC<CarouselProps> = ({
       return () => clearInterval(interval);
     }
   }, [autoSwipe, next]);
-
-  const CircleIcon: React.FC<
-    React.ComponentProps<typeof Icon> & {
-      isCurrent: boolean;
-    }
-  > = ({ isCurrent, ...props }) => (
-    <Icon
-      viewBox="0 0 200 200"
-      {...props}
-      color={isCurrent ? "#83CCFE" : "#5C5C5C"}
-    >
-      <path
-        fill="currentColor"
-        d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
-      />
-    </Icon>
-  );
 
   return (
     <ChakraBox __css={styles.carousel} {...props} bgColor="black">

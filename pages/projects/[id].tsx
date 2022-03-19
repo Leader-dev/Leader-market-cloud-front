@@ -21,6 +21,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { SiteLink } from "components/siteLink";
 import { Tags } from "components/tags";
+import {Label} from "components/label";
 
 export const getServerSideProps: GetServerSideProps<{
   projectDetail: ProjectDetail;
@@ -37,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<{
       id: 114514,
       username: "Example Owner",
     },
-    banner: "https://picsum.photos/id/1/400/300",
+    coverUrl: "https://picsum.photos/id/1/400/300",
     tags: ["tag1", "tag2", "tag3"],
     org: {
       id: 114514,
@@ -59,14 +60,14 @@ export const getServerSideProps: GetServerSideProps<{
 const ProjectDetailPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({
-  projectDetail: { id, title, description, banner, owner, status, org, tags },
+  projectDetail: { id, title, description, coverUrl, owner, status, org, tags },
 }) => {
   const { t } = useTranslation("projects");
   return (
     <BasicLayout pageTitle={`${title}`}>
       <Box w="full" bg="gray.100">
         <Container maxW="4xl" minH="100vh" p={0} bg="white">
-          <Image src={banner} w="full" alt="Project Banner" />
+          <Image src={coverUrl} w="full" alt="Project Banner" />
           {/* Title */}
           <Box px={6} py={6}>
             <Flex mb={4}>
@@ -74,7 +75,9 @@ const ProjectDetailPage: NextPage<
                 {title}
               </Heading>
               <Spacer />
-              {status}
+              <Label>
+                {status}
+              </Label>
             </Flex>
             {/* Metadata */}
             <Box mb={4}>
