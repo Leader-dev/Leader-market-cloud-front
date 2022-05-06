@@ -4,7 +4,7 @@ import { createService } from "services";
 type QuickLoginParams = {
   phone: string;
   authcode: string;
-}
+};
 
 export default createService<any, QuickLoginParams>({
   url: () => "/user/quick-login",

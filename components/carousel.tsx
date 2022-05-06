@@ -56,8 +56,9 @@ export const styles = {
 
 const CircleIcon: React.FC<
   React.ComponentProps<typeof Icon> & {
-  isCurrent: boolean;
-}> = ({ isCurrent, ...props }) => (
+    isCurrent: boolean;
+  }
+> = ({ isCurrent, ...props }) => (
   <Icon
     viewBox="0 0 200 200"
     {...props}

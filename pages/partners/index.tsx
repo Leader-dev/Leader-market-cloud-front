@@ -13,9 +13,6 @@ import {
   Spacer,
   Flex,
   Center,
-  IconButton,
-  Button,
-  Icon,
 } from "@chakra-ui/react";
 import type {
   NextPage,
@@ -35,21 +32,27 @@ import { Card } from "components/card";
 import { Divider } from "components/divider";
 import { PartnerList } from "components/partnerList";
 
-import getIndividualPartners from "services/getIndividualPartners";
-import getOrganizationPartners from "services/getOrganizationPartners";
+import getAgentList from "services/agent/getAgentList";
+import getOrgList from "services/org/getOrgList";
+import { Error } from "components/error";
+import { Loading } from "components/loading";
 
 const IndividualPartners = () => {
-  const { data: partners } = useQuery(getIndividualPartners({}));
+  const { data: partners } = useQuery(getAgentList({}));
   return <PartnerList partners={partners!} />;
 };
 
 const OrganizationPartners = () => {
   const { t } = useTranslation("partners");
   const { push } = useRouter();
-  const { data: orgs } = useQuery(getOrganizationPartners({}));
+  const { data: orgList, isError } = useQuery(getOrgList({}));
+
+  if (isError) return <Error />;
+  if (!orgList) return <Loading />;
+
   return (
     <Grid bg="gray.100" templateColumns="repeat(3, 1fr)" gap={8} p={8}>
-      {orgs?.map((org) => (
+      {orgList.map((org) => (
         <GridItem key={org.id}>
           <Card
             variant="interactive"
@@ -60,12 +63,12 @@ const OrganizationPartners = () => {
           >
             <Card.Content>
               <Box mt={-8} align="center" position="relative" zIndex={1}>
-                <Avatar size="xl" name={org.name} src={org.avatar} />
+                <Avatar size="xl" name={org.name} src={org.avatarUrl} />
               </Box>
             </Card.Content>
             <Card.Title textAlign="center">{org.name}</Card.Title>
             <Card.Content>
-              <Box>{org.bio}</Box>
+              <Box>{org.description}</Box>
               <Flex mt={2}>
                 <Center w="calc(50% - 1px)">
                   <Box textAlign="center">
@@ -144,7 +147,7 @@ const PartnersPage: NextPage<
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(getIndividualPartners({}));
+  await queryClient.prefetchQuery(getAgentList({}));
 
   return {
     props: {

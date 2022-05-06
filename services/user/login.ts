@@ -5,7 +5,7 @@ type LoginParams = {
   phone: string;
   authcode: string | null;
   password: string | null;
-}
+};
 
 export default createService<any, LoginParams>({
   url: () => "/user/login",
