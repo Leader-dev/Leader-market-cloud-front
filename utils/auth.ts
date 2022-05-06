@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
-import getLoginStatus from "services/getLoginStatus";
+import userId from "services/user/userid";
 
 export const useLoginStatus = () => {
-  const { data } = useQuery(getLoginStatus({}));
-  return data ? data.id : false;
+  const { data } = useQuery(userId({}));
+  return data ? data : false;
 };
