@@ -7,6 +7,10 @@ import { appWithTranslation } from "next-i18next";
 import theme from "themes";
 import Fonts from "fonts";
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  require("mocks")
+}
+
 function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   return (
