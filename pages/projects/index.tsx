@@ -6,46 +6,23 @@ import { BasicLayout } from "layouts/basicLayout";
 import { SearchBar } from "components/searchBar";
 import { ProjectsList } from "components/projectList";
 
-import type { User } from "types/user";
+import type { Agent } from "types/user";
 import type { Project } from "types/project";
 import { Center } from "@chakra-ui/react";
+import getAllProjects from "services/project/getAllProjects";
+import { useQuery } from "react-query";
+import { Loading } from "components/loading";
+import { Error } from "components/error";
 
 const ProjectsPage: NextPage = () => {
   const { t } = useTranslation("projects");
 
   // TODO: use react-query
-  const projects: Project[] = [
-    {
-      title: "【为危机博弈】第七届商赛",
-      owner: {
-        username: "林晓晓",
-        id: "12345",
-      },
-      id: 1,
-      coverUrl: "https://picsum.photos/id/1/400/300",
-      tags: ["商赛", "线下", "需要资金"],
-    },
-    {
-      title: "【为危机博弈】第七届商赛",
-      owner: {
-        username: "林晓晓",
-        id: "12345",
-      },
-      id: 2,
-      coverUrl: "https://picsum.photos/id/1/400/300",
-      tags: ["赞助商", "提供资金"],
-    },
-    {
-      title: "【为危机博弈】第七届商赛",
-      owner: {
-        username: "林晓晓",
-        id: "12345",
-      },
-      id: 3,
-      coverUrl: "https://picsum.photos/id/1/400/300",
-      tags: ["网课"],
-    },
-  ];
+  const { isError, data } = useQuery("getAllProjects", getAllProjects(null));
+
+  if (isError) return <Error />;
+  if (!data) return <Loading />;
+
   return (
     <BasicLayout pageTitle={t("pageTitle")}>
       <Center mt={10}>
@@ -55,7 +32,7 @@ const ProjectsPage: NextPage = () => {
           inputGroupProps={{ h: "45px" }}
         />
       </Center>
-      <ProjectsList projects={projects} />
+      <ProjectsList projects={data!} />
     </BasicLayout>
   );
 };
