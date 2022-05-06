@@ -128,10 +128,7 @@ const NavBar = () => {
       </NavBarItem>
       {loggedIn ? (
         <NavBarItem>
-          <NavLink
-            _active={{ color: "red.100" }}
-            href={`/partners/${loggedIn}`}
-          >
+          <NavLink _active={{ color: "red.100" }} href={`/account`}>
             <AiOutlineUser size="1.5rem" />
           </NavLink>
         </NavBarItem>
