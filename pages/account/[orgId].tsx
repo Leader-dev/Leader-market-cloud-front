@@ -16,7 +16,6 @@ import {
   Tab,
   TabPanel,
   SimpleGrid,
-  VStack,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -28,12 +27,12 @@ import {
   useEditableControls,
   ButtonGroup,
   IconButton,
-  Input,
+  Input, Stack, EditableInput,
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AiOutlineSwap } from "react-icons/ai";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
 import { ProjectsPanelList } from "components/projectList";
@@ -45,6 +44,7 @@ import getOrgProjects from "services/project/getOrgProjects";
 import getOrgManageRoles from "services/org/manage/getOrgManageRoles";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { Loading } from "../../components/loading";
+import {Error} from "../../components/error";
 
 const Members: React.FC = () => {
   return <></>;
@@ -94,19 +94,28 @@ const OrgManagePageProtector: NextPage = () => {
 const OrgManagePage: React.FC = () => {
   const { query } = useRouter();
   const orgId = query.orgId as string;
-  const orgInfo = useQuery(getOrgDetail({ orgId: orgId })).data!;
-  const projects = useQuery(getOrgProjects({ orgId: orgId })).data!;
-  const myOrgs = useQuery(getOrgManageList({})).data!;
-
+  const {data: orgInfo, error: orgError} = useQuery(getOrgDetail({ orgId: orgId }));
+  const {data: projects, error: proError} = useQuery(getOrgProjects({ orgId: orgId }));
+  const {data: orgList, error: manageError} = useQuery(getOrgManageList({}));
   const { t } = useTranslation("orgs");
+
+  const [slogan, setSlogan] = useState<string>();
+  const [description, setDescription] = useState<string>();
+
+  useEffect(() => {
+    if (orgInfo) {
+      setSlogan(orgInfo.slogan);
+      setDescription(orgInfo.description);
+    }
+  }, [orgInfo]);
+
+  if (orgError || proError || manageError) return ( <Error/> );
+  if (!orgInfo || !projects || !orgList) return <Loading />;
 
   const imageMarginLeft = 36;
   const imageWidth = 128;
   const imageMarginRight = 24;
   const imageSize = imageMarginLeft + imageWidth + imageMarginRight;
-
-  const [slogan, setSlogan] = useState(orgInfo.slogan);
-  const [description, setDescription] = useState(orgInfo.description);
 
   function EditableControls() {
     const {
@@ -159,7 +168,7 @@ const OrgManagePage: React.FC = () => {
           <Spacer />
           <>
             <Box>
-              {myOrgs.map((org) => (
+              {orgList.map((org) => (
                 <Avatar key={org.id} name={org.name} src={org.avatarUrl} />
               ))}
             </Box>
@@ -182,7 +191,7 @@ const OrgManagePage: React.FC = () => {
           columns={2}
           spacing={10}
         >
-          <VStack>
+          <Stack>
             <Text fontSize="xl">{t("org_description")}</Text>
             <Editable
               defaultValue={orgInfo.description}
@@ -193,12 +202,12 @@ const OrgManagePage: React.FC = () => {
               }}
             >
               <EditablePreview />
-              {/* Here is the custom input */}
+              {/*TODO this is not working*/}
               <Input as={EditableTextarea} />
               <EditableControls />
             </Editable>
-          </VStack>
-          <VStack>
+          </Stack>
+          <Stack>
             <Text fontSize="xl">{t("org_slogan")}</Text>
             <Editable
               defaultValue={orgInfo.slogan}
@@ -209,11 +218,11 @@ const OrgManagePage: React.FC = () => {
               }}
             >
               <EditablePreview />
-              {/* Here is the custom input */}
+              {/*TODO this is not working*/}
               <Input as={EditableTextarea} maxLength={25} />
               <EditableControls />
             </Editable>
-          </VStack>
+          </Stack>
         </SimpleGrid>
       </Box>
       <Box px={8} py={2}>

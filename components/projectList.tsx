@@ -2,14 +2,13 @@ import {
   SimpleGrid,
   Box,
   Img,
-  VStack,
   Flex,
   Heading,
   Tag,
   Text,
   Avatar,
   Icon,
-  Spacer,
+  Spacer, Stack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -78,7 +77,7 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
   const { push } = useRouter();
   const { t } = useTranslation("projects");
   return (
-    <VStack align="stretch" spacing={4}>
+    <Stack align="stretch" spacing={4}>
       {projects.map((project) => {
         let publishDate = new Date(parseInt(project.publishDate));
         let startDate = new Date(parseInt(project.startDate));
@@ -108,7 +107,7 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
               </Flex>
             </Box>
 
-            <VStack flex="1" align={"start"} pl={20}>
+            <Stack flex="1" pl={20}>
               <Flex justify="space-between" w={"100%"}>
                 <Heading as="h3">{project.title}</Heading>
                 <Tag colorScheme="blue" variant={"outline"} size={"lg"}>
@@ -139,10 +138,10 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
                 <Tags tags={project.tags} />
               </Flex>
               <Text noOfLines={3}>{project.content}</Text>
-            </VStack>
+            </Stack>
           </Flex>
         );
       })}
-    </VStack>
+    </Stack>
   );
 };

@@ -46,7 +46,7 @@ const OrgDetailsPage: NextPage = () => {
   const imageSize = imageMarginLeft + imageWidth + imageMarginRight;
 
   return (
-    <BasicLayout pageTitle={`${orgInfo.name}`} backgroundColor="gray.100">
+    <BasicLayout pageTitle={`${orgInfo.name}`}>
       <Box pb={12}>
         <Avatar
           position="absolute"
@@ -64,8 +64,10 @@ const OrgDetailsPage: NextPage = () => {
         </Flex>
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Text>{orgInfo.description}</Text>
-          <Heading>{orgInfo.slogan}</Heading>
         </Flex>
+      </Box>
+      <Box ml={10}>
+        <Heading>{orgInfo.slogan}</Heading>
       </Box>
       <Box px={8} py={2}>
         <Tabs>

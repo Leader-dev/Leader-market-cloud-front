@@ -311,9 +311,9 @@ const AccountManagePage: NextPage = () => {
           </Box>
         </Flex>
       </Box>
-      <Box px={8} py={2}>
+      <Box px={4} py={2}>
         <Tabs>
-          <TabList>
+          <TabList ml={8}>
             <Tab>{t("my_projects")}</Tab>
             <Tab>{t("collab_wanted")}</Tab>
             <Tab>{t("favorites")}</Tab>

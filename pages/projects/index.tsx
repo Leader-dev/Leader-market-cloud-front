@@ -8,7 +8,7 @@ import { ProjectsList } from "components/projectList";
 
 import type { Agent } from "types/user";
 import type { Project } from "types/project";
-import { Center } from "@chakra-ui/react";
+import {Box, Center} from "@chakra-ui/react";
 import getAllProjects from "services/project/getAllProjects";
 import { useQuery } from "react-query";
 import { Loading } from "components/loading";
@@ -32,7 +32,9 @@ const ProjectsPage: NextPage = () => {
           inputGroupProps={{ h: "45px" }}
         />
       </Center>
-      <ProjectsList projects={data!} />
+      <Box px={10}>
+        <ProjectsList projects={data!} />
+      </Box>
     </BasicLayout>
   );
 };
