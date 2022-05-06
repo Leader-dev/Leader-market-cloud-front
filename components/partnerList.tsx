@@ -17,10 +17,10 @@ import { AiOutlineStar } from "react-icons/ai";
 import { Card } from "components/card";
 import { Divider } from "components/divider";
 
-import { UserProfile, ContactDetails } from "types/user";
+import { Agent } from "types/user";
 
 export const PartnerList: React.FC<{
-  partners: Array<UserProfile & { contacts?: ContactDetails }>;
+  partners: Array<Agent>;
 }> = ({ partners }) => {
   const { t } = useTranslation("partners");
   const { push } = useRouter();
@@ -32,8 +32,7 @@ export const PartnerList: React.FC<{
             overflow="visible"
             overflowX="visible"
             variant="interactive"
-            // @ts-ignore
-            href={`/partner/${partner.id}`}
+            // href={`/partner/${partner.id}`}
             onClick={() => push(`/partners/${partner.id}`)}
           >
             <Card.Content>
@@ -46,20 +45,16 @@ export const PartnerList: React.FC<{
               >
                 <Avatar
                   size="xl"
-                  name={partner.username}
-                  src={partner.avatar}
+                  name={partner.name}
+                  src={partner.avatarUrl}
                   pointerEvents="auto"
                 />
                 <Spacer />
-                {partner.contacts ? (
-                  partner.contacts.email || partner.contacts.phone ? (
+                {partner.showContact ? (
+                  partner.email || partner.phone ? (
                     <Box pt={1} textAlign="right">
-                      {partner.contacts.phone && (
-                        <Box>{partner.contacts.phone}</Box>
-                      )}
-                      {partner.contacts.email && (
-                        <Box>{partner.contacts.email}</Box>
-                      )}
+                      {partner.phone && <Box>{partner.phone}</Box>}
+                      {partner.email && <Box>{partner.email}</Box>}
                     </Box>
                   ) : (
                     <Box pt={2}>{t("no_contact_info")}</Box>
@@ -68,7 +63,7 @@ export const PartnerList: React.FC<{
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      alert(`${partner.username} liked!`);
+                      alert(`${partner.name} liked!`);
                     }}
                     variant="solid"
                     colorScheme="blue"
@@ -87,7 +82,7 @@ export const PartnerList: React.FC<{
                   mb={-2}
                   onClick={(e) => {
                     e.stopPropagation();
-                    alert(`${partner.username} followed!`);
+                    alert(`${partner.name} followed!`);
                   }}
                   aria-label="follow"
                   icon={<Icon w={6} h={6} as={AiOutlineStar} />}
@@ -96,18 +91,20 @@ export const PartnerList: React.FC<{
               </Flex>
             </Card.Content>
             <Card.Title pb={0} mb={1}>
-              {partner.username}
+              {partner.name}
             </Card.Title>
             <Card.Subtitle pt={0} mt={0} mb={2} pb={1}>
-              {partner.org && <Box>{partner.org.name}</Box>}
+              {partner.orgInfo && <Box>{partner.orgInfo.name}</Box>}
             </Card.Subtitle>
             <Card.Content pt={1}>
-              {partner.bio && <Box color="gray.800">{partner.bio}</Box>}
+              {partner.description && (
+                <Box color="gray.800">{partner.description}</Box>
+              )}
               <Flex mt={2}>
                 <Center w="calc(50% - 1px)">
                   <Box textAlign="center">
                     <Box fontSize="xl" fontWeight="bold">
-                      {partner.popularity}
+                      {partner.readCount}
                     </Box>
                     <Box>合作人气</Box>
                   </Box>

@@ -1,38 +1,35 @@
 import { Id } from "./common";
 
-export type EditableUser = {
+export type EditableAgent = {
   name: string;
   description: string;
   showContact: boolean;
   phone: string;
   email: string;
-}
-
-export type User = EditableUser & {
-  id: Id;
-  /** url of avatar */
-  avatarUrl: string;
-  orgInfo: Org[];
 };
 
-export type UserProfile = User & {
+export type Agent = EditableAgent & {
+  id: Id;
+  /** url of avatar */
+  userId: Id;
+  displayOrgId: Id;
+  avatarUrl: string;
+  orgInfo: Org;
+  interested: boolean;
   projectCount: number;
-  popularity: number;
+  readCount: number;
 };
 
 export type EditableOrg = {
   name: string;
   description: string;
+  slogan: string;
   avatarUrl: string;
-}
+};
 
 export type Org = EditableOrg & {
   id: Id;
-  certification: boolean;
-};
-
-export type OrgProfile = Org & {
+  certification: "" | "school" | "student_org" | "social_org";
   memberCount: number;
   projectCount: number;
 };
-
