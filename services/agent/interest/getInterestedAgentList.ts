@@ -1,14 +1,13 @@
 import { request } from "utils/request";
 import { createService } from "services/index";
-import {User} from "types/user";
-
+import { Agent } from "types/user";
 
 type getInterestedAgentResponse = {
-  interest: User[];
-  beingInterest: User[];
-}
+  interest: Agent[];
+  beingInterest: Agent[];
+};
 
 export default createService<getInterestedAgentResponse>({
-  url: () => "/agent/interest/list",
-  get: (url) => request.get(url).then(({ data }) => data.list)
+  url: () => "/mc/agent/interest/list",
+  get: (url) => request.get(url).then(({ data }) => data.list),
 });
