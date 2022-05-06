@@ -27,12 +27,14 @@ import {
   useEditableControls,
   ButtonGroup,
   IconButton,
-  Input, Stack, EditableInput,
+  Input,
+  Stack,
+  EditableInput,
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AiOutlineSwap } from "react-icons/ai";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
 import { ProjectsPanelList } from "components/projectList";
@@ -44,7 +46,7 @@ import getOrgProjects from "services/project/getOrgProjects";
 import getOrgManageRoles from "services/org/manage/getOrgManageRoles";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { Loading } from "../../components/loading";
-import {Error} from "../../components/error";
+import { Error } from "../../components/error";
 
 const Members: React.FC = () => {
   return <></>;
@@ -94,9 +96,13 @@ const OrgManagePageProtector: NextPage = () => {
 const OrgManagePage: React.FC = () => {
   const { query } = useRouter();
   const orgId = query.orgId as string;
-  const {data: orgInfo, error: orgError} = useQuery(getOrgDetail({ orgId: orgId }));
-  const {data: projects, error: proError} = useQuery(getOrgProjects({ orgId: orgId }));
-  const {data: orgList, error: manageError} = useQuery(getOrgManageList({}));
+  const { data: orgInfo, error: orgError } = useQuery(
+    getOrgDetail({ orgId: orgId })
+  );
+  const { data: projects, error: proError } = useQuery(
+    getOrgProjects({ orgId: orgId })
+  );
+  const { data: orgList, error: manageError } = useQuery(getOrgManageList({}));
   const { t } = useTranslation("orgs");
 
   const [slogan, setSlogan] = useState<string>();
@@ -109,7 +115,7 @@ const OrgManagePage: React.FC = () => {
     }
   }, [orgInfo]);
 
-  if (orgError || proError || manageError) return ( <Error/> );
+  if (orgError || proError || manageError) return <Error />;
   if (!orgInfo || !projects || !orgList) return <Loading />;
 
   const imageMarginLeft = 36;

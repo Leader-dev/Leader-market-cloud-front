@@ -8,7 +8,8 @@ import {
   Text,
   Avatar,
   Icon,
-  Spacer, Stack,
+  Spacer,
+  Stack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
