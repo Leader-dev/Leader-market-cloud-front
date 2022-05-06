@@ -124,4 +124,28 @@ export const handlers = [
       })
     );
   }),
+  rest.get("/mc/project/list/all", (req, res, ctx) => {
+    return res(
+      ctx.json({
+        list: projectList,
+      })
+    );
+  }),
+  rest.get("/mc/org/manage/roles?orgId=", (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: {
+          isMember: true,
+          isAdmin: true,
+        },
+      })
+    );
+  }),
+  rest.get("/mc/org/manage/list", (req, res, ctx) => {
+    return res(
+      ctx.json({
+        list: orgList,
+      })
+    );
+  }),
 ];
