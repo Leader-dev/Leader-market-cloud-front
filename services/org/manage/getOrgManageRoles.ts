@@ -9,7 +9,5 @@ type OrgManageRolesResponse = {
 export default createService<OrgManageRolesResponse, { orgId: string }>({
   url: (orgId) => `/mc/org/manage/roles?orgId=${orgId}`,
   get: (url, { orgId }) =>
-    request
-      .post(url, { orgId: orgId })
-      .then(({ data }) => data.data),
+    request.post(url, { orgId: orgId }).then(({ data }) => data.data),
 });

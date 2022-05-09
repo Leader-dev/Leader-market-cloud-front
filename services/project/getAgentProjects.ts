@@ -6,7 +6,5 @@ import { Id } from "types/common";
 export default createService<Project[], { agentId: Id }>({
   url: () => "/mc/project/list/agent",
   get: (url, { agentId }) =>
-    request
-      .post(url, { agentId: agentId })
-      .then(({ data }) => data.list),
+    request.post(url, { agentId: agentId }).then(({ data }) => data.list),
 });

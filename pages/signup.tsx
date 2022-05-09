@@ -17,7 +17,8 @@ import {
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-  Checkbox, useControllableState,
+  Checkbox,
+  useControllableState,
 } from "@chakra-ui/react";
 import { Formik, Field, Form, FieldProps } from "formik";
 import * as Yup from "yup";
@@ -26,11 +27,11 @@ import { useTranslation, Trans } from "next-i18next";
 import { BasicLayout } from "layouts/basicLayout";
 import { SiteLink } from "components/siteLink";
 import { useState } from "react";
-import {login} from "services/user/login";
-import {useRouter} from "next/router";
-import {getAuthCode} from "services/user/getAuthcode";
-import {register} from "services/user/register";
-import {checkAuthCode} from "services/user/checkAuthcode";
+import { login } from "services/user/login";
+import { useRouter } from "next/router";
+import { getAuthCode } from "services/user/getAuthcode";
+import { register } from "services/user/register";
+import { checkAuthCode } from "services/user/checkAuthcode";
 
 type ResponsiveLeftImageProps = {
   left: React.ReactNode;
@@ -58,7 +59,6 @@ const ResponsiveLeftImage: React.FC<ResponsiveLeftImageProps> = ({
   );
 };
 
-
 const InputField = ({
   name,
   hide,
@@ -76,7 +76,6 @@ const InputField = ({
         <FormControl
           mb={3}
           isInvalid={!!(form.errors[name] && form.touched[name])}
-
         >
           <FormLabel htmlFor={name}>{t(name)}</FormLabel>
           <InputGroup>
@@ -101,7 +100,7 @@ const LoginSchema = Yup.object().shape({
 });
 const Login = () => {
   const { t } = useTranslation("signup");
-  const {push} = useRouter();
+  const { push } = useRouter();
   return (
     <Formik
       initialValues={{
@@ -110,13 +109,19 @@ const Login = () => {
       }}
       validationSchema={LoginSchema}
       onSubmit={(values, { setSubmitting }) => {
-        login({phone: values.username, password: values.password, authcode: null}).then(() => {
-          setSubmitting(false);
-          push("/account");
-        }).catch(() => {
-          setSubmitting(false);
-          // TODO catch error
-        });
+        login({
+          phone: values.username,
+          password: values.password,
+          authcode: null,
+        })
+          .then(() => {
+            setSubmitting(false);
+            push("/account");
+          })
+          .catch(() => {
+            setSubmitting(false);
+            // TODO catch error
+          });
       }}
     >
       {(props) => (
@@ -163,13 +168,18 @@ const RegisterStep1: React.FC<{
     >
       {(props) => (
         <Form>
-          <InputField name="phone_number"/>
+          <InputField name="phone_number" />
           <InputField
             name="auth_code"
             right={
-              <Button variant="link" size="sm" h="1.5rem" onClick={() => {
-                getAuthCode({phone: props.values.phone_number})
-              }}>
+              <Button
+                variant="link"
+                size="sm"
+                h="1.5rem"
+                onClick={() => {
+                  getAuthCode({ phone: props.values.phone_number });
+                }}
+              >
                 {t("send_auth_code")}
               </Button>
             }
@@ -255,19 +265,23 @@ const Register = () => {
   const [stage1Done, setStage1Done] = useState(false);
   const [phone, setPhone] = useState("");
   const [authCode, setAuthCode] = useState("");
-  const {push} = useRouter();
+  const { push } = useRouter();
   return !stage1Done ? (
-    <RegisterStep1 cb={(phone, authCode) => {
-      setStage1Done(true)
-      setPhone(phone)
-      setAuthCode(authCode)
-    }}/>
+    <RegisterStep1
+      cb={(phone, authCode) => {
+        setStage1Done(true);
+        setPhone(phone);
+        setAuthCode(authCode);
+      }}
+    />
   ) : (
-    <RegisterStep2 cb={(nickname, password) => {
-      register({nickname, password, phone, authcode: authCode}).then(() => {
-        push("/account");
-      })
-    }}/>
+    <RegisterStep2
+      cb={(nickname, password) => {
+        register({ nickname, password, phone, authcode: authCode }).then(() => {
+          push("/account");
+        });
+      }}
+    />
   );
 };
 

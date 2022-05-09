@@ -6,7 +6,5 @@ import { Id } from "types/common";
 export default createService<Project, { projectId: Id }>({
   url: () => "/mc/project/detail",
   get: (url, { projectId }) =>
-    request
-      .post(url, { projectId: projectId })
-      .then(({ data }) => data.detail),
+    request.post(url, { projectId: projectId }).then(({ data }) => data.detail),
 });
