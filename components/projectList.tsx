@@ -80,9 +80,9 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
   return (
     <Stack align="stretch" spacing={4}>
       {projects.map((project) => {
-        let publishDate = new Date(parseInt(project.publishDate));
-        let startDate = new Date(parseInt(project.startDate));
-        let endDate = new Date(parseInt(project.endDate));
+        const publishDate = new Date(parseInt(project.publishDate));
+        const startDate = new Date(parseInt(project.startDate));
+        const endDate = new Date(parseInt(project.endDate));
         return (
           <Flex
             key={project.id}
@@ -90,7 +90,7 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
               push(`/projects/${project.id}`);
             }}
           >
-            <Box w="30%">
+            <Box w="30%" variant={"with-shadow"}>
               <Box borderRadius="20px" overflow="hidden">
                 {/* <NextImage src={project.banner} alt={project.title} /> */}
                 <Img w="100%" src={project.coverUrl} alt={project.coverUrl} />
@@ -109,9 +109,14 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
             </Box>
 
             <Stack flex="1" pl={20}>
-              <Flex justify="space-between" w={"100%"}>
-                <Heading as="h3">{project.title}</Heading>
-                <Tag colorScheme="blue" variant={"outline"} size={"lg"}>
+              <Flex justify="space-between" w={"100%"} align={"center"}>
+                <Box textStyle="title">{project.title}</Box>
+                <Tag
+                  colorScheme="blue"
+                  variant={"outline"}
+                  size={"lg"}
+                  h={"50%"}
+                >
                   {t(project.status)}
                 </Tag>
               </Flex>

@@ -67,7 +67,7 @@ const PartnerDetailsPage: NextPage = () => {
   const imageSize = imageMarginLeft + imageWidth + imageMarginRight;
 
   return (
-    <BasicLayout pageTitle={`${agent.name}`} backgroundColor="gray.100">
+    <BasicLayout pageTitle={`${agent.name}`}>
       <Box pb={12}>
         <Avatar
           position="absolute"

@@ -35,7 +35,7 @@ const OrgDetailsPage: NextPage = () => {
     getOrgProjects({ orgId: id })
   );
 
-  const { t } = useTranslation("partners");
+  const { t } = useTranslation("organizations");
 
   if (orgError || projectsError) return <Error />;
   if (!projects || !orgInfo) return <Loading />;
@@ -56,23 +56,21 @@ const OrgDetailsPage: NextPage = () => {
           src={orgInfo.avatarUrl}
           name={orgInfo.name}
         />
-        <Flex w="full" bgColor="white" py={3} px={4} pl={`${imageSize}px`}>
-          <Box>
-            <Heading as="h2">{orgInfo.name}</Heading>
-          </Box>
+        <Flex w="full" bgColor="white" pt={8} px={4} pl={`${imageSize}px`}>
+          <Box textStyle={"title"}>{orgInfo.name}</Box>
           <Spacer />
         </Flex>
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Text>{orgInfo.description}</Text>
         </Flex>
       </Box>
-      <Box ml={10}>
-        <Heading>{orgInfo.slogan}</Heading>
+      <Box ml={10} py={4} textStyle={"slogan"}>
+        {orgInfo.slogan}
       </Box>
       <Box px={8} py={2}>
-        <Tabs>
+        <Tabs size={"lg"}>
           <TabList>
-            <Tab>{t("my_projects")}</Tab>
+            <Tab px={6}>{t("projects")}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -94,7 +92,10 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   return {
     props: {
       prefetchedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(ctx.locale!, ["common"])),
+      ...(await serverSideTranslations(ctx.locale!, [
+        "common",
+        "organizations",
+      ])),
     },
   };
 };

@@ -51,7 +51,7 @@ const OrganizationPartners = () => {
   if (!orgList) return <Loading />;
 
   return (
-    <Grid bg="gray.100" templateColumns="repeat(3, 1fr)" gap={8} p={8}>
+    <Grid templateColumns="repeat(3, 1fr)" gap={8} p={8}>
       {orgList.map((org) => (
         <GridItem key={org.id}>
           <Card
@@ -108,7 +108,7 @@ const PartnersPage: NextPage<
   return (
     <BasicLayout pageTitle={t("pageTitle")}>
       <Tabs variant="unstyled">
-        <TabList px={8}>
+        <TabList px={8} backgroundColor={"white"}>
           <Tab
             color="gray.500"
             fontSize="lg"

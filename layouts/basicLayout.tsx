@@ -24,7 +24,10 @@ export const BasicLayout: React.FC<{
       </Head>
       <Flex minH="100vh" direction="column">
         <NavBar />
-        <Box flexGrow={1} backgroundColor={backgroundColor}>
+        <Box
+          flexGrow={1}
+          backgroundColor={backgroundColor ? backgroundColor : "#F5F5F5"}
+        >
           {children}
         </Box>
         <Footer />

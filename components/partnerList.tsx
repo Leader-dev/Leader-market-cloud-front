@@ -25,7 +25,7 @@ export const PartnerList: React.FC<{
   const { t } = useTranslation("partners");
   const { push } = useRouter();
   return (
-    <Grid bg="gray.100" templateColumns="repeat(3, 1fr)" gap={10} p={8}>
+    <Grid bg="#F5F5F5" templateColumns="repeat(3, 1fr)" gap={10} p={8}>
       {partners?.map((partner) => (
         <GridItem key={partner.id} pt={12}>
           <Card
@@ -50,20 +50,20 @@ export const PartnerList: React.FC<{
                   pointerEvents="auto"
                 />
                 <Spacer />
-                {partner.showContact ? (
-                  partner.email || partner.phone ? (
+                {partner.interested ? (
+                  partner.showContact ? (
                     <Box pt={1} textAlign="right">
                       {partner.phone && <Box>{partner.phone}</Box>}
                       {partner.email && <Box>{partner.email}</Box>}
                     </Box>
                   ) : (
-                    <Box pt={2}>{t("no_contact_info")}</Box>
+                    <Box pt={2}>{t("not_show_to_public")}</Box>
                   )
                 ) : (
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      alert(`${partner.name} liked!`);
+                      alert(`${partner.name} send interest!`);
                     }}
                     variant="solid"
                     colorScheme="blue"

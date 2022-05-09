@@ -228,6 +228,7 @@ const AccountManagePage: NextPage = () => {
     getOrgManageList({})
   );
   const { t } = useTranslation("account");
+  const { push } = useRouter();
 
   if (partnerError || projectsError || orgListError) return <Error />;
   if (!partner || !projects || !orgList) return <Loading />;
@@ -245,7 +246,7 @@ const AccountManagePage: NextPage = () => {
   const imageSize = imageMarginLeft + imageWidth + imageMarginRight;
 
   return (
-    <BasicLayout pageTitle={`${partner.name}`} backgroundColor="gray.100">
+    <BasicLayout pageTitle={`${partner.name}`}>
       <Box pb={12}>
         <Avatar
           position="absolute"
@@ -255,7 +256,7 @@ const AccountManagePage: NextPage = () => {
           src={partner.avatarUrl}
           name={partner.name}
         />
-        <Flex w="full" bgColor="white" py={3} px={4} pl={`${imageSize}px`}>
+        <Flex w="full" bgColor="white" pt={8} px={4} pl={`${imageSize}px`}>
           <Box>
             <Heading>{partner.name}</Heading>
           </Box>
@@ -263,7 +264,15 @@ const AccountManagePage: NextPage = () => {
           <>
             <Box>
               {orgList.map((org) => (
-                <Avatar key={org.id} name={org.name} src={org.avatarUrl} />
+                <Avatar
+                  key={org.id}
+                  name={org.name}
+                  src={org.avatarUrl}
+                  onClick={() => {
+                    push(`/account/org/${org.id}`);
+                  }}
+                  variant={"with-shadow"}
+                />
               ))}
             </Box>
             <Button
@@ -312,13 +321,13 @@ const AccountManagePage: NextPage = () => {
         </Flex>
       </Box>
       <Box px={4} py={2}>
-        <Tabs>
+        <Tabs size={"lg"}>
           <TabList ml={8}>
-            <Tab>{t("my_projects")}</Tab>
-            <Tab>{t("collab_wanted")}</Tab>
-            <Tab>{t("favorites")}</Tab>
-            <Tab>{t("drafts")}</Tab>
-            <Tab>{t("settings")}</Tab>
+            <Tab px={6}>{t("my_projects")}</Tab>
+            <Tab px={6}>{t("collab_wanted")}</Tab>
+            <Tab px={6}>{t("favorites")}</Tab>
+            <Tab px={6}>{t("drafts")}</Tab>
+            <Tab px={6}>{t("settings")}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

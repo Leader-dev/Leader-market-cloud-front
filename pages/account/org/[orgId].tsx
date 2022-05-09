@@ -30,6 +30,7 @@ import {
   Input,
   Stack,
   EditableInput,
+  theme,
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -45,8 +46,8 @@ import getOrgDetail from "services/org/getOrgDetail";
 import getOrgProjects from "services/project/getOrgProjects";
 import getOrgManageRoles from "services/org/manage/getOrgManageRoles";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Loading } from "../../components/loading";
-import { Error } from "../../components/error";
+import { Loading } from "../../../components/loading";
+import { Error } from "../../../components/error";
 
 const Members: React.FC = () => {
   return <></>;
@@ -71,39 +72,22 @@ const Settings: React.FC = () => {
   return <SimpleGrid columns={3} spacing={10}></SimpleGrid>;
 };
 
-const OrgManagePageProtector: NextPage = () => {
+const OrgManagePage: NextPage = () => {
   const { query } = useRouter();
   const orgId = query.orgId as string;
-  const { data: role, isError } = useQuery(getOrgManageRoles({ orgId: orgId }));
-
-  if (!role) return <Loading />;
-
-  if (!role.isAdmin) {
-    return (
-      <Alert status="error">
-        <AlertIcon />
-        <AlertTitle>Authorization Failed</AlertTitle>
-        <AlertDescription>
-          You do not have the permission to access this page
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
-  return <OrgManagePage />;
-};
-
-const OrgManagePage: React.FC = () => {
-  const { query } = useRouter();
-  const orgId = query.orgId as string;
-  const { data: orgInfo, error: orgError } = useQuery(
+  const { data: orgInfo, isError: orgError } = useQuery(
     getOrgDetail({ orgId: orgId })
   );
-  const { data: projects, error: proError } = useQuery(
+  const { data: projects, isError: proError } = useQuery(
     getOrgProjects({ orgId: orgId })
   );
-  const { data: orgList, error: manageError } = useQuery(getOrgManageList({}));
-  const { t } = useTranslation("orgs");
+  const { data: orgList, isError: manageError } = useQuery(
+    getOrgManageList({})
+  );
+  const { data: role, isError: roleError } = useQuery(
+    getOrgManageRoles({ orgId: orgId })
+  );
+  const { t } = useTranslation("org_account");
 
   const [slogan, setSlogan] = useState<string>();
   const [description, setDescription] = useState<string>();
@@ -115,8 +99,8 @@ const OrgManagePage: React.FC = () => {
     }
   }, [orgInfo]);
 
-  if (orgError || proError || manageError) return <Error />;
-  if (!orgInfo || !projects || !orgList) return <Loading />;
+  if (orgError || proError || manageError || roleError) return <Error />;
+  if (!orgInfo || !projects || !orgList || !role) return <Loading />;
 
   const imageMarginLeft = 36;
   const imageWidth = 128;
@@ -157,7 +141,7 @@ const OrgManagePage: React.FC = () => {
   }
 
   return (
-    <BasicLayout pageTitle={`${orgInfo.name}`} backgroundColor="gray.100">
+    <BasicLayout pageTitle={`${orgInfo.name}`}>
       <Box pb={12}>
         <Avatar
           position="absolute"
@@ -232,11 +216,11 @@ const OrgManagePage: React.FC = () => {
         </SimpleGrid>
       </Box>
       <Box px={8} py={2}>
-        <Tabs>
+        <Tabs size={"lg"}>
           <TabList>
-            <Tab>{t("my_projects")}</Tab>
-            <Tab>{t("members")}</Tab>
-            <Tab>{t("settings")}</Tab>
+            <Tab px={6}>{t("projects")}</Tab>
+            <Tab px={6}>{t("members")}</Tab>
+            {role.isAdmin ? <Tab>{t("settings")}</Tab> : null}
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -263,9 +247,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   return {
     props: {
       prefetchedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(ctx.locale!, ["common", "account"])),
+      ...(await serverSideTranslations(ctx.locale!, ["common", "org_account"])),
     },
   };
 };
 
-export default OrgManagePageProtector;
+export default OrgManagePage;

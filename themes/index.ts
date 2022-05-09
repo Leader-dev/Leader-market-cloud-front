@@ -33,5 +33,16 @@ export default extendTheme({
       color: "grey",
       fontWeight: "semibold",
     },
+    title: {
+      fontSize: ["36px", "40px"],
+      fontWeight: "semibold",
+    },
+    subtitle: {
+      fontSize: ["22px", "25px"],
+    },
+    slogan: {
+      fontSize: ["46px", "50px"],
+      fontWeight: "semibold",
+    },
   },
 });

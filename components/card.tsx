@@ -24,7 +24,7 @@ export const styles = {
       borderRadius: "xl",
       bg: "white",
       overflow: "hidden",
-      boxShadow: "md",
+      boxShadow: "0 0 5px 4px #F5F5F5",
     },
     title: {
       ...cardPadding,
