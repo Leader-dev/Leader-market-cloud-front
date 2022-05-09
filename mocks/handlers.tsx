@@ -5,10 +5,12 @@ import { Project } from "../types/project";
 let orgList: Org[] = [
   {
     id: "1",
-    name: "test",
-    description: "test",
-    slogan: "slogan",
-    avatarUrl: "public/images/watermelon",
+    name: "麟果科技",
+    description:
+      "深圳市麟果科技有限公司，是一家专注于移动互联网应用开发的高科技企业。",
+    slogan: "高端科技，智能推荐",
+    avatarUrl:
+      "https://tva1.sinaimg.cn/large/e6c9d24egy1h1zspgl5dlj213y0u0qdb.jpg",
     certification: "school",
     memberCount: 1,
     projectCount: 1,
@@ -18,32 +20,24 @@ let agentList: Agent[] = [
   {
     id: "1",
     userId: "1",
-    name: "test",
-    description: "test",
-    avatarUrl: "",
-    projectCount: 0,
+    name: "老罗",
+    description: "麟果科技公司的高级前端工程师",
+    avatarUrl:
+      "https://tva1.sinaimg.cn/large/e6c9d24egy1h1zspgl5dlj213y0u0qdb.jpg",
+    projectCount: 1,
     showContact: true,
-    email: "1@1",
-    phone: "111",
+    email: "theGreatestRobert@gmail.com",
+    phone: "626-123-4567",
     interested: true,
     displayOrgId: "1",
     readCount: 99,
-    orgInfo: {
-      id: "1",
-      name: "test",
-      description: "test",
-      slogan: "slogan",
-      avatarUrl: "",
-      certification: "school",
-      memberCount: 0,
-      projectCount: 0,
-    },
+    orgInfo: orgList[0],
   },
 ];
 let projectList: Project[] = [
   {
     id: "1",
-    title: "aaa",
+    title: "领者市场云平台开发",
     orgId: "1",
     orgInfo: orgList[0],
     readCount: 13,
@@ -56,13 +50,14 @@ let projectList: Project[] = [
     updateDate: "1651870286",
     draft: false,
     status: "active",
-    tags: ["test"],
-    content: "这是一个项目",
+    tags: ["线上", "前端", "后端"],
+    content:
+      "这是一个网页开发项目，用于提供市场相关的服务，基于领者移动端的云平台。",
   },
 ];
 
 export const handlers = [
-  rest.post("/user/userid", (req, res, ctx) => {
+  rest.post("/account/user/userid", (req, res, ctx) => {
     return res(
       ctx.json({
         userid: "1",
