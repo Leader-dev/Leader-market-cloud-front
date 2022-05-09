@@ -10,6 +10,6 @@ export default createService<OrgManageRolesResponse, { orgId: string }>({
   url: (orgId) => `/mc/org/manage/roles?orgId=${orgId}`,
   get: (url, { orgId }) =>
     request
-      .get(url, { params: { orgId: orgId } })
+      .post(url, { orgId: orgId })
       .then(({ data }) => data.data),
 });

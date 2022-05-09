@@ -7,6 +7,6 @@ export default createService<Agent, { agentId: Id }>({
   url: () => "/mc/agent/detail",
   get: (url, { agentId }) =>
     request
-      .get(url, { params: { agentId: agentId } })
+      .post(url,  { agentId: agentId })
       .then(({ data }) => data.detail),
 });

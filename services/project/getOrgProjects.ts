@@ -7,6 +7,6 @@ export default createService<Project[], { orgId: Id }>({
   url: () => "/mc/project/list/org",
   get: (url, { orgId }) =>
     request
-      .get(url, { params: { orgId: orgId } })
+      .post(url, { orgId: orgId })
       .then(({ data }) => data.list),
 });

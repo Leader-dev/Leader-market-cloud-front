@@ -4,5 +4,5 @@ import { Project } from "types/project";
 
 export default createService<Project[]>({
   url: () => "/mc/project/manage/list",
-  get: (url) => request.get(url).then(({ data }) => data.list),
+  get: (url) => request.post(url).then(({ data }) => data.list),
 });

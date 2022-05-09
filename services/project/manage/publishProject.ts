@@ -4,5 +4,5 @@ import { EditableProject } from "types/project";
 
 export default createService<any, EditableProject>({
   url: () => "/mc/project/manage/publish",
-  get: (url) => request.get(url).then(({ data }) => data),
+  get: (url, params) => request.post(url, {info: params}).then(({ data }) => data),
 });

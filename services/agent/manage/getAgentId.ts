@@ -4,5 +4,5 @@ import { Agent } from "types/user";
 
 export default createService<Agent>({
   url: () => "/mc/agent/manage/id",
-  get: (url) => request.get(url).then(({ data }) => data.info),
+  get: (url) => request.post(url).then(({ data }) => data.info),
 });

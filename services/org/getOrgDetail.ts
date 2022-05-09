@@ -7,6 +7,6 @@ export default createService<Org, { orgId: Id }>({
   url: () => "/mc/org/detail",
   get: (url, { orgId }) =>
     request
-      .get(url, { params: { orgId: orgId } })
+      .post(url, { orgId: orgId })
       .then(({ data }) => data.info),
 });

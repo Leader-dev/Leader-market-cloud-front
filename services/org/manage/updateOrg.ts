@@ -10,5 +10,5 @@ type UpdateOrgParams = EditableOrg & {
 export default createService<any, UpdateOrgParams>({
   url: (p) => `/mc/org/manage/update?orgId=${p.orgId}`,
   get: (url, params: Omit<UpdateOrgParams, "orgId">) =>
-    request.get(url, { params: { info: params } }).then(({ data }) => data),
+    request.post(url, {info: params}).then(({ data }) => data),
 });

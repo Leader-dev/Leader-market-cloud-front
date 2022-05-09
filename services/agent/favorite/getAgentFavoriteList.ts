@@ -4,5 +4,5 @@ import { Agent } from "types/user";
 
 export default createService<Agent[]>({
   url: () => "/mc/agent/favorite/list",
-  get: (url) => request.get(url).then(({ data }) => data.list),
+  get: (url) => request.post(url).then(({ data }) => data.list),
 });

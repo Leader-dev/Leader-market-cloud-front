@@ -7,6 +7,6 @@ export default createService<Project, { projectId: Id }>({
   url: () => "/mc/project/detail",
   get: (url, { projectId }) =>
     request
-      .get(url, { params: { projectId: projectId } })
+      .post(url, { projectId: projectId })
       .then(({ data }) => data.detail),
 });

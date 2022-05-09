@@ -10,5 +10,5 @@ type getAgentInfoResponse = Omit<Agent, "orgInfo"> & {
 
 export default createService<getAgentInfoResponse>({
   url: () => "/mc/agent/manage/info",
-  get: (url) => request.get(url).then(({ data }) => data.info),
+  get: (url) => request.post(url).then(({ data }) => data.info),
 });
