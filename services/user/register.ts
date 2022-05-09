@@ -1,5 +1,6 @@
 import { request } from "utils/request";
 import { createService } from "services";
+import { getPublicKey } from "./getPublicKey";
 
 type RegisterParams = {
   phone: string;
@@ -8,7 +9,23 @@ type RegisterParams = {
   nickname: string;
 };
 
-export default createService<any, RegisterParams>({
-  url: () => "/user/quick-login",
-  get: (url) => request.post(url).then(({ data }) => data),
-});
+export const register = async (data: RegisterParams) => {
+  const { password } = data;
+  const p = getPublicKey();
+  const { JSEncrypt } = await import("jsencrypt");
+  const crypt = new JSEncrypt({});
+  const publicKey = await p;
+  crypt.setKey(publicKey);
+  const encryptedPassword = crypt.encrypt(password);
+  await request.post(
+    "/account/user/register",
+    { ...data, password: encryptedPassword },
+    {
+      codeHandlers: {
+        400: ({ response }) => {
+          throw response.data.error;
+        },
+      },
+    }
+  );
+};
