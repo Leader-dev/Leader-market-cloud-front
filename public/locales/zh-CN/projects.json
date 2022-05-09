@@ -1,3 +1,7 @@
 {
-  "pageTitle": "项目"
+  "pageTitle": "项目",
+  "project_description": "项目简介",
+  "active": "有效",
+  "inactive": "无效",
+  "published_from": "发布人："
 }
