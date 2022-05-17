@@ -3,8 +3,8 @@ import { createService } from "services/index";
 import { Agent } from "types/user";
 
 type getInterestedAgentResponse = {
-  interest: Agent[];
-  beingInterest: Agent[];
+  interests: Agent[];
+  beingInterested: Agent[];
 };
 
 export default createService<getInterestedAgentResponse>({

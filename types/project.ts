@@ -12,13 +12,14 @@ export type EditableProject = {
   status: "active" | "pass";
   content: string;
   draft: boolean;
+  orgId: Id;
+  imageUrls: string[];
 };
 
 export type Project = EditableProject & {
   id: Id;
   publishDate: Timestamp;
   updateDate: Timestamp;
-  orgId: Id;
   orgInfo: Org;
   agentId: Id;
   agentInfo: Agent;
