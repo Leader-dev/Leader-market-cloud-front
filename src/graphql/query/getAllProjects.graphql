@@ -1,0 +1,32 @@
+query {
+  project {
+    all {
+      id
+      title
+      coverUrl
+      startDate
+      endDate
+      orgId
+      orgInfo {
+        id
+        name
+        description
+        avatarUrl
+        certification
+      }
+      publisherAgentId
+      publisherAgentInfo {
+        id
+        name
+        avatarUrl
+        showContact
+        phone
+        email
+      }
+      status
+      createdAt
+      updatedAt
+      draft
+    }
+  }
+}
