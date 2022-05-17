@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { SiteLink } from "components/siteLink";
+import { SiteLink } from "src/components/siteLink";
 import getOrgDetail from "services/org/getOrgDetail";
 import {
   Avatar,
@@ -21,17 +21,19 @@ import {
   Text,
 } from "@chakra-ui/react";
 import getOrgProjects from "services/project/getOrgProjects";
-import { ProjectsPanelList } from "components/projectList";
-import { Error } from "components/error";
-import { Loading } from "components/loading";
+import { ProjectsPanelList } from "src/components/projectList";
+import { Error } from "src/components/error";
+import { Loading } from "src/components/loading";
 
 const OrgDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
   const { data: orgInfo, isError: orgError } = useQuery(
+    ["orgDetail", id],
     getOrgDetail({ orgId: id })
   );
   const { data: projects, isError: projectsError } = useQuery(
+    ["orgProjects", id],
     getOrgProjects({ orgId: id })
   );
 
@@ -88,7 +90,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const id = ctx.query.id as string;
 
   // query organization with id
-  await Promise.all([queryClient.prefetchQuery(getOrgDetail({ orgId: id }))]);
+  await Promise.all([
+    queryClient.prefetchQuery(["orgDetail", id], getOrgDetail({ orgId: id })),
+  ]);
   return {
     props: {
       prefetchedState: dehydrate(queryClient),

@@ -21,20 +21,20 @@ import { BasicLayout } from "layouts/basicLayout";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { SiteLink } from "components/siteLink";
-import { Tags } from "components/tags";
-import { Label } from "components/label";
+import { SiteLink } from "src/components/siteLink";
+import { Tags } from "src/components/tags";
+import { Label } from "src/components/label";
 import getProjectDetail from "services/project/getProjectDetail";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { Error } from "components/error";
-import { Loading } from "components/loading";
+import { Error } from "src/components/error";
+import { Loading } from "src/components/loading";
 import {
   AiOutlineClockCircle,
   AiOutlineEye,
   AiOutlineStar,
 } from "react-icons/ai";
-import { Card } from "../../components/card";
+import { Card } from "src/components/card";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query organization with id
   await Promise.all([
-    queryClient.prefetchQuery(getProjectDetail({ projectId: id })),
+    queryClient.prefetchQuery(["projectDetail", id], getProjectDetail({ projectId: id })),
   ]);
   return {
     props: {
@@ -56,6 +56,7 @@ const ProjectDetailPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
   const { data: projectDetail, isError } = useQuery(
+    ['projectDetail', id],
     getProjectDetail({ projectId: id })
   );
   const { t } = useTranslation("projects");

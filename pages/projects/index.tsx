@@ -3,22 +3,22 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { SearchBar } from "components/searchBar";
-import { ProjectsList } from "components/projectList";
+import { SearchBar } from "src/components/searchBar";
+import { ProjectsList } from "src/components/projectList";
 
 import type { Agent } from "types/user";
 import type { Project } from "types/project";
 import { Box, Center } from "@chakra-ui/react";
 import getAllProjects from "services/project/getAllProjects";
 import { useQuery } from "react-query";
-import { Loading } from "components/loading";
-import { Error } from "components/error";
+import { Loading } from "src/components/loading";
+import { Error } from "src/components/error";
 
 const ProjectsPage: NextPage = () => {
   const { t } = useTranslation("projects");
 
   // TODO: use react-query
-  const { isError, data } = useQuery("getAllProjects", getAllProjects(null));
+  const { isError, data } = useQuery("AllProjects", getAllProjects({}));
 
   if (isError) return <Error />;
   if (!data) return <Loading />;

@@ -38,16 +38,16 @@ import { AiOutlineSwap } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { ProjectsPanelList } from "components/projectList";
+import { ProjectsPanelList } from "src/components/projectList";
 
 import getOrgManageList from "services/org/manage/getOrgManageList";
-import getAgentInfo from "services/agent/manage/getAgentInfo";
 import getOrgDetail from "services/org/getOrgDetail";
 import getOrgProjects from "services/project/getOrgProjects";
 import getOrgManageRoles from "services/org/manage/getOrgManageRoles";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Loading } from "../../../components/loading";
-import { Error } from "../../../components/error";
+import { Loading } from "src/components/loading";
+import { Error } from "src/components/error";
+// import { UserAvatar } from "src/components/image";
 
 const Members: React.FC = () => {
   return <></>;
@@ -76,15 +76,19 @@ const OrgManagePage: NextPage = () => {
   const { query } = useRouter();
   const orgId = query.orgId as string;
   const { data: orgInfo, isError: orgError } = useQuery(
+    ["orgDetail", orgId],
     getOrgDetail({ orgId: orgId })
   );
   const { data: projects, isError: proError } = useQuery(
+    ["orgProjects", orgId],
     getOrgProjects({ orgId: orgId })
   );
   const { data: orgList, isError: manageError } = useQuery(
+    "orgManageList",
     getOrgManageList({})
   );
   const { data: role, isError: roleError } = useQuery(
+    ["orgManageRoles", orgId],
     getOrgManageRoles({ orgId: orgId })
   );
   const { t } = useTranslation("org_account");
@@ -241,9 +245,13 @@ const OrgManagePage: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
-
-  // query partner with id
-  await Promise.all([queryClient.prefetchQuery(getAgentInfo({}))]);
+  const orgId = ctx.query.orgId as string;
+  await Promise.all([
+    queryClient.prefetchQuery(
+      ["orgDetail", orgId],
+      getOrgDetail({ orgId: orgId })
+    ),
+  ]);
   return {
     props: {
       prefetchedState: dehydrate(queryClient),

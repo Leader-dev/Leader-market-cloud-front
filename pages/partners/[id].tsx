@@ -27,22 +27,14 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import {
-  AiOutlineSwap,
-  AiOutlineMobile,
-  AiOutlineMail,
-  AiOutlinePlus,
-  AiOutlineSetting,
-} from "react-icons/ai";
-import { useState } from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { ProjectsList } from "components/projectList";
+import { ProjectsList } from "src/components/projectList";
 
 import getAgentDetail from "services/agent/getAgentDetail";
 import getAgentProjects from "services/project/getAgentProjects";
-import { Error } from "components/error";
-import { Loading } from "components/loading";
+import { Error } from "src/components/error";
+import { Loading } from "src/components/loading";
 
 const ProjectPanel = ProjectsList;
 
@@ -50,9 +42,11 @@ const PartnerDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
   const { data: agent, isError: agentError } = useQuery(
+    ["agentDetail", id],
     getAgentDetail({ agentId: id })
   );
   const { data: projects, isError: projectsError } = useQuery(
+    ["agentProjects", id],
     getAgentProjects({ agentId: id })
   );
 
@@ -114,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query partner with id
   await Promise.all([
-    queryClient.prefetchQuery(getAgentDetail({ agentId: id })),
+    queryClient.prefetchQuery(["agentDetail", id], getAgentDetail({ agentId: id })),
   ]);
   return {
     props: {

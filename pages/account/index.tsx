@@ -46,8 +46,8 @@ import {
 import { useState } from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { ProjectsList } from "components/projectList";
-import { PartnerList } from "components/partnerList";
+import { ProjectsList } from "src/components/projectList";
+import { PartnerList } from "src/components/partnerList";
 
 import getDrafts from "services/project/manage/getProjectDrafts";
 import getAgentFavoriteList from "services/agent/favorite/getAgentFavoriteList";
@@ -55,8 +55,8 @@ import getInterestedAgentList from "services/agent/interest/getInterestedAgentLi
 import getOrgManageList from "services/org/manage/getOrgManageList";
 import getAgentInfo from "services/agent/manage/getAgentInfo";
 import getProjectList from "services/project/manage/getProjectList";
-import { Loading } from "components/loading";
-import { Error } from "components/error";
+import { Loading } from "src/components/loading";
+import { Error } from "src/components/error";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { useColorModeValue } from "@chakra-ui/system";
 
@@ -64,11 +64,14 @@ const ProjectPanel = ProjectsList;
 
 const CollabWanted = () => {
   const { t } = useTranslation("account");
-  const { data, isLoading } = useQuery(getInterestedAgentList({}));
+  const { data, isLoading } = useQuery(
+    "interestedAgentList",
+    getInterestedAgentList({})
+  );
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
-  const { interest, beingInterest } = data;
+  const { interests, beingInterested } = data;
 
   return (
     <Box>
@@ -76,25 +79,28 @@ const CollabWanted = () => {
         <Trans
           t={t}
           i18nKey={"partners_want_to_collab_with_you"}
-          count={beingInterest.length}
+          count={beingInterested.length}
         >
-          There are <b>{{ count: beingInterest.length }}</b> partners that want
-          to collaborate with you
+          There are <b>{{ count: beingInterested.length }}</b> partners that
+          want to collaborate with you
         </Trans>
       </Box>
       <Box>
-        <PartnerList partners={beingInterest} />
+        <PartnerList partners={beingInterested} />
       </Box>
       <Box>{t("partnersYouInterestedIn")}</Box>
       <Box>
-        <PartnerList partners={interest} />
+        <PartnerList partners={interests} />
       </Box>
     </Box>
   );
 };
 
 const Favorites = () => {
-  const { data, isLoading } = useQuery(getAgentFavoriteList({}));
+  const { data, isLoading } = useQuery(
+    "agentFavoriteList",
+    getAgentFavoriteList({})
+  );
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
@@ -102,7 +108,7 @@ const Favorites = () => {
 };
 
 const Drafts = () => {
-  const { data, isLoading } = useQuery(getDrafts({}));
+  const { data, isLoading } = useQuery("drafts", getDrafts({}));
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
@@ -110,7 +116,7 @@ const Drafts = () => {
 };
 
 const Settings = () => {
-  const partner = useQuery(getAgentInfo({})).data!;
+  const partner = useQuery("agentInfo", getAgentInfo({})).data!;
   const { t } = useTranslation("account");
 
   const [mobile, setMobile] = useState(
@@ -220,11 +226,16 @@ const Settings = () => {
 };
 
 const AccountManagePage: NextPage = () => {
-  const { data: partner, isError: partnerError } = useQuery(getAgentInfo({}));
+  const { data: partner, isError: partnerError } = useQuery(
+    "agentInfo",
+    getAgentInfo({})
+  );
   const { data: projects, isError: projectsError } = useQuery(
+    "ProjectList",
     getProjectList({})
   );
   const { data: orgList, isError: orgListError } = useQuery(
+    "OrgManageList",
     getOrgManageList({})
   );
   const { t } = useTranslation("account");
@@ -356,7 +367,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
 
   // query partner with id
-  await Promise.all([queryClient.prefetchQuery(getAgentInfo({}))]);
+  await Promise.all([
+    queryClient.prefetchQuery(["agentInfo"], getAgentInfo({})),
+  ]);
   return {
     props: {
       prefetchedState: dehydrate(queryClient),

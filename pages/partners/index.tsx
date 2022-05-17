@@ -23,29 +23,28 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { AiOutlineStar } from "react-icons/ai";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { SiteLink } from "components/siteLink";
-import { SearchBar } from "components/searchBar";
-import { Card } from "components/card";
-import { Divider } from "components/divider";
-import { PartnerList } from "components/partnerList";
+import { SiteLink } from "src/components/siteLink";
+import { SearchBar } from "src/components/searchBar";
+import { Card } from "src/components/card";
+import { Divider } from "src/components/divider";
+import { PartnerList } from "src/components/partnerList";
 
 import getAgentList from "services/agent/getAgentList";
 import getOrgList from "services/org/getOrgList";
-import { Error } from "components/error";
-import { Loading } from "components/loading";
+import { Error } from "src/components/error";
+import { Loading } from "src/components/loading";
 
 const IndividualPartners = () => {
-  const { data: partners } = useQuery(getAgentList({}));
+  const { data: partners } = useQuery("agentList", getAgentList({}));
   return <PartnerList partners={partners!} />;
 };
 
 const OrganizationPartners = () => {
   const { t } = useTranslation("partners");
   const { push } = useRouter();
-  const { data: orgList, isError } = useQuery(getOrgList({}));
+  const { data: orgList, isError } = useQuery('orgList', getOrgList({}));
 
   if (isError) return <Error />;
   if (!orgList) return <Loading />;
@@ -147,7 +146,7 @@ const PartnersPage: NextPage<
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(getAgentList({}));
+  await queryClient.prefetchQuery(["agentList"], getAgentList({}));
 
   return {
     props: {
