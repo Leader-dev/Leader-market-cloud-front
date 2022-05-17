@@ -2,8 +2,8 @@ import Head from "next/head";
 import { Flex, Box } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 
-import NavBar from "components/navbar";
-import Footer from "components/footer";
+import NavBar from "src/components/navbar";
+import Footer from "src/components/footer";
 
 /** NextPage wrapper */
 export const BasicLayout: React.FC<{
