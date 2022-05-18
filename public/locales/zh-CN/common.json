@@ -9,5 +9,9 @@
     "partners": "合作方",
     "language": "语言",
     "login_or_register": "登录/注册"
+  },
+  "errors": {
+    "not_logged_in": "需要登陆",
+    "not_logged_in_description": "您还没有登录，请先登录"
   }
 }

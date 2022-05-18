@@ -10,5 +10,7 @@
   "partners_want_to_collab_with_you_plural": "已有<1>{{count}}</1>位合作方希望与您合作",
   "partnersYouInterestedIn": "您感兴趣的合作方",
   "show_contacts": "展示",
-  "hide_contacts": "隐藏"
+  "hide_contacts": "隐藏",
+  "no_org": "暂无组织",
+  "interested": "求合作"
 }

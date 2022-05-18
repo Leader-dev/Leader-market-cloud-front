@@ -8,6 +8,10 @@
   "send_auth_code": "Get Auth Code",
   "next_step": "Next Step",
   "agree_eula": "I have read and agree<1>User Agreement</1>and<4>Privacy Policy</4>",
+  "input_username": "Please input your username",
+  "input_phone_number": "Please input your phone number",
+  "input_auth_code": "Please input your auth code",
+  "input_password": "Please input your password",
   "errors": {
     "u": {
       "required": "Username cannot be empty"

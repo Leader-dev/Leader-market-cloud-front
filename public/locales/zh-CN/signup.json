@@ -8,6 +8,10 @@
   "send_auth_code": "获取验证码",
   "next_step": "下一步",
   "agree_eula": "我已阅读并同意<1>用户协议</1>与<4>隐私协议</4>",
+  "input_username": "请输入用户名",
+  "input_phone_number": "请输入手机号",
+  "input_auth_code": "请输入验证码",
+  "input_password": "请输入密码",
   "errors": {
     "u": {
       "required": "用户名不得为空"

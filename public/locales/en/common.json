@@ -9,5 +9,9 @@
     "home": "Home",
     "projects": "Projects",
     "partners": "Partners"
+  },
+  "errors": {
+    "not_logged_in": "Not loggin",
+    "not_logged_in_description": "You must be loggin in to view this page."
   }
 }
