@@ -11,7 +11,7 @@ import {
   Avatar,
   Box,
   Flex,
-  Heading,
+  Circle,
   Spacer,
   Tab,
   TabList,
@@ -19,11 +19,15 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Center,
+  Tag,
+  VStack,
 } from "@chakra-ui/react";
 import getOrgProjects from "services/project/getOrgProjects";
 import { ProjectsPanelList } from "src/components/projectList";
 import { Error } from "src/components/error";
 import { Loading } from "src/components/loading";
+import { OrgAvatar, UserAvatar } from "src/components/image";
 
 const OrgDetailsPage: NextPage = () => {
   const { query } = useRouter();
@@ -48,26 +52,29 @@ const OrgDetailsPage: NextPage = () => {
   const imageSize = imageMarginLeft + imageWidth + imageMarginRight;
 
   return (
-    <BasicLayout pageTitle={`${orgInfo.name}`}>
+    <BasicLayout pageTitle={`${orgInfo.name}`} backgroundColor="white">
       <Box pb={12}>
-        <Avatar
-          position="absolute"
-          mt="24px"
-          ml={`${imageMarginLeft}px`}
-          size="2xl"
-          src={orgInfo.avatarUrl}
-          name={orgInfo.name}
-        />
-        <Flex w="full" bgColor="white" pt={8} px={4} pl={`${imageSize}px`}>
+        <VStack position="absolute" mt="24px" ml={`${imageMarginLeft}px`}>
+          <OrgAvatar
+            size="2xl"
+            src={orgInfo.avatarUrl}
+            name={orgInfo.name}
+            showBorder={true}
+            borderWidth="3px"
+            certification={orgInfo.certification}
+          />
+        </VStack>
+
+        <Flex w="full" pt={8} px={4} pl={`${imageSize}px`}>
           <Box textStyle={"title"}>{orgInfo.name}</Box>
           <Spacer />
         </Flex>
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Text>{orgInfo.description}</Text>
         </Flex>
-      </Box>
-      <Box ml={10} py={4} textStyle={"slogan"}>
-        {orgInfo.slogan}
+        <Box ml={10} py={4} textStyle={"slogan"}>
+          {orgInfo.slogan}
+        </Box>
       </Box>
       <Box px={8} py={2}>
         <Tabs size={"lg"}>

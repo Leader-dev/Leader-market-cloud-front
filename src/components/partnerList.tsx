@@ -21,7 +21,7 @@ import {
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import { Card } from "src/components/card";
 import { Divider } from "src/components/divider";
 import { Agent } from "types/user";
@@ -48,7 +48,7 @@ export const PartnerList: React.FC<{
         isCentered
       >
         <AlertDialogOverlay />
-        <AlertDialogContent>
+        <AlertDialogContent pb={4}>
           <AlertDialogHeader>{te("not_logged_in")}</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>{te("not_logged_in_description")}</AlertDialogBody>
@@ -63,6 +63,7 @@ export const PartnerList: React.FC<{
               variant="interactive"
               // href={`/partner/${partner.id}`}
               onClick={() => push(`/partners/${partner.id}`)}
+              px={4}
             >
               <Card.Content>
                 <Flex
@@ -93,6 +94,7 @@ export const PartnerList: React.FC<{
                       onClick={(e) => {
                         if (!loggedIn) {
                           onOpen();
+                          e.stopPropagation();
                         } else {
                           e.stopPropagation();
                           alert(`${partner.name} send interest!`);
@@ -116,6 +118,7 @@ export const PartnerList: React.FC<{
                     onClick={(e) => {
                       if (!loggedIn) {
                         onOpen();
+                        e.stopPropagation();
                       } else {
                         e.stopPropagation();
                         alert(`${partner.name} favorited!`);
@@ -127,41 +130,43 @@ export const PartnerList: React.FC<{
                   />
                 </Flex>
               </Card.Content>
-              <Card.Title pb={0} mb={1}>
-                {partner.name}
-              </Card.Title>
-              <Card.Subtitle pt={0} mt={0} mb={2} pb={1}>
-                {partner.orgInfo && <Box>{partner.orgInfo.name}</Box>}
-              </Card.Subtitle>
-              <Card.Content pt={1}>
-                {partner.description && (
-                  <Box color="gray.800">{partner.description}</Box>
-                )}
-                <Flex mt={2}>
-                  <Center w="calc(50% - 1px)">
-                    <Box textAlign="center">
-                      <Box fontSize="xl" fontWeight="bold">
-                        {partner.readCount}
+              <Box h="250px" pos="relative">
+                <Card.Title pb={0} mb={1}>
+                  {partner.name}
+                </Card.Title>
+                <Card.Subtitle pt={0} mt={0} mb={2} pb={1}>
+                  {partner.orgInfo && <Box>{partner.orgInfo.name}</Box>}
+                </Card.Subtitle>
+                <Card.Content pt={1}>
+                  {partner.description && (
+                    <Box color="gray.800">{partner.description}</Box>
+                  )}
+                  <Flex mt={2} pos="absolute" bottom={2} left={0} w="100%">
+                    <Center w="calc(50% - 1px)">
+                      <Box textAlign="center">
+                        <Box fontSize="xl" fontWeight="bold">
+                          {partner.readCount}
+                        </Box>
+                        <Box>合作人气</Box>
                       </Box>
-                      <Box>合作人气</Box>
-                    </Box>
-                  </Center>
-                  <Divider
-                    vertical
-                    h="64px"
-                    color="gray.300"
-                    alignSelf="center"
-                  />
-                  <Center w="calc(50% - 1px)">
-                    <Box textAlign="center">
-                      <Box fontSize="xl" fontWeight="bold">
-                        {partner.projectCount}
+                    </Center>
+                    <Divider
+                      vertical
+                      h="64px"
+                      color="gray.300"
+                      alignSelf="center"
+                    />
+                    <Center w="calc(50% - 1px)">
+                      <Box textAlign="center">
+                        <Box fontSize="xl" fontWeight="bold">
+                          {partner.projectCount}
+                        </Box>
+                        <Box>项目</Box>
                       </Box>
-                      <Box>项目</Box>
-                    </Box>
-                  </Center>
-                </Flex>
-              </Card.Content>
+                    </Center>
+                  </Flex>
+                </Card.Content>
+              </Box>
             </Card>
           </GridItem>
         ))}

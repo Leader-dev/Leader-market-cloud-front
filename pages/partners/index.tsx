@@ -35,6 +35,7 @@ import getAgentList from "services/agent/getAgentList";
 import getOrgList from "services/org/getOrgList";
 import { Error } from "src/components/error";
 import { Loading } from "src/components/loading";
+import { OrgAvatar, UserAvatar } from "src/components/image";
 
 const IndividualPartners = () => {
   const { data: partners } = useQuery("agentList", getAgentList({}));
@@ -42,60 +43,70 @@ const IndividualPartners = () => {
 };
 
 const OrganizationPartners = () => {
-  const { t } = useTranslation("partners");
+  const { t } = useTranslation("organizations");
   const { push } = useRouter();
-  const { data: orgList, isError } = useQuery('orgList', getOrgList({}));
+  const { data: orgList, isError } = useQuery("orgList", getOrgList({}));
 
   if (isError) return <Error />;
   if (!orgList) return <Loading />;
 
   return (
     <Grid templateColumns="repeat(3, 1fr)" gap={8} p={8}>
-      {orgList.map((org) => (
-        <GridItem key={org.id}>
-          <Card
-            variant="interactive"
-            overflow="visible"
-            // @ts-ignore
-            href={`/orgs/${org.id}`}
-            onClick={() => push(`/orgs/${org.id}`)}
-          >
-            <Card.Content>
-              <Box mt={-8} align="center" position="relative" zIndex={1}>
-                <Avatar size="xl" name={org.name} src={org.avatarUrl} />
-              </Box>
-            </Card.Content>
-            <Card.Title textAlign="center">{org.name}</Card.Title>
-            <Card.Content>
-              <Box>{org.description}</Box>
-              <Flex mt={2}>
-                <Center w="calc(50% - 1px)">
-                  <Box textAlign="center">
-                    <Box fontSize="xl" fontWeight="bold">
-                      {org.memberCount}
+      {orgList.map((org) => {
+        return (
+          <GridItem key={org.id}>
+            <Card
+              variant="interactive"
+              overflow="visible"
+              // @ts-ignore
+              href={`/orgs/${org.id}`}
+              px={4}
+              onClick={() => push(`/orgs/${org.id}`)}
+            >
+              <Card.Content>
+                <Box mt={-8} align="center" position="relative" zIndex={1}>
+                  <OrgAvatar
+                    size="xl"
+                    name={org.name}
+                    src={org.avatarUrl}
+                    certification={org.certification}
+                    showBorder
+                    borderWidth="3px"
+                  />
+                </Box>
+              </Card.Content>
+              <Card.Title textAlign="center">{org.name}</Card.Title>
+              <Card.Content>
+                <Box>{org.description}</Box>
+                <Flex mt={2}>
+                  <Center w="calc(50% - 1px)">
+                    <Box textAlign="center">
+                      <Box fontSize="xl" fontWeight="bold">
+                        {org.memberCount}
+                      </Box>
+                      <Box>成员</Box>
                     </Box>
-                    <Box>成员</Box>
-                  </Box>
-                </Center>
-                <Divider
-                  vertical
-                  h="64px"
-                  color="gray.300"
-                  alignSelf="center"
-                />
-                <Center w="calc(50% - 1px)">
-                  <Box textAlign="center">
-                    <Box fontSize="xl" fontWeight="bold">
-                      {org.projectCount}
+                  </Center>
+                  <Divider
+                    vertical
+                    h="64px"
+                    color="gray.300"
+                    alignSelf="center"
+                  />
+                  <Center w="calc(50% - 1px)">
+                    <Box textAlign="center">
+                      <Box fontSize="xl" fontWeight="bold">
+                        {org.projectCount}
+                      </Box>
+                      <Box>项目</Box>
                     </Box>
-                    <Box>项目</Box>
-                  </Box>
-                </Center>
-              </Flex>
-            </Card.Content>
-          </Card>
-        </GridItem>
-      ))}
+                  </Center>
+                </Flex>
+              </Card.Content>
+            </Card>
+          </GridItem>
+        );
+      })}
     </Grid>
   );
 };
