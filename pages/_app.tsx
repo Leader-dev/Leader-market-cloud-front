@@ -5,11 +5,11 @@ import { QueryClientProvider, Hydrate, QueryClient } from "react-query";
 import { appWithTranslation } from "next-i18next";
 
 import theme from "themes";
-import Fonts from "fonts";
+import Fonts from "themes/fonts";
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-  require("mocks");
-}
+// if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+//   require("mocks");
+// }
 
 function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
