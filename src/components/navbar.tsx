@@ -25,7 +25,7 @@ import { AiOutlineUser, AiOutlineGlobal } from "react-icons/ai";
 import { SiteLink } from "src/components/siteLink";
 import { useLoginStatus } from "utils/auth";
 
-import LeaderCloud from "public/leader-cloud.svg";
+import LeaderCloud from "public/images/leader-cloud.svg";
 
 const NavLink: React.FC<
   React.ComponentProps<typeof SiteLink> & {
@@ -97,7 +97,9 @@ const NavBar = () => {
   const { t } = useTranslation("common");
   return (
     <Flex as="nav" px={2} bg="bgBlack">
-      <NavBarHeading title={t("site.corp")} subtitle={t("site.product")} />
+      <NavLink href="/" disableUnderline={true}>
+        <NavBarHeading title={t("site.corp")} subtitle={t("site.product")} />
+      </NavLink>
       <Spacer />
       <NavBarItem>
         <NavLink href="/" _target={{ color: "red.100" }}>

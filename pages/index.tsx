@@ -6,24 +6,165 @@ import {
   chakra,
   VStack,
   SimpleGrid,
+  Text,
+  Flex,
+  background,
 } from "@chakra-ui/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { Carousel } from "components/carousel";
-import { Image } from "components/image";
+import { Carousel } from "src/components/carousel";
+import { Image } from "src/components/image";
 
-import watermelon from "public/images/watermelon.jpeg";
+import code from "public/images/code.svg";
+import contract from "public/images/contract.svg";
+import analysis from "public/images/analysis.svg";
+import work from "public/images/work.svg";
+import form from "public/images/forms.svg";
+import indexCover from "public/images/indexCover.png";
+
+const SloganText: React.FC = ({ children }) => {
+  return (
+    <Flex
+      textStyle="subtitle"
+      color="white"
+      pos="absolute"
+      w="full"
+      h="22%"
+      bottom={0}
+      bgColor="rgba(21,21,21,0.5)"
+      zIndex={1}
+      flexDir="column"
+      justify="center"
+      px={10}
+    >
+      {children}
+    </Flex>
+  );
+};
 
 const IndexPage: NextPage = () => {
   return (
     <BasicLayout>
-      <Carousel w="full" h="62vh" infinite autoSwipe={5}>
-        <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
-        <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
-        <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
-        <Image w="100%" h="100%" alt="watermelon yes!" src={watermelon} />
-      </Carousel>
+      <Box w="full" h="60vh" pos="relative">
+        <Carousel w="100%" h="100%" infinite autoSwipe={100000}>
+          <Box>
+            <Image
+              quality={100}
+              layout="fill"
+              alt="watermelon yes!"
+              src={analysis}
+              bgColor="#A9B2FF"
+            />
+            <SloganText>
+              <Box>
+                为
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  企业机构
+                </Text>
+                挖掘潜力项目、
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  精准
+                </Text>
+                对接校园Kol,
+              </Box>
+              <Box>圈内影响力不在话下！</Box>
+            </SloganText>
+          </Box>
+          <Box>
+            <Image
+              objectFit="contain"
+              quality={100}
+              layout="fill"
+              alt="watermelon yes!"
+              src={contract}
+            />
+            <SloganText>
+              <Box>
+                为
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  社团组织
+                </Text>
+                活动
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  高效
+                </Text>
+                寻找赞助方，
+              </Box>
+              <Box>资源资金信手拈来！</Box>
+            </SloganText>
+          </Box>
+          <Box>
+            <Image
+              objectFit="contain"
+              quality={100}
+              layout="fill"
+              alt="watermelon yes!"
+              src={code}
+              bgColor="#A9B2FF"
+            />
+            <SloganText>
+              <Box>
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  项目活动
+                </Text>
+                内各类信息
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  标准化
+                </Text>
+                排列，
+              </Box>
+              <Box>内容亮点一览无余！</Box>
+            </SloganText>
+          </Box>
+          <Box>
+            <Image
+              objectFit="contain"
+              quality={100}
+              layout="fill"
+              alt="watermelon yes!"
+              src={form}
+            />
+            <SloganText>
+              <Box>
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  一步
+                </Text>
+                即可在线完成各类
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  组织创立
+                </Text>
+                ,
+              </Box>
+              <Box>打造品牌影响力根据地！</Box>
+            </SloganText>
+          </Box>
+          <Box>
+            <Image
+              objectFit="contain"
+              quality={100}
+              layout="fill"
+              alt="watermelon yes!"
+              src={work}
+              bgColor="#A9B2FF"
+            />
+            <SloganText>
+              <Box>
+                一键
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  求合作
+                </Text>
+                即可与项目发布方
+                <Text as="span" color="paleBlue" textStyle={"title"}>
+                  交换名片
+                </Text>
+                ,
+              </Box>
+              <Box>渠道人脉不再愁！</Box>
+            </SloganText>
+          </Box>
+        </Carousel>
+      </Box>
 
       <VStack h={"25vh"} justify={"center"}>
         <Center textStyle={"h2"} mt={8}>
@@ -60,15 +201,16 @@ const IndexPage: NextPage = () => {
         </Box>
         <Box w={"30%"}>
           <Image
-            objectFit={"cover"}
             borderRadius={"50px"}
+            h="100%"
+            w="100%"
             alt="watermelon yes!"
-            src={watermelon}
+            src={indexCover}
           />
         </Box>
       </HStack>
 
-      <Box p={"0 5%"} mb={"10vh"}>
+      {/* <Box p={"0 5%"} mb={"10vh"}>
         <Center textStyle={"h1"} m={"50px 0"}>
           从三个⽅⾯了解我们
         </Center>
@@ -90,7 +232,7 @@ const IndexPage: NextPage = () => {
             占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占
           </Box>
         </SimpleGrid>
-      </Box>
+      </Box> */}
     </BasicLayout>
   );
 };

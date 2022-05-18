@@ -8,6 +8,8 @@ import {
 } from "@chakra-ui/react";
 
 import { SiteLink } from "src/components/siteLink";
+import LeaderCloud from "public/images/leader-cloud.svg";
+import { Image } from "src/components/image";
 
 const FooterHeading: React.FC = ({ children }) => {
   return (
@@ -37,7 +39,11 @@ const Footer = () => {
   return (
     <Box as="footer" bg="bgBlack" color="white" px={16} pt={14} pb={8}>
       <Grid templateColumns="repeat(4, 1fr)" gap={4} p={8} pb={14}>
-        <GridItem colSpan={2}>BIG ICON</GridItem>
+        <GridItem colSpan={2}>
+          <Box h="80%" w="40%" pos="relative">
+            <Image layout="fill" src={LeaderCloud} />
+          </Box>
+        </GridItem>
         <GridItem colSpan={1}>
           <FooterHeading>Customer Services</FooterHeading>
           <FooterLinks>
