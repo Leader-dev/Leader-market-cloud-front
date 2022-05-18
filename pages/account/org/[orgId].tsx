@@ -23,7 +23,6 @@ import {
   Editable,
   EditablePreview,
   // @ts-ignore
-  EditableTextarea,
   useEditableControls,
   ButtonGroup,
   IconButton,
@@ -197,7 +196,7 @@ const OrgManagePage: NextPage = () => {
             >
               <EditablePreview />
               {/*TODO this is not working*/}
-              <Input as={EditableTextarea} />
+              {/*<Input as={EditableTextarea} />*/}
               <EditableControls />
             </Editable>
           </Stack>
@@ -213,7 +212,7 @@ const OrgManagePage: NextPage = () => {
             >
               <EditablePreview />
               {/*TODO this is not working*/}
-              <Input as={EditableTextarea} maxLength={25} />
+              {/*<Input as={EditableTextarea} maxLength={25} />*/}
               <EditableControls />
             </Editable>
           </Stack>

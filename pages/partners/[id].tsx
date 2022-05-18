@@ -71,7 +71,7 @@ const PartnerDetailsPage: NextPage = () => {
           src={agent.avatarUrl}
           name={agent.name}
         />
-        <Flex w="full" bgColor="white" py={3} px={4} pl={`${imageSize}px`}>
+        <Flex w="full" bgColor="white" py={6} px={4} pl={`${imageSize}px`}>
           <Box>
             <Heading>{agent.name}</Heading>
           </Box>
@@ -108,7 +108,10 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query partner with id
   await Promise.all([
-    queryClient.prefetchQuery(["agentDetail", id], getAgentDetail({ agentId: id })),
+    queryClient.prefetchQuery(
+      ["agentDetail", id],
+      getAgentDetail({ agentId: id })
+    ),
   ]);
   return {
     props: {
