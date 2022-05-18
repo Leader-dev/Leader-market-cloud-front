@@ -31,7 +31,7 @@ import { Formik, Field, Form, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useTranslation, Trans } from "next-i18next";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { SiteLink } from "src/components/siteLink";
 import { useState } from "react";
 import { login } from "services/user/login";

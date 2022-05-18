@@ -17,7 +17,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 

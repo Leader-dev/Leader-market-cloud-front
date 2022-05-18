@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { SiteLink } from "src/components/siteLink";
 import { SearchBar } from "src/components/searchBar";
 import { Card } from "src/components/card";

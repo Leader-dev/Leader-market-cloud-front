@@ -28,7 +28,7 @@ import {
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { ProjectsList } from "src/components/projectList";
 
 import getAgentDetail from "services/agent/getAgentDetail";

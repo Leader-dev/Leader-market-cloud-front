@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { Carousel } from "src/components/carousel";
 import { Image } from "src/components/image";
 

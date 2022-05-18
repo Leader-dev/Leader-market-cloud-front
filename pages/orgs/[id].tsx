@@ -4,7 +4,7 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { SiteLink } from "src/components/siteLink";
 import getOrgDetail from "services/org/getOrgDetail";
 import {

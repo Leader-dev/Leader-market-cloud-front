@@ -45,7 +45,7 @@ import {
 } from "react-icons/ai";
 import { useState } from "react";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { ProjectsList } from "src/components/projectList";
 import { PartnerList } from "src/components/partnerList";
 

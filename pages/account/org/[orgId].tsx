@@ -36,7 +36,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AiOutlineSwap } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { ProjectsPanelList } from "src/components/projectList";
 
 import getOrgManageList from "services/org/manage/getOrgManageList";

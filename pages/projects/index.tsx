@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
-import { BasicLayout } from "layouts/basicLayout";
+import { BasicLayout } from "src/layouts/basicLayout";
 import { SearchBar } from "src/components/searchBar";
 import { ProjectsList } from "src/components/projectList";
 
