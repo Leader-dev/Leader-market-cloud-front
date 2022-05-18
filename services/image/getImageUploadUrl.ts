@@ -7,7 +7,6 @@ export const getImageUploadURL = async () => {
   ) as string;
 };
 
-
 export const getMultipleImageUploadURL = async ({
   count,
 }: {
@@ -17,8 +16,7 @@ export const getMultipleImageUploadURL = async ({
     await request.post("/service/image/get-upload-url-multiple", {
       urlCount: count,
     })
-  ).data.urls.map((url: string) => url.replace(
-    "http://",
-    "https://")) as string[];
+  ).data.urls.map((url: string) =>
+    url.replace("http://", "https://")
+  ) as string[];
 };
-

@@ -42,7 +42,10 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query organization with id
   await Promise.all([
-    queryClient.prefetchQuery(["projectDetail", id], getProjectDetail({ projectId: id })),
+    queryClient.prefetchQuery(
+      ["projectDetail", id],
+      getProjectDetail({ projectId: id })
+    ),
   ]);
   return {
     props: {
@@ -56,7 +59,7 @@ const ProjectDetailPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
   const { data: projectDetail, isError } = useQuery(
-    ['projectDetail', id],
+    ["projectDetail", id],
     getProjectDetail({ projectId: id })
   );
   const { t } = useTranslation("projects");

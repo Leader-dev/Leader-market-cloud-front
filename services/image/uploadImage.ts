@@ -1,6 +1,9 @@
 import { request } from "utils/request";
 import imageCompression from "browser-image-compression";
-import { getImageUploadURL, getMultipleImageUploadURL } from "services/image/getImageUploadUrl";
+import {
+  getImageUploadURL,
+  getMultipleImageUploadURL,
+} from "services/image/getImageUploadUrl";
 // import { getMultipleImageUploadURL } from "/service/image/getUploadUrlMultiple";
 
 const fullToShort = (url: string) => {
@@ -10,7 +13,7 @@ const fullToShort = (url: string) => {
 const options: Parameters<typeof imageCompression>[1] = {
   maxSizeMB: 1,
   maxWidthOrHeight: 1920,
-  useWebWorker: true
+  useWebWorker: true,
 };
 
 /** Upload file
