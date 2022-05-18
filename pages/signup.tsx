@@ -19,19 +19,33 @@ import {
   FormHelperText,
   Checkbox,
   useControllableState,
+  InputLeftElement,
+  Icon,
+  InputProps,
+  Center,
+  Spacer,
+  Flex,
+  BoxProps,
 } from "@chakra-ui/react";
 import { Formik, Field, Form, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useTranslation, Trans } from "next-i18next";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { SiteLink } from "components/siteLink";
+import { SiteLink } from "src/components/siteLink";
 import { useState } from "react";
 import { login } from "services/user/login";
 import { useRouter } from "next/router";
 import { getAuthCode } from "services/user/getAuthcode";
 import { register } from "services/user/register";
-import { checkAuthCode } from "services/user/checkAuthcode";
+import {
+  AiOutlineKey,
+  AiOutlineMobile,
+  AiOutlinePhone,
+  AiOutlineUser,
+} from "react-icons/ai";
+import indexCover from "public/images/indexCover.png";
+import { Image } from "src/components/image";
 
 type ResponsiveLeftImageProps = {
   left: React.ReactNode;
@@ -62,11 +76,16 @@ const ResponsiveLeftImage: React.FC<ResponsiveLeftImageProps> = ({
 const InputField = ({
   name,
   hide,
-  right,
-}: {
+  rightElement,
+  leftElement,
+  placeholder,
+  ...props
+}: InputProps & {
   name: string;
   hide?: boolean;
-  right?: React.ReactNode;
+  leftElement?: React.ReactNode;
+  rightElement?: React.ReactNode;
+  placeholder: string;
 }) => {
   const { t } = useTranslation("signup");
   const { t: te } = useTranslation("signup", { keyPrefix: "errors" });
@@ -77,15 +96,21 @@ const InputField = ({
           mb={3}
           isInvalid={!!(form.errors[name] && form.touched[name])}
         >
-          <FormLabel htmlFor={name}>{t(name)}</FormLabel>
+          {/* <FormLabel htmlFor={name}>{t(name)}</FormLabel> */}
           <InputGroup>
+            {leftElement && <InputLeftElement>{leftElement}</InputLeftElement>}
             <Input
               {...field}
+              {...props}
               id={name}
               type={hide ? "password" : undefined}
-              pr={right ? "5.5rem" : undefined}
+              pr={rightElement ? "5.5rem" : undefined}
+              variant="flushed"
+              placeholder={placeholder}
             />
-            {right && <InputRightElement w="5.5rem">{right}</InputRightElement>}
+            {rightElement && (
+              <InputRightElement w="5.5rem">{rightElement}</InputRightElement>
+            )}
           </InputGroup>
           <FormErrorMessage>{te(form.errors[name] as string)}</FormErrorMessage>
         </FormControl>
@@ -126,13 +151,26 @@ const Login = () => {
     >
       {(props) => (
         <Form>
-          <InputField name="username" />
-          <InputField name="password" hide />
+          <InputField
+            name="username"
+            placeholder={t("input_username")}
+            leftElement={<Icon as={AiOutlineUser} />}
+            mb={10}
+          />
+          <InputField
+            name="password"
+            hide
+            placeholder={t("input_password")}
+            leftElement={<Icon as={AiOutlineKey} />}
+          />
           <Button
             w="full"
             variant="solid"
             colorScheme="blue"
             type="submit"
+            mt={8}
+            borderRadius={"full"}
+            bgColor="#163CAA"
             isLoading={props.isSubmitting}
           >
             {t("login")}
@@ -168,10 +206,18 @@ const RegisterStep1: React.FC<{
     >
       {(props) => (
         <Form>
-          <InputField name="phone_number" />
+          <InputField
+            name="phone_number"
+            placeholder={t("input_phone_number")}
+            leftElement={<Icon as={AiOutlinePhone} />}
+            mb={10}
+          />
           <InputField
             name="auth_code"
-            right={
+            placeholder={t("input_auth_code")}
+            mb={10}
+            leftElement={<Icon as={AiOutlineMobile} />}
+            rightElement={
               <Button
                 variant="link"
                 size="sm"
@@ -197,8 +243,8 @@ const RegisterStep1: React.FC<{
               }}
             >
               <Trans t={t} i18nKey="agree_eula">
-                I have read and agreed to the <SiteLink>EULA</SiteLink> and{" "}
-                <SiteLink>Privacy Policy</SiteLink>
+                I have read and agreed to the <SiteLink mx={1}>EULA</SiteLink>{" "}
+                and <SiteLink mx={2}>Privacy Policy</SiteLink>
               </Trans>
             </Checkbox>
             <FormErrorMessage>
@@ -211,6 +257,9 @@ const RegisterStep1: React.FC<{
             colorScheme="blue"
             type="submit"
             isLoading={props.isSubmitting}
+            bgColor="#163CAA"
+            borderRadius={"full"}
+            mt={2}
           >
             {t("next_step")}
           </Button>
@@ -243,14 +292,27 @@ const RegisterStep2: React.FC<{
     >
       {(props) => (
         <Form>
-          <InputField name="username" />
-          <InputField name="password" hide />
+          <InputField
+            name="username"
+            placeholder={t("input_username")}
+            leftElement={<Icon as={AiOutlineUser} />}
+            mb={5}
+          />
+          <InputField
+            name="password"
+            hide
+            placeholder={t("input_password")}
+            leftElement={<Icon as={AiOutlineKey} />}
+            mb={5}
+          />
           <Button
             w="full"
             variant="solid"
             colorScheme="blue"
             type="submit"
             isLoading={props.isSubmitting}
+            bgColor="#163CAA"
+            borderRadius={"full"}
           >
             {t("register")}
           </Button>
@@ -285,16 +347,16 @@ const Register = () => {
   );
 };
 
-const SignupBox = () => {
+const SignupBox = ({ ...props }: BoxProps) => {
   const { t } = useTranslation("signup");
   return (
-    <Box>
+    <Box {...props}>
       <Tabs isFitted>
         <TabList>
           <Tab>{t("login")}</Tab>
           <Tab>{t("register")}</Tab>
         </TabList>
-        <TabPanels>
+        <TabPanels py={5}>
           <TabPanel>
             <Login />
           </TabPanel>
@@ -310,9 +372,16 @@ const SignupBox = () => {
 const SignupPage: NextPage = () => {
   return (
     <BasicLayout pageTitle="Sign In">
-      <ResponsiveLeftImage left={<Box>Image</Box>}>
+      {/* <ResponsiveLeftImage left={<Box w="600px" h="400px" pos="relative" ><Image layout="fill" borderRadius="30px" src={indexCover} /></Box>}>
         <SignupBox />
-      </ResponsiveLeftImage>
+      </ResponsiveLeftImage> */}
+      <Flex px="10vw" py={20} h="100%" align="center">
+        <Box w="40%" h="100%" pos="relative">
+          <Image borderRadius="30px" src={indexCover} />
+        </Box>
+        <Spacer />
+        <SignupBox w="30vw" />
+      </Flex>
     </BasicLayout>
   );
 };
