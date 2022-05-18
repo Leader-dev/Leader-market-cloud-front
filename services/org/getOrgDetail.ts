@@ -6,5 +6,5 @@ import { Id } from "types/common";
 export default createService<Org, { orgId: Id }>({
   url: () => "/mc/org/detail",
   get: (url, { orgId }) =>
-    request.post(url, { orgId: orgId }).then(({ data }) => data.info),
+    request.post(url, { orgId: orgId }).then(({ data }) => data.detail),
 });
