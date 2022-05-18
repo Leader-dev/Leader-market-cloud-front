@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "fmt": "prettier --write . --ignore-path .gitignore",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@babel/core": "^7.17.5",
@@ -16,9 +17,18 @@
     "@chakra-ui/system": "^1.11.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.11",
+    "@graphql-codegen/typescript-operations": "^2.4.0",
+    "@graphql-codegen/typescript-react-query": "^3.5.12",
+    "@lifeomic/axios-fetch": "^3.0.0",
     "axios": "^0.24.0",
+    "browser-image-compression": "^2.0.0",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
+    "graphql": "^16.5.0",
+    "graphql-hooks": "^5.11.3",
+    "graphql-request": "^4.2.0",
     "http-proxy-middleware": "^2.0.6",
     "jsencrypt": "^3.2.1",
     "msw": "^0.39.2",
