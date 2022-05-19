@@ -6,6 +6,7 @@ import { appWithTranslation } from "next-i18next";
 
 import theme from "themes";
 import Fonts from "themes/fonts";
+import Head from "next/head";
 
 // if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
 //   require("mocks");
@@ -18,6 +19,9 @@ function App({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.prefetchedState}>
         <ChakraProvider theme={theme}>
           <Fonts />
+          <Head>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
           <Component {...pageProps} />
         </ChakraProvider>
       </Hydrate>
