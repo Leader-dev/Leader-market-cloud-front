@@ -33,6 +33,7 @@ import {
   EditableInput,
   InputRightElement,
   Tooltip,
+  HStack,
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -59,6 +60,7 @@ import { Loading } from "src/components/loading";
 import { Error } from "src/components/error";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { useColorModeValue } from "@chakra-ui/system";
+import { OrgAvatar } from "src/components/image";
 
 const ProjectPanel = ProjectsList;
 
@@ -267,15 +269,25 @@ const AccountManagePage: NextPage = () => {
           src={partner.avatarUrl}
           name={partner.name}
         />
-        <Flex w="full" bgColor="white" pt={8} px={4} pl={`${imageSize}px`}>
+        <Flex
+          w="full"
+          bgColor="white"
+          pt={8}
+          pb={4}
+          px={4}
+          pl={`${imageSize}px`}
+          align="center"
+        >
           <Box>
             <Heading>{partner.name}</Heading>
           </Box>
           <Spacer />
-          <>
-            <Box>
+          <Flex>
+            <HStack spacing={4} mr={2}>
               {orgList.map((org) => (
-                <Avatar
+                <OrgAvatar
+                  certification={org.certification}
+                  showTag={false}
                   key={org.id}
                   name={org.name}
                   src={org.avatarUrl}
@@ -285,7 +297,7 @@ const AccountManagePage: NextPage = () => {
                   variant={"with-shadow"}
                 />
               ))}
-            </Box>
+            </HStack>
             <Button
               variant="outline"
               colorScheme="blue"
@@ -296,7 +308,7 @@ const AccountManagePage: NextPage = () => {
             >
               {t("my_org")}
             </Button>
-          </>
+          </Flex>
         </Flex>
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Box pr={4}>
@@ -311,20 +323,26 @@ const AccountManagePage: NextPage = () => {
               <Box textAlign="right">
                 <Button
                   leftIcon={<AiOutlinePlus />}
+                  variant="solid"
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={() => {
+                    push("/create/project");
+                  }}
+                >
+                  {t("new_project")}
+                </Button>
+                <Button
+                  leftIcon={<AiOutlinePlus />}
                   variant="outline"
                   colorScheme="blue"
                   borderStyle="dashed"
                   mr={3}
+                  onClick={() => {
+                    push("/create/org");
+                  }}
                 >
                   {t("new_org")}
-                </Button>
-                <Button
-                  leftIcon={<AiOutlinePlus />}
-                  variant="solid"
-                  colorScheme="blue"
-                  mr={3}
-                >
-                  {t("new_project")}
                 </Button>
               </Box>
             </Stack>

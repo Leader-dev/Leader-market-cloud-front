@@ -59,8 +59,6 @@ const OrgDetailsPage: NextPage = () => {
             size="2xl"
             src={orgInfo.avatarUrl}
             name={orgInfo.name}
-            showBorder={true}
-            borderWidth="3px"
             certification={orgInfo.certification}
           />
         </VStack>
