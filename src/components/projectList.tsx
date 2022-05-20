@@ -10,6 +10,7 @@ import {
   Spacer,
   Stack,
   VStack,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -30,7 +31,7 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
 }) => {
   const { push } = useRouter();
   return (
-    <SimpleGrid columns={3} spacingX={20} spacingY={20} py={10}>
+    <SimpleGrid columns={3} spacingX={20} spacingY={20} py={10} px={10} mt={2}>
       {projects.map((project) => {
         let date = new Date(parseInt(project.publishDate));
         return (
@@ -47,18 +48,13 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
               pos="relative"
               className="card"
             >
-              <UseImage
-                // width={4}
-                width="full"
-                // height={3}
-                objectFit="cover"
-                // priority={true}
-                src={project.coverUrl}
-                alt={project.coverUrl}
-                // placeholder="blur"
-                // blurDataURL={project.base64}
-                // title={project.title}
-              />
+              <AspectRatio w="full" ratio={3 / 2}>
+                <UseImage
+                  objectFit="cover"
+                  src={project.coverUrl}
+                  alt={"project coverUrl"}
+                />
+              </AspectRatio>
               <Flex
                 pos="absolute"
                 bottom={0}
@@ -115,19 +111,20 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
             onClick={() => {
               push(`/projects/${project.id}`);
             }}
-            align="center"
-            h="25vh"
-            maxH="250px"
+            align="top"
+            // maxH="250px"
           >
-            <Box w="30%" variant={"with-shadow"} h="full">
-              <UseImage
-                w="full"
-                h="full"
-                objectFit="cover"
-                borderRadius="20px"
-                src={project.coverUrl}
-                alt={project.coverUrl}
-              />
+            <Box w="30%" variant={"with-shadow"}>
+              <AspectRatio w="full" ratio={16 / 9}>
+                <UseImage
+                  w="full"
+                  h="full"
+                  objectFit="cover"
+                  borderRadius="20px"
+                  src={project.coverUrl}
+                  alt={project.coverUrl}
+                />
+              </AspectRatio>
               <Flex px={1} py={3} textStyle={"p"}>
                 <Box>
                   {/* {publishDate.getMonth() + 1}月{publishDate.getDate()}日,{" "}
@@ -147,8 +144,8 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
               h="full"
               ml={20}
               align="strech"
-              textColor="gray.600"
-              fontSize="18px"
+              textStyle={"p"}
+              fontWeight="normal"
               spacing={3}
             >
               <Flex
@@ -157,7 +154,7 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
                 textColor="black"
                 align={"center"}
               >
-                <Box fontSize="34px" fontWeight="bold">
+                <Box fontSize="35px" fontWeight="bold">
                   {project.title}
                 </Box>
                 <Tag
@@ -182,7 +179,7 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
                 <Icon mr={2} as={AiOutlineEnvironment} />
                 <Tags tags={project.tags} />
               </Flex>
-              <Text noOfLines={3}>{project.content}</Text>
+              <Text textStyle={"description"} noOfLines={3}>{project.content}</Text>
             </Stack>
           </Flex>
         );

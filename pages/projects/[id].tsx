@@ -80,16 +80,13 @@ const ProjectDetailPage: NextPage = () => {
         <Container maxW="4xl" minH="100vh" p={0} bg="white">
           <UseImage
             src={projectDetail.coverUrl}
-            // width={16}
-            // height={9}
             width="full"
-            layout="responsive"
             alt="Project Banner"
           />
           {/* Title */}
-          <Box px={6} py={6}>
+          <Box px={6} py={6} textStyle="p">
             <Flex mb={4}>
-              <Heading as="h1" size="lg">
+              <Heading as="h1" size="lg" color="black">
                 {projectDetail.title}
               </Heading>
               <Spacer />
@@ -108,7 +105,9 @@ const ProjectDetailPage: NextPage = () => {
               {endDate.toISOString().slice(0, 19).replace("T", " ")}
             </Flex>
             <Box>
-              {t("published_from")}
+              <Box textStyle={"pTitle"}>
+                {t("published_from")}
+              </Box>
               <Card
                 overflow="visible"
                 overflowX="visible"
@@ -197,12 +196,12 @@ const ProjectDetailPage: NextPage = () => {
               </Card>
             </Box>
             <Box>
-              <Box color="gray.600" mb={2} mt={8}>
+              <Box textStyle={"pTitle"} mb={2} mt={8}>
                 {t("project_description")}
               </Box>
-              <Box>
+              <Box textStyle="description">
                 {projectDetail.content.split("\n").map((l: any) => (
-                  <Box as="p" my={2} key={l}>
+                  <Box my={2} key={l}>
                     {l}
                   </Box>
                 ))}
