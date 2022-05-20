@@ -90,7 +90,7 @@ const OrgManagePage: NextPage = () => {
     ["orgManageRoles", orgId],
     getOrgManageRoles({ orgId: orgId })
   );
-  const { t } = useTranslation("org_account");
+  const { t } = useTranslation("account", { keyPrefix: "orgManage" });
 
   const [slogan, setSlogan] = useState<string>();
   const [description, setDescription] = useState<string>();
@@ -254,7 +254,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   return {
     props: {
       prefetchedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(ctx.locale!, ["common", "org_account"])),
+      ...(await serverSideTranslations(ctx.locale!, ["common", "account"])),
     },
   };
 };

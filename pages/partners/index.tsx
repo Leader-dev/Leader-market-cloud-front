@@ -43,7 +43,6 @@ const IndividualPartners = () => {
 };
 
 const OrganizationPartners = () => {
-  const { t } = useTranslation("organizations");
   const { push } = useRouter();
   const { data: orgList, isError } = useQuery("orgList", getOrgList({}));
 
@@ -70,8 +69,6 @@ const OrganizationPartners = () => {
                     name={org.name}
                     src={org.avatarUrl}
                     certification={org.certification}
-                    showBorder
-                    borderWidth="3px"
                   />
                 </Box>
               </Card.Content>
@@ -124,7 +121,7 @@ const PartnersPage: NextPage<
             fontSize="lg"
             px={4}
             py={3}
-            _selected={{ color: "black" }}
+            _selected={{ color: "black", fontSize: "150%" }}
           >
             {t("individuals")}
           </Tab>
@@ -133,7 +130,7 @@ const PartnersPage: NextPage<
             fontSize="lg"
             px={4}
             py={3}
-            _selected={{ color: "black" }}
+            _selected={{ color: "black", fontSize: "150%" }}
           >
             {t("organizations")}
           </Tab>

@@ -89,7 +89,7 @@ const PartnerDetailsPage: NextPage = () => {
       <Box px={8} py={2}>
         <Tabs>
           <TabList>
-            <Tab>{t("my_projects")}</Tab>
+            <Tab>{t("projects")}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

@@ -47,7 +47,7 @@ const IndexPage: NextPage = () => {
   return (
     <BasicLayout>
       <Box w="full" h="60vh" pos="relative">
-        <Carousel w="100%" h="100%" infinite autoSwipe={100000}>
+        <Carousel w="100%" h="100%" infinite autoSwipe={4}>
           <Box>
             <Image
               quality={100}

@@ -21,7 +21,7 @@ export type Project = EditableProject & {
   publishDate: Timestamp;
   updateDate: Timestamp;
   orgInfo: Org;
-  agentId: Id;
-  agentInfo: Agent;
+  publisherAgentId: Id;
+  publisherAgentInfo: Agent;
   readCount: number;
 };
