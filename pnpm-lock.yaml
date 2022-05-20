@@ -18,6 +18,7 @@ specifiers:
   browser-image-compression: ^2.0.0
   eslint: ^7.32.0
   eslint-config-next: 12.0.3
+  focus-visible: ^5.2.0
   formik: ^2.2.9
   framer-motion: ^4.1.17
   graphql: ^16.5.0
@@ -30,8 +31,10 @@ specifiers:
   next: 12.0.3
   next-i18next: ^10.2.0
   next-remote-watch: ^1.0.0
+  plaiceholder: ^2.3.0
   prettier: ^2.5.1
   react: 17.0.2
+  react-cookie: ^4.1.1
   react-dom: 17.0.2
   react-icons: ^4.3.1
   react-query: ^3.34.12
@@ -53,6 +56,7 @@ dependencies:
   "@lifeomic/axios-fetch": registry.npmmirror.com/@lifeomic/axios-fetch/3.0.0
   axios: 0.24.0
   browser-image-compression: registry.npmmirror.com/browser-image-compression/2.0.0
+  focus-visible: registry.npmmirror.com/focus-visible/5.2.0
   formik: 2.2.9_react@17.0.2
   framer-motion: 4.1.17_sfoxds7t5ydpegc3knd667wn6m
   graphql: registry.npmmirror.com/graphql/16.5.0
@@ -63,7 +67,9 @@ dependencies:
   msw: registry.npmmirror.com/msw/0.39.2
   next: 12.0.3_go62zf22nyzuysleb6vzdyvlwq
   next-i18next: 10.2.0_okzpd63gjvi7fbx3mssy4eclja
+  plaiceholder: registry.npmmirror.com/plaiceholder/2.3.0_sharp@0.29.3
   react: 17.0.2
+  react-cookie: registry.npmmirror.com/react-cookie/4.1.1_react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-icons: 4.3.1_react@17.0.2
   react-query: 3.34.12_sfoxds7t5ydpegc3knd667wn6m
@@ -9112,6 +9118,17 @@ packages:
     engines: { node: ">= 10" }
     dev: false
 
+  registry.npmmirror.com/@types/cookie/0.3.3:
+    resolution:
+      {
+        integrity: sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/@types/cookie/-/cookie-0.3.3.tgz,
+      }
+    name: "@types/cookie"
+    version: 0.3.3
+    dev: false
+
   registry.npmmirror.com/@types/cookie/0.4.1:
     resolution:
       {
@@ -9121,6 +9138,20 @@ packages:
       }
     name: "@types/cookie"
     version: 0.4.1
+    dev: false
+
+  registry.npmmirror.com/@types/hoist-non-react-statics/3.3.1:
+    resolution:
+      {
+        integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz,
+      }
+    name: "@types/hoist-non-react-statics"
+    version: 3.3.1
+    dependencies:
+      "@types/react": registry.npmmirror.com/@types/react/17.0.34
+      hoist-non-react-statics: registry.npmmirror.com/hoist-non-react-statics/3.3.2
     dev: false
 
   registry.npmmirror.com/@types/http-proxy/1.17.9:
@@ -9662,6 +9693,17 @@ packages:
       readable-stream: registry.npmmirror.com/readable-stream/3.6.0
     dev: false
 
+  registry.npmmirror.com/blurhash/1.1.4:
+    resolution:
+      {
+        integrity: sha512-MXIPz6zwYUKayju+Uidf83KhH0vodZfeRl6Ich8Gu+KGl0JgKiFq9LsfqV7cVU5fKD/AotmduZqvOfrGKOfTaA==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/blurhash/-/blurhash-1.1.4.tgz,
+      }
+    name: blurhash
+    version: 1.1.4
+    dev: false
+
   registry.npmmirror.com/brace-expansion/1.1.11:
     resolution:
       {
@@ -10173,6 +10215,18 @@ packages:
       }
     name: clone
     version: 1.0.4
+    engines: { node: ">=0.8" }
+    dev: false
+
+  registry.npmmirror.com/clone/2.1.2:
+    resolution:
+      {
+        integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/clone/-/clone-2.1.2.tgz,
+      }
+    name: clone
+    version: 2.1.2
     engines: { node: ">=0.8" }
     dev: false
 
@@ -11023,6 +11077,17 @@ packages:
       path-exists: registry.npmmirror.com/path-exists/4.0.0
     dev: false
 
+  registry.npmmirror.com/focus-visible/5.2.0:
+    resolution:
+      {
+        integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/focus-visible/-/focus-visible-5.2.0.tgz,
+      }
+    name: focus-visible
+    version: 5.2.0
+    dev: false
+
   registry.npmmirror.com/follow-redirects/1.14.7:
     resolution:
       {
@@ -11514,6 +11579,19 @@ packages:
     version: 3.0.7
     dev: false
 
+  registry.npmmirror.com/hoist-non-react-statics/3.3.2:
+    resolution:
+      {
+        integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz,
+      }
+    name: hoist-non-react-statics
+    version: 3.3.2
+    dependencies:
+      react-is: registry.npmmirror.com/react-is/16.13.1
+    dev: false
+
   registry.npmmirror.com/http-cache-semantics/4.1.0:
     resolution:
       {
@@ -11638,6 +11716,21 @@ packages:
     name: ignore
     version: 5.2.0
     engines: { node: ">= 4" }
+    dev: false
+
+  registry.npmmirror.com/image-size/1.0.0:
+    resolution:
+      {
+        integrity: sha512-JLJ6OwBfO1KcA+TvJT+v8gbE6iWbj24LyDNFgFEN0lzegn6cC6a/p3NIDaepMsJjQjlUWqIC7wJv8lBFxPNjcw==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/image-size/-/image-size-1.0.0.tgz,
+      }
+    name: image-size
+    version: 1.0.0
+    engines: { node: ">=12.0.0" }
+    hasBin: true
+    dependencies:
+      queue: registry.npmmirror.com/queue/6.0.2
     dev: false
 
   registry.npmmirror.com/immutable/3.7.6:
@@ -12869,6 +12962,20 @@ packages:
       tslib: registry.npmmirror.com/tslib/2.4.0
     dev: false
 
+  registry.npmmirror.com/node-cache/5.1.2:
+    resolution:
+      {
+        integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/node-cache/-/node-cache-5.1.2.tgz,
+      }
+    name: node-cache
+    version: 5.1.2
+    engines: { node: ">= 8.0.0" }
+    dependencies:
+      clone: registry.npmmirror.com/clone/2.1.2
+    dev: false
+
   registry.npmmirror.com/node-domexception/1.0.0:
     resolution:
       {
@@ -13389,6 +13496,28 @@ packages:
     version: 2.3.1
     engines: { node: ">=8.6" }
 
+  registry.npmmirror.com/plaiceholder/2.3.0_sharp@0.29.3:
+    resolution:
+      {
+        integrity: sha512-wy9UzjfZiDjk+QU8S5S30+AKnL4+hNtqELtTk0JD+4kCwkq0M7Po0YG1CU4E83WykW7f/ssVmEJq3hb3ZNqkbA==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/plaiceholder/-/plaiceholder-2.3.0.tgz,
+      }
+    id: registry.npmmirror.com/plaiceholder/2.3.0
+    name: plaiceholder
+    version: 2.3.0
+    peerDependencies:
+      sharp: ">= 0.26.2"
+    dependencies:
+      blurhash: registry.npmmirror.com/blurhash/1.1.4
+      image-size: registry.npmmirror.com/image-size/1.0.0
+      node-cache: registry.npmmirror.com/node-cache/5.1.2
+      node-fetch: registry.npmmirror.com/node-fetch/2.6.7
+      sharp: 0.29.3
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   registry.npmmirror.com/prepend-http/2.0.0:
     resolution:
       {
@@ -13439,6 +13568,19 @@ packages:
     version: 1.2.3
     dev: false
 
+  registry.npmmirror.com/queue/6.0.2:
+    resolution:
+      {
+        integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/queue/-/queue-6.0.2.tgz,
+      }
+    name: queue
+    version: 6.0.2
+    dependencies:
+      inherits: registry.npmmirror.com/inherits/2.0.4
+    dev: false
+
   registry.npmmirror.com/rc/1.2.8:
     resolution:
       {
@@ -13456,6 +13598,25 @@ packages:
       strip-json-comments: registry.npmmirror.com/strip-json-comments/2.0.1
     dev: false
 
+  registry.npmmirror.com/react-cookie/4.1.1_react@17.0.2:
+    resolution:
+      {
+        integrity: sha512-ffn7Y7G4bXiFbnE+dKhHhbP+b8I34mH9jqnm8Llhj89zF4nPxPutxHT1suUqMeCEhLDBI7InYwf1tpaSoK5w8A==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/react-cookie/-/react-cookie-4.1.1.tgz,
+      }
+    id: registry.npmmirror.com/react-cookie/4.1.1
+    name: react-cookie
+    version: 4.1.1
+    peerDependencies:
+      react: ">= 16.3.0"
+    dependencies:
+      "@types/hoist-non-react-statics": registry.npmmirror.com/@types/hoist-non-react-statics/3.3.1
+      hoist-non-react-statics: registry.npmmirror.com/hoist-non-react-statics/3.3.2
+      react: 17.0.2
+      universal-cookie: registry.npmmirror.com/universal-cookie/4.0.4
+    dev: false
+
   registry.npmmirror.com/react-fast-compare/3.2.0:
     resolution:
       {
@@ -13465,6 +13626,17 @@ packages:
       }
     name: react-fast-compare
     version: 3.2.0
+    dev: false
+
+  registry.npmmirror.com/react-is/16.13.1:
+    resolution:
+      {
+        integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/react-is/-/react-is-16.13.1.tgz,
+      }
+    name: react-is
+    version: 16.13.1
     dev: false
 
   registry.npmmirror.com/readable-stream/3.6.0:
@@ -14540,6 +14712,20 @@ packages:
     name: undici
     version: 5.1.1
     engines: { node: ">=12.18" }
+    dev: false
+
+  registry.npmmirror.com/universal-cookie/4.0.4:
+    resolution:
+      {
+        integrity: sha512-lbRVHoOMtItjWbM7TwDLdl8wug7izB0tq3/YVKhT/ahB4VDvWMyvnADfnJI8y6fSvsjh51Ix7lTGC6Tn4rMPhw==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/universal-cookie/-/universal-cookie-4.0.4.tgz,
+      }
+    name: universal-cookie
+    version: 4.0.4
+    dependencies:
+      "@types/cookie": registry.npmmirror.com/@types/cookie/0.3.3
+      cookie: registry.npmmirror.com/cookie/0.4.2
     dev: false
 
   registry.npmmirror.com/unixify/1.0.0:
