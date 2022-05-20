@@ -33,6 +33,16 @@ export default extendTheme({
       color: "grey",
       fontWeight: "semibold",
     },
+    description: {
+      fontSize: ["16px", "18px"],
+      color: "gray.700",
+      fontWeight: "normal",
+    },
+    pTitle: {
+      fontSize: ["20px", "22px"],
+      color: "grey",
+      fontWeight: "normal",
+    },
     title: {
       fontSize: ["36px", "40px"],
       fontWeight: "semibold",
