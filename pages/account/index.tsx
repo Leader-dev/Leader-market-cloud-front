@@ -60,7 +60,7 @@ import { Loading } from "src/components/loading";
 import { Error } from "src/components/error";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { useColorModeValue } from "@chakra-ui/system";
-import { OrgAvatar } from "src/components/image";
+import { OrgAvatar, UserAvatar } from "src/components/image";
 
 const ProjectPanel = ProjectsList;
 
@@ -261,7 +261,7 @@ const AccountManagePage: NextPage = () => {
   return (
     <BasicLayout pageTitle={`${partner.name}`}>
       <Box pb={12}>
-        <Avatar
+        <UserAvatar
           position="absolute"
           mt="24px"
           ml={`${imageMarginLeft}px`}
