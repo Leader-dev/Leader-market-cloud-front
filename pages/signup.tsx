@@ -22,10 +22,16 @@ import {
   InputLeftElement,
   Icon,
   InputProps,
-  Center,
+  Stack,
   Spacer,
   Flex,
   BoxProps,
+  InputLeftAddon,
+  useMultiStyleConfig,
+  useTab,
+  textDecoration,
+  ButtonProps,
+  Center,
 } from "@chakra-ui/react";
 import { Formik, Field, Form, FieldProps } from "formik";
 import * as Yup from "yup";
@@ -46,6 +52,7 @@ import {
 } from "react-icons/ai";
 import indexCover from "public/images/indexCover.png";
 import { Image } from "src/components/image";
+import React from "react";
 
 type ResponsiveLeftImageProps = {
   left: React.ReactNode;
@@ -85,7 +92,7 @@ const InputField = ({
   hide?: boolean;
   leftElement?: React.ReactNode;
   rightElement?: React.ReactNode;
-  placeholder: string;
+  placeholder?: string;
 }) => {
   const { t } = useTranslation("signup");
   const { t: te } = useTranslation("signup", { keyPrefix: "errors" });
@@ -98,7 +105,7 @@ const InputField = ({
         >
           {/* <FormLabel htmlFor={name}>{t(name)}</FormLabel> */}
           <InputGroup>
-            {leftElement && <InputLeftElement>{leftElement}</InputLeftElement>}
+            {leftElement}
             <Input
               {...field}
               {...props}
@@ -154,27 +161,37 @@ const Login = () => {
           <InputField
             name="username"
             placeholder={t("input_username")}
-            leftElement={<Icon as={AiOutlineUser} />}
+            leftElement={
+              <InputLeftElement>
+                <Icon as={AiOutlineUser} />
+              </InputLeftElement>
+            }
             mb={10}
           />
           <InputField
             name="password"
             hide
             placeholder={t("input_password")}
-            leftElement={<Icon as={AiOutlineKey} />}
+            leftElement={
+              <InputLeftElement>
+                <Icon as={AiOutlineKey} />
+              </InputLeftElement>
+            }
           />
-          <Button
-            w="full"
-            variant="solid"
-            colorScheme="blue"
-            type="submit"
-            mt={8}
-            borderRadius={"full"}
-            bgColor="#163CAA"
-            isLoading={props.isSubmitting}
-          >
-            {t("login")}
-          </Button>
+          <Center>
+            <Button
+              w="full"
+              variant="solid"
+              colorScheme="blue"
+              type="submit"
+              mt={10}
+              borderRadius={"full"}
+              bgColor="#163CAA"
+              isLoading={props.isSubmitting}
+            >
+              {t("login")}
+            </Button>
+          </Center>
         </Form>
       )}
     </Formik>
@@ -209,14 +226,18 @@ const RegisterStep1: React.FC<{
           <InputField
             name="phone_number"
             placeholder={t("input_phone_number")}
-            leftElement={<Icon as={AiOutlinePhone} />}
+            leftElement={<InputLeftAddon mr="1rem">+86</InputLeftAddon>}
             mb={10}
           />
           <InputField
             name="auth_code"
-            placeholder={t("input_auth_code")}
+            // placeholder={t("input_auth_code")}
             mb={10}
-            leftElement={<Icon as={AiOutlineMobile} />}
+            // leftElement={
+            //   <InputLeftAddon mr="1.5rem">
+            //     <Icon as={AiOutlineMobile} />
+            //   </InputLeftAddon>
+            // }
             rightElement={
               <Button
                 variant="link"
@@ -243,8 +264,8 @@ const RegisterStep1: React.FC<{
               }}
             >
               <Trans t={t} i18nKey="agree_eula">
-                I have read and agreed to the <SiteLink mx={1}>EULA</SiteLink>{" "}
-                and <SiteLink mx={2}>Privacy Policy</SiteLink>
+                I have read and agreed to the <SiteLink>EULA</SiteLink> and{" "}
+                <SiteLink>Privacy Policy</SiteLink>
               </Trans>
             </Checkbox>
             <FormErrorMessage>
@@ -351,19 +372,36 @@ const SignupBox = ({ ...props }: BoxProps) => {
   const { t } = useTranslation("signup");
   return (
     <Box {...props}>
-      <Tabs isFitted>
-        <TabList>
-          <Tab>{t("login")}</Tab>
-          <Tab>{t("register")}</Tab>
-        </TabList>
-        <TabPanels py={5}>
-          <TabPanel>
-            <Login />
-          </TabPanel>
-          <TabPanel>
-            <Register />
-          </TabPanel>
-        </TabPanels>
+      <Tabs variant={"unstyled"}>
+        <Stack h="full" align="stretch">
+          <TabList w="full">
+            <Flex w="full" px={"10%"}>
+              <Tab
+                _selected={{ borderBottom: "4px solid #163CAA" }}
+                fontWeight="bold"
+                fontSize={["34px", "30px"]}
+              >
+                {t("login")}
+              </Tab>
+              <Spacer />
+              <Tab
+                _selected={{ borderBottom: "4px solid #163CAA" }}
+                fontWeight="bold"
+                fontSize={["36px", "32px"]}
+              >
+                {t("register")}
+              </Tab>
+            </Flex>
+          </TabList>
+          <TabPanels py={5}>
+            <TabPanel>
+              <Login />
+            </TabPanel>
+            <TabPanel>
+              <Register />
+            </TabPanel>
+          </TabPanels>
+        </Stack>
       </Tabs>
     </Box>
   );
@@ -375,9 +413,9 @@ const SignupPage: NextPage = () => {
       {/* <ResponsiveLeftImage left={<Box w="600px" h="400px" pos="relative" ><Image layout="fill" borderRadius="30px" src={indexCover} /></Box>}>
         <SignupBox />
       </ResponsiveLeftImage> */}
-      <Flex px="10vw" py={20} h="100%" align="center">
-        <Box w="40%" h="100%" pos="relative">
-          <Image borderRadius="30px" src={indexCover} />
+      <Flex px="10vw" w="full" h="40vh" align="center" pt="20vh">
+        <Box w="40%" pos="relative">
+          <Image layout="responsive" borderRadius="30px" src={indexCover} />
         </Box>
         <Spacer />
         <SignupBox w="30vw" />
