@@ -11,7 +11,13 @@
     "partners": "Partners"
   },
   "errors": {
-    "not_logged_in": "Not loggin",
-    "not_logged_in_description": "You must be loggin in to view this page."
+    "not_logged_in": "Not logged in",
+    "not_logged_in_description": "You must be login in to view this page.",
+    "jump_to_login": "Login"
+  },
+  "org_certification": {
+    "social_org": "Company",
+    "school": "College",
+    "student_org": "Student Club"
   }
 }

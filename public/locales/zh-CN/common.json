@@ -12,6 +12,12 @@
   },
   "errors": {
     "not_logged_in": "需要登陆",
-    "not_logged_in_description": "您还没有登录，请先登录"
+    "not_logged_in_description": "您还没有登录，请先登录",
+    "jump_to_login": "前往登录"
+  },
+  "org_certification": {
+    "social_org": "社会企业",
+    "school": "高等院校",
+    "student_org": "社团组织"
   }
 }

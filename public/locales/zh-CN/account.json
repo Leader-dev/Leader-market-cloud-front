@@ -5,5 +5,20 @@
   "drafts": "草稿",
   "settings": "设置",
   "show_contacts": "显示",
-  "hide_contacts": "隐藏"
+  "hide_contacts": "隐藏",
+  "partners_want_to_collab_with_you": "已有<1>一位</1>合作方希望与您合作",
+  "partners_want_to_collab_with_you_plural": "已有<1>{{count}}</1>位合作方希望与您合作",
+  "partnersYouInterestedIn": "您感兴趣的合作方",
+  "my_org": "我的组织",
+  "new_org": "新建组织",
+  "new_project": "新建项目",
+  "no_org": "暂无组织",
+  "orgManage": {
+    "members": "成员",
+    "projects": "项目活动",
+    "settings": "设置",
+    "org_description": "组织简介",
+    "org_slogan": "品牌标语",
+    "my_org": "我的组织"
+  }
 }
