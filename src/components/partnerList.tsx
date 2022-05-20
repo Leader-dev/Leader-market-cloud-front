@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Card } from "src/components/card";
 import { Divider } from "src/components/divider";
@@ -37,6 +37,7 @@ export const PartnerList: React.FC<{
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
   const loggedIn = useLoginStatus();
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
@@ -48,10 +49,22 @@ export const PartnerList: React.FC<{
         isCentered
       >
         <AlertDialogOverlay />
-        <AlertDialogContent pb={4}>
+        <AlertDialogContent>
           <AlertDialogHeader>{te("not_logged_in")}</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>{te("not_logged_in_description")}</AlertDialogBody>
+          <AlertDialogFooter>
+            <Button
+              colorScheme={"blue"}
+              isLoading={loading}
+              onClick={() => {
+                setLoading(true);
+                push("/signup");
+              }}
+            >
+              {te("jump_to_login")}
+            </Button>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
       <Grid bg="#F5F5F5" templateColumns="repeat(3, 1fr)" gap={10} p={8}>
