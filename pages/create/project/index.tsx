@@ -36,10 +36,11 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { dehydrate, QueryClient } from "react-query";
+import { dehydrate, QueryClient, useQuery } from "react-query";
 import publishProject from "services/project/manage/publishProject";
 import { EditableProject } from "types/project";
 import * as Yup from "yup";
+import getOrgManageList from "services/org/manage/getOrgManageList";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
@@ -81,7 +82,10 @@ const NewProjectPage: NextPage = () => {
   const { isOpen, onOpen: onDelete, onClose } = useDisclosure();
   const cancelRef = useRef();
   const { back } = useRouter();
-  const [cover, setCover] = useState<File>();
+  const { data: orgManageList } = useQuery(
+    "orgManageList",
+    getOrgManageList({})
+  );
 
   const initialValues: Omit<EditableProject, "coverUrl"> & {
     coverUrl: File | null;
@@ -133,7 +137,7 @@ const NewProjectPage: NextPage = () => {
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           console.log("submit", values);
-          values.status = "active";
+          values.draft = false;
           publishProject(values)
             .then(() => {
               setSubmitting(false);
@@ -179,7 +183,7 @@ const NewProjectPage: NextPage = () => {
                     src={URL.createObjectURL(props.values.coverUrl)}
                     w="100%"
                     maxH="40vh"
-                    // objectFit={"cover"}
+                    alt="none"
                     layout="fill"
                   />
                 ) : (
