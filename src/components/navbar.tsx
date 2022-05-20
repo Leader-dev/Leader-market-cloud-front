@@ -61,7 +61,7 @@ const NavBarHeading = ({
 }) => {
   return (
     <HStack py={5} px={4} spacing={4}>
-      <Image src={LeaderCloud} />
+      <Image src={LeaderCloud} alt="leader cloud" />
       <Heading as="h1" size="md" fontWeight="medium" color="white">
         {title} · {subtitle}
       </Heading>

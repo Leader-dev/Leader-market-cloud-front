@@ -1,8 +1,8 @@
-import NextImage from "next/image";
+import NextImage, { ImageProps } from "next/image";
 import { Avatar, AvatarProps, Box, chakra, Tag } from "@chakra-ui/react";
 import accessStartUrl from "services/image/accessStartUrl";
-import { useQuery } from "react-query";
 import { useTranslation } from "next-i18next";
+import { useQuery } from "react-query";
 
 export const Image = chakra(NextImage, {
   baseStyle: { maxH: 120, maxW: 120 },
@@ -18,13 +18,14 @@ export const Image = chakra(NextImage, {
       "blurDataURL",
       "layout",
       "loader",
+      "priority",
     ].includes(prop);
   },
 });
 
-export const UseImage = ({ src, ...props }: { src: string }) => {
-  const { data: startUrl } = useQuery("startUrl", accessStartUrl({}));
-  return <Image src={startUrl + src} {...props} />;
+export const UseImage = ({ src, ...props }: ImageProps & { src: string }) => {
+  const startUrl = "https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/";
+  return <Image src={startUrl + src} alt={src} {...props} />;
 };
 
 export const UserAvatar = ({
@@ -32,11 +33,7 @@ export const UserAvatar = ({
   children,
   ...props
 }: AvatarProps & { src: string }) => {
-  const { data: startUrl, isLoading } = useQuery(
-    "startUrl",
-    accessStartUrl({})
-  );
-  if (isLoading) return <Avatar {...props} />;
+  const startUrl = "https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/";
   return (
     <Avatar src={startUrl + src} {...props}>
       {children}
@@ -63,12 +60,17 @@ export const OrgAvatar = ({
     bgGradient = "linear(45deg, #42B290, #008D3C)";
   }
 
-  const { t } = useTranslation("organizations");
+  const { t } = useTranslation("common", { keyPrefix: "org_certification" });
 
   return (
     <>
-      <UserAvatar src={src} bgGradient={bgGradient} {...props} />
-      {showTag && (
+      <UserAvatar
+        src={src}
+        bgGradient={bgGradient}
+        p={bgGradient ? "3px" : 0}
+        {...props}
+      />
+      {showTag && certification !== "" && (
         <Box mt={2}>
           <Tag
             borderRadius="full"
@@ -76,6 +78,7 @@ export const OrgAvatar = ({
             px={4}
             py={1}
             color="white"
+            s
           >
             {t(certification)}
           </Tag>

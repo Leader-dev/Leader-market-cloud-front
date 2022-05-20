@@ -41,7 +41,7 @@ const Footer = () => {
       <Grid templateColumns="repeat(4, 1fr)" gap={4} p={8} pb={14}>
         <GridItem colSpan={2}>
           <Box h="80%" w="40%" pos="relative">
-            <Image layout="fill" src={LeaderCloud} />
+            <Image layout="fill" src={LeaderCloud} alt="leader cloud" />
           </Box>
         </GridItem>
         <GridItem colSpan={1}>

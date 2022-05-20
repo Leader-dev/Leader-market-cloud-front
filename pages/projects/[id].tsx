@@ -35,6 +35,7 @@ import {
   AiOutlineStar,
 } from "react-icons/ai";
 import { Card } from "src/components/card";
+import { UseImage } from "src/components/image";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
@@ -68,6 +69,8 @@ const ProjectDetailPage: NextPage = () => {
   if (isError) return <Error />;
   if (!projectDetail) return <Loading />;
 
+  const { publisherAgentInfo } = projectDetail;
+
   const startDate = new Date(parseInt(projectDetail.startDate));
   const endDate = new Date(parseInt(projectDetail.endDate));
 
@@ -75,7 +78,13 @@ const ProjectDetailPage: NextPage = () => {
     <BasicLayout pageTitle={`${projectDetail.title}`}>
       <Box w="full" bg="gray.100">
         <Container maxW="4xl" minH="100vh" p={0} bg="white">
-          <Image src={projectDetail.coverUrl} w="full" alt="Project Banner" />
+          <UseImage
+            src={projectDetail.coverUrl}
+            width={16}
+            height={9}
+            layout="responsive"
+            alt="Project Banner"
+          />
           {/* Title */}
           <Box px={6} py={6}>
             <Flex mb={4}>
@@ -103,7 +112,7 @@ const ProjectDetailPage: NextPage = () => {
                 overflow="visible"
                 overflowX="visible"
                 variant="interactive"
-                onClick={() => push(`/partners/${projectDetail.agentInfo.id}`)}
+                onClick={() => push(`/partners/${publisherAgentInfo.id}`)}
                 w={"50%"}
                 mt={10}
                 ml={-1}
@@ -120,19 +129,19 @@ const ProjectDetailPage: NextPage = () => {
                   >
                     <Avatar
                       size="xl"
-                      name={projectDetail.agentInfo.name}
-                      src={projectDetail.agentInfo.avatarUrl}
+                      name={publisherAgentInfo.name}
+                      src={publisherAgentInfo.avatarUrl}
                       pointerEvents="auto"
                     />
                     <Spacer />
-                    {projectDetail.agentInfo.interested ? (
-                      projectDetail.agentInfo.showContact ? (
+                    {publisherAgentInfo.interested ? (
+                      publisherAgentInfo.showContact ? (
                         <Box pt={1} textAlign="right">
-                          {projectDetail.agentInfo.phone && (
-                            <Box>{projectDetail.agentInfo.phone}</Box>
+                          {publisherAgentInfo.phone && (
+                            <Box>{publisherAgentInfo.phone}</Box>
                           )}
-                          {projectDetail.agentInfo.email && (
-                            <Box>{projectDetail.agentInfo.email}</Box>
+                          {publisherAgentInfo.email && (
+                            <Box>{publisherAgentInfo.email}</Box>
                           )}
                         </Box>
                       ) : (
@@ -142,7 +151,7 @@ const ProjectDetailPage: NextPage = () => {
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
-                          alert(`${projectDetail.agentInfo.name} liked!`);
+                          alert(`${publisherAgentInfo.name} liked!`);
                         }}
                         variant="solid"
                         colorScheme="blue"
@@ -161,7 +170,7 @@ const ProjectDetailPage: NextPage = () => {
                       mb={-2}
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert(`${projectDetail.agentInfo.name} followed!`);
+                        alert(`${publisherAgentInfo.name} followed!`);
                       }}
                       aria-label="follow"
                       icon={<Icon w={6} h={6} as={AiOutlineStar} />}
@@ -170,10 +179,10 @@ const ProjectDetailPage: NextPage = () => {
                   </Flex>
                 </Card.Content>
                 <Card.Title pb={0} mb={1}>
-                  {projectDetail.agentInfo.name}
+                  {publisherAgentInfo.name}
                 </Card.Title>
                 <Card.Subtitle pt={0} mt={0} mb={2} pb={1}>
-                  {projectDetail.agentInfo.orgInfo && (
+                  {publisherAgentInfo.orgInfo && (
                     <Box>
                       <SiteLink
                         color="blue.600"
