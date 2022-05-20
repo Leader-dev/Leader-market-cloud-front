@@ -10,9 +10,10 @@ import type { Agent } from "types/user";
 import type { Project } from "types/project";
 import { Box, Center } from "@chakra-ui/react";
 import getAllProjects from "services/project/getAllProjects";
-import { useQuery } from "react-query";
+import { dehydrate, QueryClient, useQuery } from "react-query";
 import { Loading } from "src/components/loading";
 import { Error } from "src/components/error";
+import getProjectList from "services/project/manage/getProjectList";
 
 const ProjectsPage: NextPage = () => {
   const { t } = useTranslation("projects");
@@ -39,10 +40,16 @@ const ProjectsPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale!, ["common", "projects"])),
-  },
-});
+export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(["projectList"], getProjectList({}));
+
+  return {
+    props: {
+      prefetchedState: dehydrate(queryClient),
+      ...(await serverSideTranslations(ctx.locale!, ["common", "projects"])),
+    },
+  };
+};
 
 export default ProjectsPage;
