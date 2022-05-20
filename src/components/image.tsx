@@ -1,5 +1,5 @@
 import NextImage, { ImageProps } from "next/image";
-import { Avatar, AvatarProps, Box, chakra, Tag } from "@chakra-ui/react";
+import { Avatar, AvatarProps, Box, chakra, Tag, Img } from "@chakra-ui/react";
 import accessStartUrl from "services/image/accessStartUrl";
 import { useTranslation } from "next-i18next";
 import { useQuery } from "react-query";
@@ -17,15 +17,19 @@ export const Image = chakra(NextImage, {
       "objectFit",
       "blurDataURL",
       "layout",
-      "loader",
+      // "loader",
       "priority",
     ].includes(prop);
   },
 });
 
+const myLoader = ({ src }: { src: string }) => {
+  return `https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/${src}`;
+};
+
 export const UseImage = ({ src, ...props }: ImageProps & { src: string }) => {
   const startUrl = "https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/";
-  return <Image src={startUrl + src} alt={src} {...props} />;
+  return <Img src={startUrl + src} alt={src} {...props} />;
 };
 
 export const UserAvatar = ({

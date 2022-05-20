@@ -47,8 +47,9 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
               className="card"
             >
               <UseImage
-                width={4}
-                height={3}
+                // width={4}
+                width="full"
+                // height={3}
                 layout="responsive"
                 // priority={true}
                 src={project.coverUrl}

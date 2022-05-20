@@ -80,8 +80,9 @@ const ProjectDetailPage: NextPage = () => {
         <Container maxW="4xl" minH="100vh" p={0} bg="white">
           <UseImage
             src={projectDetail.coverUrl}
-            width={16}
-            height={9}
+            // width={16}
+            // height={9}
+            width="full"
             layout="responsive"
             alt="Project Banner"
           />
