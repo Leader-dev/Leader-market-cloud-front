@@ -105,9 +105,7 @@ const ProjectDetailPage: NextPage = () => {
               {endDate.toISOString().slice(0, 19).replace("T", " ")}
             </Flex>
             <Box>
-              <Box textStyle={"pTitle"}>
-                {t("published_from")}
-              </Box>
+              <Box textStyle={"pTitle"}>{t("published_from")}</Box>
               <Card
                 overflow="visible"
                 overflowX="visible"

@@ -179,7 +179,9 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
                 <Icon mr={2} as={AiOutlineEnvironment} />
                 <Tags tags={project.tags} />
               </Flex>
-              <Text textStyle={"description"} noOfLines={3}>{project.content}</Text>
+              <Text textStyle={"description"} noOfLines={3}>
+                {project.content}
+              </Text>
             </Stack>
           </Flex>
         );
