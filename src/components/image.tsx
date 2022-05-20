@@ -23,12 +23,11 @@ export const Image = chakra(NextImage, {
   },
 });
 
-const myLoader = ({ src }: { src: string }) => {
-  return `https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/${src}`;
-};
 
 export const UseImage = ({ src, ...props }: ImageProps & { src: string }) => {
-  const startUrl = "https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/";
+  const {data: startUrl} = useQuery("startUrl", accessStartUrl({}));
+  if (!startUrl) return <Img {...props} />
+  
   return <Img src={startUrl + src} alt={src} {...props} />;
 };
 
@@ -37,7 +36,8 @@ export const UserAvatar = ({
   children,
   ...props
 }: AvatarProps & { src: string }) => {
-  const startUrl = "https://leader-static-test.oss-cn-shenzhen.aliyuncs.com/";
+  const {data: startUrl} = useQuery("startUrl", accessStartUrl({}));
+  if (!startUrl) return <Avatar {...props} />
   return (
     <Avatar src={startUrl + src} {...props}>
       {children}
