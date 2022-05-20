@@ -55,9 +55,9 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
                 // priority={true}
                 src={project.coverUrl}
                 alt={project.coverUrl}
-              // placeholder="blur"
-              // blurDataURL={project.base64}
-              // title={project.title}
+                // placeholder="blur"
+                // blurDataURL={project.base64}
+                // title={project.title}
               />
               <Flex
                 pos="absolute"
@@ -77,9 +77,7 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
                   },
                 }}
               >
-                <Text isTruncated>
-                  {project.title}
-                </Text>
+                <Text isTruncated>{project.title}</Text>
               </Flex>
             </Box>
             <Flex px={1} py={3} align="center">
@@ -153,8 +151,15 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
               fontSize="18px"
               spacing={3}
             >
-              <Flex justify="space-between" w={"100%"} textColor="black" align={"center"}>
-                <Box fontSize="34px" fontWeight="bold">{project.title}</Box>
+              <Flex
+                justify="space-between"
+                w={"100%"}
+                textColor="black"
+                align={"center"}
+              >
+                <Box fontSize="34px" fontWeight="bold">
+                  {project.title}
+                </Box>
                 <Tag
                   colorScheme="blue"
                   variant={"outline"}
@@ -165,12 +170,8 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
                 </Tag>
               </Flex>
               <Flex align={"center"}>
-                <UserAvatar
-                  src={project.publisherAgentInfo.avatarUrl}
-                />
-                <Box ml={4}>
-                  {project.publisherAgentInfo.name}
-                </Box>
+                <UserAvatar src={project.publisherAgentInfo.avatarUrl} />
+                <Box ml={4}>{project.publisherAgentInfo.name}</Box>
               </Flex>
               <Flex align={"center"}>
                 <Icon mr={2} as={AiOutlineClockCircle} />

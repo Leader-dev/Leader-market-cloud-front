@@ -1,5 +1,13 @@
 import NextImage from "next/image";
-import { Avatar, AvatarProps, Box, chakra, Tag, Img, ImgProps } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarProps,
+  Box,
+  chakra,
+  Tag,
+  Img,
+  ImgProps,
+} from "@chakra-ui/react";
 import accessStartUrl from "services/image/accessStartUrl";
 import { useTranslation } from "next-i18next";
 import { useQuery } from "react-query";
