@@ -9,6 +9,7 @@ import {
   Icon,
   Spacer,
   Stack,
+  VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -20,7 +21,7 @@ import {
   AiOutlineEnvironment,
   AiOutlineEye,
 } from "react-icons/ai";
-import { UseImage } from "src/components/image";
+import { UseImage, UserAvatar } from "src/components/image";
 
 type ProjectInfo = Omit<Project, "draft">;
 
@@ -50,13 +51,13 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
                 // width={4}
                 width="full"
                 // height={3}
-                layout="responsive"
+                objectFit="cover"
                 // priority={true}
                 src={project.coverUrl}
                 alt={project.coverUrl}
-                // placeholder="blur"
-                // blurDataURL={project.base64}
-                // title={project.title}
+              // placeholder="blur"
+              // blurDataURL={project.base64}
+              // title={project.title}
               />
               <Flex
                 pos="absolute"
@@ -69,14 +70,16 @@ export const ProjectsList: React.FC<{ projects: ProjectInfo[] }> = ({
                 align="center"
                 textStyle={"p"}
                 px={5}
-                bgGradient="linear-gradient(180deg, transparent 5%, rgba(20,20,20,0.7))"
+                bgGradient="linear-gradient(180deg, transparent 10%, rgba(20,20,20,0.7))"
                 sx={{
                   ".card:hover &": {
                     visibility: "visible",
                   },
                 }}
               >
-                {project.title}
+                <Text isTruncated>
+                  {project.title}
+                </Text>
               </Flex>
             </Box>
             <Flex px={1} py={3} align="center">
@@ -103,7 +106,7 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
   const { push } = useRouter();
   const { t } = useTranslation("projects");
   return (
-    <Stack align="stretch" spacing={4}>
+    <Stack spacing={4} my={10}>
       {projects.map((project) => {
         const publishDate = new Date(parseInt(project.publishDate));
         const startDate = new Date(parseInt(project.startDate));
@@ -114,18 +117,20 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
             onClick={() => {
               push(`/projects/${project.id}`);
             }}
+            align="center"
+            h="25vh"
+            maxH="250px"
           >
-            <Box w="30%" variant={"with-shadow"}>
-              <Box borderRadius="20px" overflow="hidden">
-                <UseImage
-                  width={4}
-                  height={3}
-                  layout="responsive"
-                  src={project.coverUrl}
-                  alt={project.coverUrl}
-                />
-              </Box>
-              <Flex px={1} py={3}>
+            <Box w="30%" variant={"with-shadow"} h="full">
+              <UseImage
+                w="full"
+                h="full"
+                objectFit="cover"
+                borderRadius="20px"
+                src={project.coverUrl}
+                alt={project.coverUrl}
+              />
+              <Flex px={1} py={3} textStyle={"p"}>
                 <Box>
                   {/* {publishDate.getMonth() + 1}月{publishDate.getDate()}日,{" "}
                   {publishDate.getFullYear()} */}
@@ -139,9 +144,17 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
               </Flex>
             </Box>
 
-            <Stack flex="1" pl={20}>
-              <Flex justify="space-between" w={"100%"} align={"center"}>
-                <Box textStyle="title">{project.title}</Box>
+            <Stack
+              flex="1"
+              h="full"
+              ml={20}
+              align="strech"
+              textColor="gray.600"
+              fontSize="18px"
+              spacing={3}
+            >
+              <Flex justify="space-between" w={"100%"} textColor="black" align={"center"}>
+                <Box fontSize="34px" fontWeight="bold">{project.title}</Box>
                 <Tag
                   colorScheme="blue"
                   variant={"outline"}
@@ -152,17 +165,11 @@ export const ProjectsPanelList: React.FC<{ projects: ProjectInfo[] }> = ({
                 </Tag>
               </Flex>
               <Flex align={"center"}>
-                <Avatar
-                  src={
-                    project.publisherAgentId
-                      ? project.publisherAgentInfo.avatarUrl
-                      : project.orgInfo.avatarUrl
-                  }
+                <UserAvatar
+                  src={project.publisherAgentInfo.avatarUrl}
                 />
                 <Box ml={4}>
-                  {project.publisherAgentId
-                    ? project.publisherAgentInfo.name
-                    : project.orgInfo.name}
+                  {project.publisherAgentInfo.name}
                 </Box>
               </Flex>
               <Flex align={"center"}>

@@ -70,7 +70,7 @@ const OrgDetailsPage: NextPage = () => {
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Text>{orgInfo.description}</Text>
         </Flex>
-        <Box ml={10} py={4} textStyle={"slogan"}>
+        <Box ml={10} mt={20} textStyle={"slogan"}>
           {orgInfo.slogan}
         </Box>
       </Box>
