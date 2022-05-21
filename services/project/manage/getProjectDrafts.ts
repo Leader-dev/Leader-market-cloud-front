@@ -6,5 +6,5 @@ type DraftProject = Omit<Project, "draft">;
 
 export default createService<DraftProject[]>({
   url: () => "/mc/project/manage/drafts",
-  get: (url) => request.post(url).then(({ data }) => data.list),
+  get: (url) => request.post(url).then(({ data }) => data.drafts),
 });

@@ -9,5 +9,5 @@ type getInterestedAgentResponse = {
 
 export default createService<getInterestedAgentResponse>({
   url: () => "/mc/agent/interest/list",
-  get: (url) => request.post(url).then(({ data }) => data.list),
+  get: (url) => request.post(url).then(({ data }) => data.data),
 });
