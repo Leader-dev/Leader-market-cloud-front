@@ -42,8 +42,8 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const id = ctx.query.id as string;
 
   // query organization with id
-  await queryClient.prefetchQuery(getProjectDetail({ projectId: id }))
-  
+  await queryClient.prefetchQuery(getProjectDetail({ projectId: id }));
+
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
@@ -55,7 +55,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 const ProjectDetailPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
-  const { data: projectDetail, isError } = useQuery(getProjectDetail({ projectId: id }));
+  const { data: projectDetail, isError } = useQuery(
+    getProjectDetail({ projectId: id })
+  );
   const { t } = useTranslation("projects");
   const { push } = useRouter();
 

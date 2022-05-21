@@ -155,7 +155,7 @@ const PartnersPage: NextPage<
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
   await Promise.all([
-    queryClient.prefetchQuery(getAgentList({})), 
+    queryClient.prefetchQuery(getAgentList({})),
     queryClient.prefetchQuery(getOrgList({})),
   ]);
 

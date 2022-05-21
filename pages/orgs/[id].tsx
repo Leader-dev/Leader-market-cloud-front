@@ -32,8 +32,12 @@ import { OrgAvatar } from "src/components/image";
 const OrgDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
-  const { data: orgInfo, isError: orgError } = useQuery(getOrgDetail({ orgId: id }));
-  const { data: projects, isError: projectsError } = useQuery(getOrgProjects({ orgId: id }));
+  const { data: orgInfo, isError: orgError } = useQuery(
+    getOrgDetail({ orgId: id })
+  );
+  const { data: projects, isError: projectsError } = useQuery(
+    getOrgProjects({ orgId: id })
+  );
 
   const { t } = useTranslation("organizations");
 

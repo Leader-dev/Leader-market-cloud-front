@@ -41,8 +41,12 @@ const ProjectPanel = ProjectsList;
 const PartnerDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
-  const { data: agent, isError: agentError } = useQuery(getAgentDetail({ agentId: id }));
-  const { data: projects, isError: projectsError } = useQuery(getAgentProjects({ agentId: id }));
+  const { data: agent, isError: agentError } = useQuery(
+    getAgentDetail({ agentId: id })
+  );
+  const { data: projects, isError: projectsError } = useQuery(
+    getAgentProjects({ agentId: id })
+  );
 
   const { t } = useTranslation("partners");
 

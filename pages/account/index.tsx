@@ -222,8 +222,12 @@ const Settings = () => {
 
 const AccountManagePage: NextPage = () => {
   const { data: partner, isError: partnerError } = useQuery(getAgentInfo({}));
-  const { data: projects, isError: projectsError } = useQuery(getProjectList({}));
-  const { data: orgList, isError: orgListError } = useQuery(getOrgManageList({}));
+  const { data: projects, isError: projectsError } = useQuery(
+    getProjectList({})
+  );
+  const { data: orgList, isError: orgListError } = useQuery(
+    getOrgManageList({})
+  );
   const { t } = useTranslation("account");
   const { push } = useRouter();
 
