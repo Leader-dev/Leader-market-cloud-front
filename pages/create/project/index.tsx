@@ -44,10 +44,11 @@ import getOrgManageList from "services/org/manage/getOrgManageList";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(getOrgManageList({}));
 
   return {
     props: {
-      prefetchedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale!, ["common", "create"])),
     },
   };
@@ -82,10 +83,7 @@ const NewProjectPage: NextPage = () => {
   const { isOpen, onOpen: onDelete, onClose } = useDisclosure();
   const cancelRef = useRef();
   const { back } = useRouter();
-  const { data: orgManageList } = useQuery(
-    "orgManageList",
-    getOrgManageList({})
-  );
+  const { data: orgManageList } = useQuery(getOrgManageList({}));
 
   const initialValues: Omit<EditableProject, "coverUrl"> & {
     coverUrl: File | null;

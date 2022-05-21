@@ -41,14 +41,8 @@ const ProjectPanel = ProjectsList;
 const PartnerDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
-  const { data: agent, isError: agentError } = useQuery(
-    ["agentDetail", id],
-    getAgentDetail({ agentId: id })
-  );
-  const { data: projects, isError: projectsError } = useQuery(
-    ["agentProjects", id],
-    getAgentProjects({ agentId: id })
-  );
+  const { data: agent, isError: agentError } = useQuery(getAgentDetail({ agentId: id }));
+  const { data: projects, isError: projectsError } = useQuery(getAgentProjects({ agentId: id }));
 
   const { t } = useTranslation("partners");
 
@@ -108,14 +102,12 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query partner with id
   await Promise.all([
-    queryClient.prefetchQuery(
-      ["agentDetail", id],
-      getAgentDetail({ agentId: id })
-    ),
+    queryClient.prefetchQuery(getAgentDetail({ agentId: id })),
+    queryClient.prefetchQuery(getAgentProjects({ agentId: id })),
   ]);
   return {
     props: {
-      prefetchedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale!, ["common", "partners"])),
     },
   };

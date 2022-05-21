@@ -27,19 +27,13 @@ import getOrgProjects from "services/project/getOrgProjects";
 import { ProjectsPanelList } from "src/components/projectList";
 import { Error } from "src/components/error";
 import { Loading } from "src/components/loading";
-import { OrgAvatar, UserAvatar } from "src/components/image";
+import { OrgAvatar } from "src/components/image";
 
 const OrgDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
-  const { data: orgInfo, isError: orgError } = useQuery(
-    ["orgDetail", id],
-    getOrgDetail({ orgId: id })
-  );
-  const { data: projects, isError: projectsError } = useQuery(
-    ["orgProjects", id],
-    getOrgProjects({ orgId: id })
-  );
+  const { data: orgInfo, isError: orgError } = useQuery(getOrgDetail({ orgId: id }));
+  const { data: projects, isError: projectsError } = useQuery(getOrgProjects({ orgId: id }));
 
   const { t } = useTranslation("organizations");
 
@@ -96,11 +90,12 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query organization with id
   await Promise.all([
-    queryClient.prefetchQuery(["orgDetail", id], getOrgDetail({ orgId: id })),
+    queryClient.prefetchQuery(getOrgDetail({ orgId: id })),
+    queryClient.prefetchQuery(getOrgProjects({ orgId: id })),
   ]);
   return {
     props: {
-      prefetchedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale!, [
         "common",
         "organizations",

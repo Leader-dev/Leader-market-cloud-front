@@ -24,7 +24,7 @@ function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.prefetchedState}>
+      <Hydrate state={pageProps.dehydratedState}>
         <ChakraProvider theme={theme}>
           <Global styles={GlobalStyles} />
           <Fonts />

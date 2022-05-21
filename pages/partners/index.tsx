@@ -38,13 +38,13 @@ import { Loading } from "src/components/loading";
 import { OrgAvatar, UserAvatar } from "src/components/image";
 
 const IndividualPartners = () => {
-  const { data: partners } = useQuery("agentList", getAgentList({}));
+  const { data: partners } = useQuery(getAgentList({}));
   return <PartnerList partners={partners!} />;
 };
 
 const OrganizationPartners = () => {
   const { push } = useRouter();
-  const { data: orgList, isError } = useQuery("orgList", getOrgList({}));
+  const { data: orgList, isError } = useQuery(getOrgList({}));
 
   if (isError) return <Error />;
   if (!orgList) return <Loading />;
@@ -154,11 +154,14 @@ const PartnersPage: NextPage<
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(["agentList"], getAgentList({}));
+  await Promise.all([
+    queryClient.prefetchQuery(getAgentList({})), 
+    queryClient.prefetchQuery(getOrgList({})),
+  ]);
 
   return {
     props: {
-      prefetchedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale!, ["common", "partners"])),
     },
   };

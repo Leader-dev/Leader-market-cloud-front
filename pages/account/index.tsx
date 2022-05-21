@@ -66,10 +66,7 @@ const ProjectPanel = ProjectsList;
 
 const CollabWanted = () => {
   const { t } = useTranslation("account");
-  const { data, isLoading } = useQuery(
-    "interestedAgentList",
-    getInterestedAgentList({})
-  );
+  const { data, isLoading } = useQuery(getInterestedAgentList({}));
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
@@ -99,10 +96,7 @@ const CollabWanted = () => {
 };
 
 const Favorites = () => {
-  const { data, isLoading } = useQuery(
-    "agentFavoriteList",
-    getAgentFavoriteList({})
-  );
+  const { data, isLoading } = useQuery(getAgentFavoriteList({}));
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
@@ -110,7 +104,7 @@ const Favorites = () => {
 };
 
 const Drafts = () => {
-  const { data, isLoading } = useQuery("drafts", getDrafts({}));
+  const { data, isLoading } = useQuery(getDrafts({}));
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
@@ -118,14 +112,13 @@ const Drafts = () => {
 };
 
 const Settings = () => {
-  const partner = useQuery("agentInfo", getAgentInfo({})).data!;
+  const partner = useQuery(getAgentInfo({})).data!;
   const { t } = useTranslation("account");
 
   const [mobile, setMobile] = useState(
     partner.showContact ? partner.phone : ""
   );
   const [email, setEmail] = useState(partner.showContact ? partner.email : "");
-
   const [mobileEdit, setMobileEdit] = useState(false);
   const [emailEdit, setEmailEdit] = useState(false);
 
@@ -228,18 +221,9 @@ const Settings = () => {
 };
 
 const AccountManagePage: NextPage = () => {
-  const { data: partner, isError: partnerError } = useQuery(
-    "agentInfo",
-    getAgentInfo({})
-  );
-  const { data: projects, isError: projectsError } = useQuery(
-    "ProjectList",
-    getProjectList({})
-  );
-  const { data: orgList, isError: orgListError } = useQuery(
-    "OrgManageList",
-    getOrgManageList({})
-  );
+  const { data: partner, isError: partnerError } = useQuery(getAgentInfo({}));
+  const { data: projects, isError: projectsError } = useQuery(getProjectList({}));
+  const { data: orgList, isError: orgListError } = useQuery(getOrgManageList({}));
   const { t } = useTranslation("account");
   const { push } = useRouter();
 
@@ -386,11 +370,16 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
   // query partner with id
   await Promise.all([
-    queryClient.prefetchQuery(["agentInfo"], getAgentInfo({})),
+    queryClient.prefetchQuery(getAgentInfo({})),
+    queryClient.prefetchQuery(getProjectList({})),
+    queryClient.prefetchQuery(getOrgManageList({})),
+    queryClient.prefetchQuery(getDrafts({})),
+    queryClient.prefetchQuery(getInterestedAgentList({})),
+    queryClient.prefetchQuery(getAgentFavoriteList({})),
   ]);
   return {
     props: {
-      prefetchedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale!, ["common", "account"])),
     },
   };

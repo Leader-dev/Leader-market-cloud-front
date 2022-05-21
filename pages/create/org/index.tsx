@@ -42,11 +42,8 @@ import { EditableOrg } from "types/user";
 import createOrg from "services/org/manage/createOrg";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
-  const queryClient = new QueryClient();
-
   return {
     props: {
-      prefetchedState: dehydrate(queryClient),
       ...(await serverSideTranslations(ctx.locale!, ["common", "create"])),
     },
   };
