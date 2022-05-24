@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, Hydrate, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { appWithTranslation } from "next-i18next";
 import "focus-visible/dist/focus-visible";
 import theme from "themes";
@@ -21,10 +22,21 @@ const GlobalStyles = css`
 `;
 
 function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 300 * 1000,
+          },
+        },
+      })
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <ChakraProvider theme={theme}>
           <Global styles={GlobalStyles} />
           <Fonts />
