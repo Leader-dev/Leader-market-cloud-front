@@ -17,10 +17,10 @@ const ProjectsPage: NextPage = () => {
   const { t } = useTranslation("projects");
 
   // TODO: use react-query
-  const { isError, data } = useQuery(getAllProjects({}));
+  const { isError, data, isLoading } = useQuery(getAllProjects({}));
 
   if (isError) return <Error />;
-  if (!data) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <BasicLayout pageTitle={t("pageTitle")}>

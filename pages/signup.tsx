@@ -121,7 +121,7 @@ const InputField = ({
               <InputRightElement w="5.5rem">{rightElement}</InputRightElement>
             )}
           </InputGroup>
-          <FormErrorMessage >{te(form.errors[name] as string)}</FormErrorMessage>
+          <FormErrorMessage>{te(form.errors[name] as string)}</FormErrorMessage>
         </FormControl>
       )}
     </Field>
@@ -213,7 +213,7 @@ const RegisterStep1: React.FC<{
   const cookies = new Cookies();
   const [getAuthText, setGetAuthText] = useState<string>(t("send_auth_code"));
   const [disable, setDisable] = useState<boolean>(false);
-  
+
   return (
     <Formik
       initialValues={{
@@ -257,27 +257,31 @@ const RegisterStep1: React.FC<{
                 h="1.5rem"
                 disabled={disable}
                 onClick={() => {
-                  props.setFieldTouched("phone_number", true, true)
+                  props.setFieldTouched("phone_number", true, true);
                   if (props.errors.phone_number) return;
                   setDisable(true);
                   getAuthCode({ phone: props.values.phone_number }).then(() => {
-                    cookies.set('countdown', '60', { path: '/', maxAge: 61 });
+                    cookies.set("countdown", "60", { path: "/", maxAge: 61 });
                     let timer = setInterval(() => {
-                      if (cookies.get('countdown') !== '0') {
-                        const countdown = (parseInt(cookies.get('countdown')) - 1).toString();
-                        cookies.set('countdown', countdown, {
-                          path: '/',
+                      if (cookies.get("countdown") !== "0") {
+                        const countdown = (
+                          parseInt(cookies.get("countdown")) - 1
+                        ).toString();
+                        cookies.set("countdown", countdown, {
+                          path: "/",
                           maxAge: 60,
                         });
-                        setGetAuthText(`${t('send_auth_code')} (${countdown}s)`);
+                        setGetAuthText(
+                          `${t("send_auth_code")} (${countdown}s)`
+                        );
                       } else {
                         clearInterval(timer);
-                        cookies.remove('countdown', { path: '/' });
-                        setGetAuthText(t('send_auth_code_again'));
+                        cookies.remove("countdown", { path: "/" });
+                        setGetAuthText(t("send_auth_code_again"));
                         setDisable(false);
                       }
-                    }, 1000)
-                  })
+                    }, 1000);
+                  });
                 }}
               >
                 {getAuthText}

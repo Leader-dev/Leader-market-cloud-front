@@ -19,6 +19,8 @@ import {
   Box,
   InputProps,
   Textarea,
+  AspectRatio,
+  Container,
 } from "@chakra-ui/react";
 import {
   ErrorMessage,
@@ -36,7 +38,13 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { dehydrate, QueryClient, useQuery } from "react-query";
+import {
+  dehydrate,
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import publishProject from "services/project/manage/publishProject";
 import { EditableProject } from "types/project";
 import * as Yup from "yup";
@@ -56,17 +64,15 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 
 const TextField = ({
   label,
-  multipleLine = false,
+  as,
   ...props
-}: { label?: string; multipleLine?: boolean } & FieldHookConfig<string> &
-  InputProps) => {
+}: { label?: string } & FieldHookConfig<string> & InputProps) => {
   const [field, meta] = useField(props);
-  // const { t } = useTranslation("create");
   const { t: te } = useTranslation("create", { keyPrefix: "errors" });
   return (
     <FormControl isInvalid={!!(meta.error && meta.touched)}>
       {label ?? <FormLabel>{label}</FormLabel>}
-      <Field as={multipleLine ? Textarea : Input} {...field} {...props} />
+      <Field as={as} {...field} {...props} />
       <FormErrorMessage>{meta.error && te(meta.error)}</FormErrorMessage>
     </FormControl>
   );
@@ -78,6 +84,10 @@ const NewProjectSchema = Yup.object().shape({
   content: Yup.string().required("content.required"),
 });
 
+type CreateProjectInfo = Omit<EditableProject, "coverUrl"> & {
+  coverUrl: File | null;
+};
+
 const NewProjectPage: NextPage = () => {
   const { t } = useTranslation("project");
   const { isOpen, onOpen: onDelete, onClose } = useDisclosure();
@@ -85,9 +95,7 @@ const NewProjectPage: NextPage = () => {
   const { back } = useRouter();
   const { data: orgManageList } = useQuery(getOrgManageList({}));
 
-  const initialValues: Omit<EditableProject, "coverUrl"> & {
-    coverUrl: File | null;
-  } = {
+  const initialValues: CreateProjectInfo = {
     coverUrl: null,
     title: "",
     status: "active",
@@ -99,6 +107,23 @@ const NewProjectPage: NextPage = () => {
     imageUrls: [],
     draft: true,
   };
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (values: CreateProjectInfo) => {
+      return publishProject(values);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("/mc/project/list/all");
+        queryClient.invalidateQueries("/mc/project/manage/list");
+        back();
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
 
   return (
     <BasicLayout>
@@ -136,19 +161,12 @@ const NewProjectPage: NextPage = () => {
         onSubmit={(values, { setSubmitting }) => {
           console.log("submit", values);
           values.draft = false;
-          publishProject(values)
-            .then(() => {
-              setSubmitting(false);
-              back();
-            })
-            .catch(() => {
-              setSubmitting(false);
-              // TODO: handle error
-            });
+          mutation.mutate(values);
+          setSubmitting(false);
         }}
         validationSchema={NewProjectSchema}
       >
-        {(props) => (
+        {({ values, isSubmitting, setFieldValue }) => (
           <Form>
             <HStack
               w="100vw"
@@ -168,17 +186,17 @@ const NewProjectPage: NextPage = () => {
                 variant={"solid"}
                 type="submit"
                 colorScheme={"blue"}
-                isLoading={props.isSubmitting}
+                isLoading={isSubmitting}
               >
                 {t("publish")}
               </Button>
             </HStack>
 
-            <Box px={40}>
+            <Container maxW="4xl" p={0} bg="white">
               <label>
-                {props.values.coverUrl ? (
+                {values.coverUrl ? (
                   <Image
-                    src={URL.createObjectURL(props.values.coverUrl)}
+                    src={URL.createObjectURL(values.coverUrl)}
                     w="100%"
                     maxH="40vh"
                     alt="none"
@@ -193,10 +211,7 @@ const NewProjectPage: NextPage = () => {
                   hidden
                   accept="image/*"
                   onChange={(e: any) => {
-                    props.setFieldValue(
-                      "coverUrl",
-                      e.currentTarget.files[0] as File
-                    );
+                    setFieldValue("coverUrl", e.currentTarget.files[0] as File);
                   }}
                 />
                 <Box color={"red.500"}>
@@ -204,21 +219,24 @@ const NewProjectPage: NextPage = () => {
                 </Box>
               </label>
 
-              <TextField
-                name="title"
-                variant="flushed"
-                placeholder="enter project title"
-                type="text"
-              />
-              <TextField
-                name="content"
-                variant="flushed"
-                placeholder="enter project content"
-                type="text"
-                label={t("content")}
-                multipleLine={true}
-              />
-            </Box>
+              <Box px={6}>
+                <TextField
+                  name="title"
+                  variant="flushed"
+                  placeholder="enter project title"
+                  as={Input}
+                  type="text"
+                />
+                <TextField
+                  name="content"
+                  variant="flushed"
+                  placeholder="enter project content"
+                  type="text"
+                  label={t("content")}
+                  as={Textarea}
+                />
+              </Box>
+            </Container>
           </Form>
         )}
       </Formik>
