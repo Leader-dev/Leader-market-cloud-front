@@ -1,7 +1,6 @@
 import { request } from "utils/request";
 
 import { getPublicKey } from "./getPublicKey";
-import { createService } from "../index";
 
 type LoginParams = {
   phone: string;
@@ -17,7 +16,7 @@ export const login = async (data: LoginParams) => {
     encrypt.setKey(publicKey);
     data.password = encrypt.encrypt(data.password) || null;
   }
-  await request.post("/account/user/login", data, {
+  await request.post("/user/login", data, {
     codeHandlers: {
       400: ({ response }) => {
         throw response.data.error;

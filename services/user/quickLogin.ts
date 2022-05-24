@@ -7,6 +7,6 @@ type QuickLoginParams = {
 };
 
 export default createService<any, QuickLoginParams>({
-  url: () => "/account/user/quick-login",
+  url: () => "/user/quick-login",
   get: (url) => request.post(url).then(({ data }) => data),
 });

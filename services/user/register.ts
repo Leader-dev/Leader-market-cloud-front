@@ -1,5 +1,4 @@
 import { request } from "utils/request";
-import { createService } from "services";
 import { getPublicKey } from "./getPublicKey";
 
 type RegisterParams = {
@@ -18,7 +17,7 @@ export const register = async (data: RegisterParams) => {
   crypt.setKey(publicKey);
   const encryptedPassword = crypt.encrypt(password);
   await request.post(
-    "/account/user/register",
+    "/user/register",
     { ...data, password: encryptedPassword },
     {
       codeHandlers: {
