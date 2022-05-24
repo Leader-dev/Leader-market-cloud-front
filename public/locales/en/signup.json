@@ -6,6 +6,7 @@
   "auth_code": "Auth Code",
   "password": "Password",
   "send_auth_code": "Get Auth Code",
+  "send_auth_code_again": "Get again",
   "next_step": "Next Step",
   "agree_eula": "I have read and agree<1>User Agreement</1>and<4>Privacy Policy</4>",
   "input_username": "Please input your username",
@@ -23,7 +24,8 @@
       "required": "Phone number cannot be empty"
     },
     "a": {
-      "required": "Auth code cannot be empty"
+      "required": "Auth code cannot be empty",
+      "invalid": "Auth code is invalid"
     },
     "l": {
       "required": "Please agree with User Agreement"

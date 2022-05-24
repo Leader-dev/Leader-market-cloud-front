@@ -53,6 +53,8 @@ import {
 import indexCover from "public/images/indexCover.png";
 import { Image } from "src/components/image";
 import React from "react";
+import { checkAuthCode } from "services/user/checkAuthcode";
+import { Cookies } from "react-cookie";
 
 type ResponsiveLeftImageProps = {
   left: React.ReactNode;
@@ -119,7 +121,7 @@ const InputField = ({
               <InputRightElement w="5.5rem">{rightElement}</InputRightElement>
             )}
           </InputGroup>
-          <FormErrorMessage>{te(form.errors[name] as string)}</FormErrorMessage>
+          <FormErrorMessage >{te(form.errors[name] as string)}</FormErrorMessage>
         </FormControl>
       )}
     </Field>
@@ -166,14 +168,14 @@ const Login = () => {
                 <Icon as={AiOutlineUser} />
               </InputLeftElement>
             }
-            mb={10}
           />
           <InputField
             name="password"
+            mt={5}
             hide
             placeholder={t("input_password")}
             leftElement={
-              <InputLeftElement>
+              <InputLeftElement mt={5}>
                 <Icon as={AiOutlineKey} />
               </InputLeftElement>
             }
@@ -208,6 +210,10 @@ const RegisterStep1: React.FC<{
   cb: (phone: string, authCode: string) => void;
 }> = ({ cb }) => {
   const { t } = useTranslation("signup");
+  const cookies = new Cookies();
+  const [getAuthText, setGetAuthText] = useState<string>(t("send_auth_code"));
+  const [disable, setDisable] = useState<boolean>(false);
+  
   return (
     <Formik
       initialValues={{
@@ -216,9 +222,19 @@ const RegisterStep1: React.FC<{
         agree: false,
       }}
       validationSchema={RegisterStep1Schema}
-      onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(false);
-        cb(values.phone_number, values.auth_code);
+      onSubmit={(values, { setSubmitting, setErrors }) => {
+        checkAuthCode({
+          phone: values.phone_number,
+          authcode: values.auth_code,
+        })
+          .then(() => {
+            setSubmitting(false);
+            cb(values.phone_number, values.auth_code);
+          })
+          .catch(() => {
+            setErrors({ auth_code: "a.invalid" });
+            setSubmitting(false);
+          });
       }}
     >
       {(props) => (
@@ -226,33 +242,51 @@ const RegisterStep1: React.FC<{
           <InputField
             name="phone_number"
             placeholder={t("input_phone_number")}
-            leftElement={<InputLeftAddon mr="1rem">+86</InputLeftAddon>}
-            mb={10}
+            paddingLeft={2}
+            leftElement={<InputLeftAddon>+86</InputLeftAddon>}
+            // mb={10}
           />
           <InputField
             name="auth_code"
             // placeholder={t("input_auth_code")}
-            mb={10}
-            // leftElement={
-            //   <InputLeftAddon mr="1.5rem">
-            //     <Icon as={AiOutlineMobile} />
-            //   </InputLeftAddon>
-            // }
+            // mb={10}
             rightElement={
               <Button
                 variant="link"
                 size="sm"
                 h="1.5rem"
+                disabled={disable}
                 onClick={() => {
-                  getAuthCode({ phone: props.values.phone_number });
+                  props.setFieldTouched("phone_number", true, true)
+                  if (props.errors.phone_number) return;
+                  setDisable(true);
+                  getAuthCode({ phone: props.values.phone_number }).then(() => {
+                    cookies.set('countdown', '60', { path: '/', maxAge: 61 });
+                    let timer = setInterval(() => {
+                      if (cookies.get('countdown') !== '0') {
+                        const countdown = (parseInt(cookies.get('countdown')) - 1).toString();
+                        cookies.set('countdown', countdown, {
+                          path: '/',
+                          maxAge: 60,
+                        });
+                        setGetAuthText(`${t('send_auth_code')} (${countdown}s)`);
+                      } else {
+                        clearInterval(timer);
+                        cookies.remove('countdown', { path: '/' });
+                        setGetAuthText(t('send_auth_code_again'));
+                        setDisable(false);
+                      }
+                    }, 1000)
+                  })
                 }}
               >
-                {t("send_auth_code")}
+                {getAuthText}
               </Button>
             }
           />
           <FormControl
             mb={3}
+            mt={10}
             isInvalid={!!(props.errors.agree && props.touched.agree)}
           >
             <Checkbox
@@ -317,14 +351,14 @@ const RegisterStep2: React.FC<{
             name="username"
             placeholder={t("input_username")}
             leftElement={<Icon as={AiOutlineUser} />}
-            mb={5}
+            // mb={5}
           />
           <InputField
             name="password"
             hide
             placeholder={t("input_password")}
             leftElement={<Icon as={AiOutlineKey} />}
-            mb={5}
+            // mb={5}
           />
           <Button
             w="full"
