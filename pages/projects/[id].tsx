@@ -34,8 +34,9 @@ import {
   AiOutlineEye,
   AiOutlineStar,
 } from "react-icons/ai";
-import { Card } from "src/components/card";
 import { UseImage } from "src/components/image";
+import { AgentCard } from "src/components/partnerList";
+import readProject from "services/project/readProject";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
@@ -55,11 +56,11 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 const ProjectDetailPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
+  readProject(id);
   const { data: projectDetail, isError } = useQuery(
     getProjectDetail({ projectId: id })
   );
   const { t } = useTranslation("projects");
-  const { push } = useRouter();
 
   if (isError) return <Error />;
   if (!projectDetail) return <Loading />;
@@ -101,92 +102,15 @@ const ProjectDetailPage: NextPage = () => {
             </Flex>
             <Box>
               <Box textStyle={"pTitle"}>{t("published_from")}</Box>
-              <Card
-                overflow="visible"
-                overflowX="visible"
-                variant="interactive"
-                onClick={() => push(`/partners/${publisherAgentInfo.id}`)}
+              <AgentCard
+                partner={publisherAgentInfo}
+                showFooter={false}
                 w={"50%"}
                 mt={10}
                 ml={-1}
                 pl={5}
-                pb={1}
-              >
-                <Card.Content>
-                  <Flex
-                    mt={-8}
-                    align="center"
-                    position="relative"
-                    zIndex={1}
-                    pointerEvents="none"
-                  >
-                    <Avatar
-                      size="xl"
-                      name={publisherAgentInfo.name}
-                      src={publisherAgentInfo.avatarUrl}
-                      pointerEvents="auto"
-                    />
-                    <Spacer />
-                    {publisherAgentInfo.interested ? (
-                      publisherAgentInfo.showContact ? (
-                        <Box pt={1} textAlign="right">
-                          {publisherAgentInfo.phone && (
-                            <Box>{publisherAgentInfo.phone}</Box>
-                          )}
-                          {publisherAgentInfo.email && (
-                            <Box>{publisherAgentInfo.email}</Box>
-                          )}
-                        </Box>
-                      ) : (
-                        <Box pt={2}>{t("not_show_to_public")}</Box>
-                      )
-                    ) : (
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          alert(`${publisherAgentInfo.name} liked!`);
-                        }}
-                        variant="solid"
-                        colorScheme="blue"
-                        borderRadius="full"
-                        size="sm"
-                        mr={2}
-                        mb={-2}
-                        pointerEvents="auto"
-                      >
-                        {t("interested")}
-                      </Button>
-                    )}
-
-                    <IconButton
-                      variant="ghost"
-                      mb={-2}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        alert(`${publisherAgentInfo.name} followed!`);
-                      }}
-                      aria-label="follow"
-                      icon={<Icon w={6} h={6} as={AiOutlineStar} />}
-                      pointerEvents="auto"
-                    />
-                  </Flex>
-                </Card.Content>
-                <Card.Title pb={0} mb={1}>
-                  {publisherAgentInfo.name}
-                </Card.Title>
-                <Card.Subtitle pt={0} mt={0} mb={2} pb={1}>
-                  {publisherAgentInfo.orgInfo && (
-                    <Box>
-                      <SiteLink
-                        color="blue.600"
-                        href={`/orgs/${projectDetail.orgInfo.id}`}
-                      >
-                        @{projectDetail.orgInfo.name}
-                      </SiteLink>
-                    </Box>
-                  )}
-                </Card.Subtitle>
-              </Card>
+                pb={5}
+              />
             </Box>
             <Box>
               <Box textStyle={"pTitle"} mb={2} mt={8}>
