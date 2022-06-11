@@ -16,6 +16,7 @@ export type Agent = EditableAgent & {
   avatarUrl: string;
   orgInfo: Org;
   interested: boolean;
+  favorite: boolean;
   projectCount: number;
   readCount: number;
 };
