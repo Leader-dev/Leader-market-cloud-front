@@ -48,7 +48,7 @@ import { useState } from "react";
 
 import { BasicLayout } from "src/layouts/basicLayout";
 import { ProjectsList } from "src/components/projectList";
-import { PartnerList } from "src/components/partnerList";
+import { AgentList } from "src/components/partnerList";
 
 import getDrafts from "services/project/manage/getProjectDrafts";
 import getAgentFavoriteList from "services/agent/favorite/getAgentFavoriteList";
@@ -85,11 +85,11 @@ const CollabWanted = () => {
         </Trans>
       </Box>
       <Box>
-        <PartnerList partners={beingInterested} />
+        <AgentList partners={beingInterested} />
       </Box>
       <Box>{t("partnersYouInterestedIn")}</Box>
       <Box>
-        <PartnerList partners={interests} />
+        <AgentList partners={interests} />
       </Box>
     </Box>
   );
@@ -100,7 +100,7 @@ const Favorites = () => {
 
   if (isLoading || !data) return <Spinner size="xl" />;
 
-  return <PartnerList partners={data} />;
+  return <AgentList partners={data} />;
 };
 
 const Drafts = () => {

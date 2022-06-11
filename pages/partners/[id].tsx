@@ -38,7 +38,7 @@ import { Loading } from "src/components/loading";
 
 const ProjectPanel = ProjectsList;
 
-const PartnerDetailsPage: NextPage = () => {
+const AgentDetailsPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
   const { data: agent, isError: agentError } = useQuery(
@@ -117,4 +117,4 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   };
 };
 
-export default PartnerDetailsPage;
+export default AgentDetailsPage;

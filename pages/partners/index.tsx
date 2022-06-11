@@ -29,7 +29,7 @@ import { SiteLink } from "src/components/siteLink";
 import { SearchBar } from "src/components/searchBar";
 import { Card } from "src/components/card";
 import { Divider } from "src/components/divider";
-import { PartnerList } from "src/components/partnerList";
+import { AgentList } from "src/components/partnerList";
 
 import getAgentList from "services/agent/getAgentList";
 import getOrgList from "services/org/getOrgList";
@@ -39,7 +39,7 @@ import { OrgAvatar, UserAvatar } from "src/components/image";
 
 const IndividualPartners = () => {
   const { data: partners } = useQuery(getAgentList({}));
-  return <PartnerList partners={partners!} />;
+  return <AgentList partners={partners!} />;
 };
 
 const OrganizationPartners = () => {
