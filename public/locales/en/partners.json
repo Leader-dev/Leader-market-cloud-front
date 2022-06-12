@@ -4,5 +4,8 @@
   "organizations": "Organizations",
   "no_org": "No Organizations",
   "interested": "Send Interest",
-  "projects": "Projects"
+  "projects": "Projects",
+  "no_contact_info": "Contact not available",
+  "interest_sent_title": "Interest Sent",
+  "interest_sent_description": "Your interest has been sent to the agent."
 }

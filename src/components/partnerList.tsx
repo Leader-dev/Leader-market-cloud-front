@@ -6,7 +6,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Avatar,
   Box,
   BoxProps,
   Button,
@@ -18,6 +17,7 @@ import {
   IconButton,
   Spacer,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -28,8 +28,10 @@ import { Divider } from "src/components/divider";
 import { Agent } from "types/user";
 import { useLoginStatus } from "utils/auth";
 import { UserAvatar } from "src/components/image";
-import { useSendInterestToAgent } from "services/agent/interest/sendInterestToAgent";
-import { useAddFavariteAgent } from "services/agent/favorite/addFavoriteAgent";
+import { sendInterestToAgent } from "services/agent/interest/sendInterestToAgent";
+import { addFavoriteAgent } from "services/agent/favorite/addFavoriteAgent";
+import { useMutation, useQueryClient } from "react-query";
+import { Id } from "types/common";
 
 export const AgentCard: React.FC<
   { partner: Agent; showFooter?: boolean } & BoxProps
@@ -41,8 +43,80 @@ export const AgentCard: React.FC<
   const cancelRef = useRef(null);
   const loggedIn = useLoginStatus();
   const [loading, setLoading] = useState(false);
-  const { mutate: sendInterest } = useSendInterestToAgent(partner.id);
-  const { mutate: addFavorite } = useAddFavariteAgent(partner.id);
+
+  let contactInfo = <Box pt={2}>{t("no_contact_info")}</Box>;
+  if (partner.showContact && (partner.phone || partner.email)) {
+    contactInfo = (
+      <Box pt={1} textAlign="right">
+        {partner.phone && <Box>{partner.phone}</Box>}
+        {partner.email && <Box>{partner.email}</Box>}
+      </Box>
+    );
+  }
+
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const sendInterest = useMutation(sendInterestToAgent, {
+    onMutate: async (agentId: Id) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(["/mc/agent/list", {}]);
+
+      // Snapshot the previous value
+      const previousAgents = queryClient.getQueryData(["/mc/agent/list", {}]);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(["/mc/agent/list", {}], (old) =>
+        // @ts-ignore
+        old.map((agent: Agent) =>
+          agent.id === agentId ? { ...agent, interested: true } : agent
+        )
+      );
+
+      toast({
+        title: t("interest_sent_title"),
+        description: t("interest_sent_description"),
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+      // Return a context object with the snapshotted value
+      return { previousAgents };
+    },
+    // If the mutation fails, use the context returned from onMutate to roll back
+    onError: (err, updatedAgent, context) => {
+      queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      // queryClient.invalidateQueries(["/mc/agent/list", {}]);
+      queryClient.invalidateQueries(["/mc/agent/interest/list", {}]);
+    },
+  });
+
+  const addFavorite = useMutation(addFavoriteAgent, {
+    onMutate: async (agentId: Id) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(["/mc/agent/list", {}]);
+
+      // Snapshot the previous value
+      const previousAgents = queryClient.getQueryData(["/mc/agent/list", {}]);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(["/mc/agent/list", {}], (old) =>
+        // @ts-ignore
+        old.map((agent: Agent) =>
+          agent.id === agentId ? { ...agent, favorite: !agent.favorite } : agent
+        )
+      );
+      // Return a context object with the snapshotted value
+      return { previousAgents };
+    },
+    // If the mutation fails, use the context returned from onMutate to roll back
+    onError: (err, updatedAgent, context) => {
+      queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
+    },
+  });
+
 
   return (
     <>
@@ -77,7 +151,6 @@ export const AgentCard: React.FC<
         overflow="visible"
         overflowX="visible"
         variant="interactive"
-        // href={`/partner/${partner.id}`}
         onClick={() => push(`/partners/${partner.id}`)}
         px={4}
         {...props}
@@ -98,25 +171,16 @@ export const AgentCard: React.FC<
               pointerEvents="auto"
             />
             <Spacer />
-            {partner.interested ? (
-              partner.showContact ? (
-                <Box pt={1} textAlign="right">
-                  {partner.phone && <Box>{partner.phone}</Box>}
-                  {partner.email && <Box>{partner.email}</Box>}
-                </Box>
-              ) : (
-                <Box pt={2}>{t("not_show_to_public")}</Box>
-              )
-            ) : (
+            {partner.interested || (partner.userId === loggedIn) ? contactInfo : (
               <Button
                 onClick={(e) => {
                   if (!loggedIn) {
-                    onOpen();
                     e.stopPropagation();
+                    onOpen();
                   } else {
                     e.stopPropagation();
-                    // alert(`${partner.name} send interest!`);
-                    sendInterest(partner.id);
+                    sendInterest.mutate(partner.id);
+                    // sendInterest(partner.id);
                   }
                 }}
                 variant="solid"
@@ -140,8 +204,7 @@ export const AgentCard: React.FC<
                   e.stopPropagation();
                 } else {
                   e.stopPropagation();
-                  // alert(`${partner.name} favorited!`);
-                  addFavorite(partner.id);
+                  addFavorite.mutate(partner.id);
                 }
               }}
               aria-label="favorite"

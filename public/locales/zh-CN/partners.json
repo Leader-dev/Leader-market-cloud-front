@@ -4,5 +4,8 @@
   "organizations": "组织",
   "no_org": "暂无组织",
   "interested": "求合作",
-  "projects": "项目活动"
+  "projects": "项目活动",
+  "no_contact_info": "暂无联系方式",
+  "interest_sent_title": "合作请求已发送",
+  "interest_sent_description": "已向该合作方发送了合作请求，请耐心等待回复。"
 }
