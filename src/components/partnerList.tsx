@@ -23,7 +23,12 @@ import {
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { AiFillHeart, AiOutlineHeart, AiOutlineMail, AiOutlineMobile } from "react-icons/ai";
+import {
+  AiFillHeart,
+  AiOutlineHeart,
+  AiOutlineMail,
+  AiOutlineMobile,
+} from "react-icons/ai";
 import { Card } from "src/components/card";
 import { Divider } from "src/components/divider";
 import { Agent } from "types/user";
@@ -49,26 +54,18 @@ export const AgentCard: React.FC<
   if (partner.showContact && (partner.phone || partner.email)) {
     contactInfo = (
       <Stack pt={2} align="flex-end" spacing={0}>
-        {partner.phone &&
+        {partner.phone && (
           <Flex align="center">
             {partner.phone}
-            <Icon
-              as={AiOutlineMobile}
-              color="blue.500"
-              ml={1}
-              w={4}
-              h={4} />
-          </Flex>}
-        {partner.email &&
+            <Icon as={AiOutlineMobile} color="blue.500" ml={1} w={4} h={4} />
+          </Flex>
+        )}
+        {partner.email && (
           <Flex align="center">
             {partner.email}
-            <Icon
-              as={AiOutlineMail}
-              color="blue.500"
-              ml={1}
-              w={4}
-              h={4} />
-          </Flex>}
+            <Icon as={AiOutlineMail} color="blue.500" ml={1} w={4} h={4} />
+          </Flex>
+        )}
       </Stack>
     );
   }
@@ -215,7 +212,7 @@ export const AgentCard: React.FC<
               </Button>
             )}
 
-            {partner.userId !== loggedIn ?
+            {partner.userId !== loggedIn ? (
               <IconButton
                 variant="ghost"
                 mb={-2}
@@ -239,9 +236,7 @@ export const AgentCard: React.FC<
                 }
                 pointerEvents="auto"
               />
-              : null
-            }
-
+            ) : null}
           </Flex>
         </Card.Content>
         <Card.Title pb={0} mb={1}>
