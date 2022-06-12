@@ -16,13 +16,14 @@ import {
   Icon,
   IconButton,
   Spacer,
+  Stack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineMail, AiOutlineMobile } from "react-icons/ai";
 import { Card } from "src/components/card";
 import { Divider } from "src/components/divider";
 import { Agent } from "types/user";
@@ -47,10 +48,28 @@ export const AgentCard: React.FC<
   let contactInfo = <Box pt={2}>{t("no_contact_info")}</Box>;
   if (partner.showContact && (partner.phone || partner.email)) {
     contactInfo = (
-      <Box pt={1} textAlign="right">
-        {partner.phone && <Box>{partner.phone}</Box>}
-        {partner.email && <Box>{partner.email}</Box>}
-      </Box>
+      <Stack pt={2} align="flex-end" spacing={0}>
+        {partner.phone &&
+          <Flex align="center">
+            {partner.phone}
+            <Icon
+              as={AiOutlineMobile}
+              color="blue.500"
+              ml={1}
+              w={4}
+              h={4} />
+          </Flex>}
+        {partner.email &&
+          <Flex align="center">
+            {partner.email}
+            <Icon
+              as={AiOutlineMail}
+              color="blue.500"
+              ml={1}
+              w={4}
+              h={4} />
+          </Flex>}
+      </Stack>
     );
   }
 
@@ -75,10 +94,10 @@ export const AgentCard: React.FC<
       toast({
         title: t("interest_sent_title"),
         description: t("interest_sent_description"),
-        status: 'success',
+        status: "success",
         duration: 4000,
         isClosable: true,
-      })
+      });
       // Return a context object with the snapshotted value
       return { previousAgents };
     },
@@ -116,7 +135,6 @@ export const AgentCard: React.FC<
       queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
     },
   });
-
 
   return (
     <>
@@ -171,7 +189,9 @@ export const AgentCard: React.FC<
               pointerEvents="auto"
             />
             <Spacer />
-            {partner.interested || (partner.userId === loggedIn) ? contactInfo : (
+            {partner.interested || partner.userId === loggedIn ? (
+              contactInfo
+            ) : (
               <Button
                 onClick={(e) => {
                   if (!loggedIn) {
@@ -195,29 +215,33 @@ export const AgentCard: React.FC<
               </Button>
             )}
 
-            <IconButton
-              variant="ghost"
-              mb={-2}
-              onClick={(e) => {
-                if (!loggedIn) {
-                  onOpen();
-                  e.stopPropagation();
-                } else {
-                  e.stopPropagation();
-                  addFavorite.mutate(partner.id);
+            {partner.userId !== loggedIn ?
+              <IconButton
+                variant="ghost"
+                mb={-2}
+                onClick={(e) => {
+                  if (!loggedIn) {
+                    onOpen();
+                    e.stopPropagation();
+                  } else {
+                    e.stopPropagation();
+                    addFavorite.mutate(partner.id);
+                  }
+                }}
+                aria-label="favorite"
+                icon={
+                  <Icon
+                    w={6}
+                    h={6}
+                    as={partner.favorite ? AiFillHeart : AiOutlineHeart}
+                    color={partner.favorite ? "blue.500" : "inherit"}
+                  />
                 }
-              }}
-              aria-label="favorite"
-              icon={
-                <Icon
-                  w={6}
-                  h={6}
-                  as={partner.favorite ? AiFillHeart : AiOutlineHeart}
-                  color={partner.favorite ? "blue.500" : "inherit"}
-                />
-              }
-              pointerEvents="auto"
-            />
+                pointerEvents="auto"
+              />
+              : null
+            }
+
           </Flex>
         </Card.Content>
         <Card.Title pb={0} mb={1}>
