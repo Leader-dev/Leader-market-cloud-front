@@ -37,8 +37,8 @@ import { Formik, Field, Form, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useTranslation, Trans } from "next-i18next";
 
-import { BasicLayout } from "src/layouts/basicLayout";
-import { SiteLink } from "src/components/siteLink";
+import { BasicLayout } from "layouts/basicLayout";
+import { SiteLink } from "components/siteLink";
 import { useState } from "react";
 import { login } from "services/user/login";
 import { useRouter } from "next/router";
@@ -51,7 +51,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import indexCover from "public/images/indexCover.png";
-import { Image } from "src/components/image";
+import { Image } from "components/image";
 import React from "react";
 import { checkAuthCode } from "services/user/checkAuthcode";
 import { Cookies } from "react-cookie";

@@ -24,18 +24,17 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "src/layouts/basicLayout";
-import { SiteLink } from "src/components/siteLink";
-import { SearchBar } from "src/components/searchBar";
-import { Card } from "src/components/card";
-import { Divider } from "src/components/divider";
-import { AgentList } from "src/components/partnerList";
+import { BasicLayout } from "layouts/basicLayout";
+import { SearchBar } from "components/searchBar";
+import { Card } from "components/card";
+import { Divider } from "components/divider";
+import { AgentList } from "components/partnerList";
 
 import getAgentList from "services/agent/getAgentList";
 import getOrgList from "services/org/getOrgList";
-import { Error } from "src/components/error";
-import { Loading } from "src/components/loading";
-import { OrgAvatar, UserAvatar } from "src/components/image";
+import { Error } from "components/error";
+import { Loading } from "components/loading";
+import { OrgAvatar } from "components/image";
 
 const IndividualPartners = () => {
   const { data: partners } = useQuery(getAgentList({}));

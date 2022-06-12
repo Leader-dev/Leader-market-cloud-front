@@ -28,13 +28,13 @@ import {
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "src/layouts/basicLayout";
-import { ProjectsList } from "src/components/projectList";
+import { BasicLayout } from "layouts/basicLayout";
+import { ProjectsList } from "components/projectList";
 
 import getAgentDetail from "services/agent/getAgentDetail";
 import getAgentProjects from "services/project/getAgentProjects";
-import { Error } from "src/components/error";
-import { Loading } from "src/components/loading";
+import { Error } from "components/error";
+import { Loading } from "components/loading";
 
 const ProjectPanel = ProjectsList;
 

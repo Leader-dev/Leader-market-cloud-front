@@ -12,9 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "src/layouts/basicLayout";
-import { Carousel } from "src/components/carousel";
-import { Image } from "src/components/image";
+import { BasicLayout } from "layouts/basicLayout";
+import { Carousel } from "components/carousel";
+import { Image } from "components/image";
 
 import code from "public/images/code.svg";
 import contract from "public/images/contract.svg";

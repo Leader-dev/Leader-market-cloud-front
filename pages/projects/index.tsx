@@ -2,16 +2,15 @@ import type { GetServerSideProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
-import { BasicLayout } from "src/layouts/basicLayout";
-import { SearchBar } from "src/components/searchBar";
-import { ProjectsList } from "src/components/projectList";
+import { BasicLayout } from "layouts/basicLayout";
+import { SearchBar } from "components/searchBar";
+import { ProjectsList } from "components/projectList";
 
-import type { Project } from "types/project";
 import { Box, Center } from "@chakra-ui/react";
 import getAllProjects from "services/project/getAllProjects";
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import { Loading } from "src/components/loading";
-import { Error } from "src/components/error";
+import { Loading } from "components/loading";
+import { Error } from "components/error";
 
 const ProjectsPage: NextPage = () => {
   const { t } = useTranslation("projects");

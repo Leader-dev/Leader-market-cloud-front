@@ -17,18 +17,17 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 
-import { BasicLayout } from "src/layouts/basicLayout";
+import { BasicLayout } from "layouts/basicLayout";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { SiteLink } from "src/components/siteLink";
-import { Tags } from "src/components/tags";
-import { Label } from "src/components/label";
+import { Tags } from "components/tags";
+import { Label } from "components/label";
 import getProjectDetail from "services/project/getProjectDetail";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { Error } from "src/components/error";
-import { Loading } from "src/components/loading";
+import { Error } from "components/error";
+import { Loading } from "components/loading";
 import {
   AiOutlineClockCircle,
   AiOutlineEye,

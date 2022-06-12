@@ -1920,7 +1920,7 @@ packages:
       }
     dependencies:
       bn.js: 4.12.0
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       minimalistic-assert: 1.0.1
       safer-buffer: 2.1.2
     dev: false
@@ -2036,7 +2036,7 @@ packages:
       }
     dependencies:
       buffer: registry.npmmirror.com/buffer/5.7.1
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       readable-stream: 3.6.0
     dev: false
 
@@ -2121,7 +2121,7 @@ packages:
       cipher-base: 1.0.4
       create-hash: 1.2.0
       evp_bytestokey: 1.0.3
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       safe-buffer: 5.2.1
     dev: false
 
@@ -2144,7 +2144,7 @@ packages:
     dependencies:
       cipher-base: 1.0.4
       des.js: 1.0.1
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       safe-buffer: 5.2.1
     dev: false
 
@@ -2169,7 +2169,7 @@ packages:
       create-hash: 1.2.0
       create-hmac: 1.1.7
       elliptic: 6.5.4
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       parse-asn1: 5.1.6
       readable-stream: 3.6.0
       safe-buffer: 5.2.1
@@ -2327,7 +2327,7 @@ packages:
         integrity: sha512-Kkht5ye6ZGmwv40uUDZztayT2ThLQGfnj/T71N/XzeZeo3nf8foyW7zGTsPYkEya3m5f3cAypH+qe7YOrM1U2Q==,
       }
     dependencies:
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       safe-buffer: 5.2.1
     dev: false
 
@@ -2537,7 +2537,7 @@ packages:
       }
     dependencies:
       cipher-base: 1.0.4
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       md5.js: 1.3.5
       ripemd160: 2.0.2
       sha.js: 2.4.11
@@ -2551,7 +2551,7 @@ packages:
     dependencies:
       cipher-base: 1.0.4
       create-hash: 1.2.0
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
@@ -2738,7 +2738,7 @@ packages:
         integrity: sha512-Q0I4pfFrv2VPd34/vfLrFOoRmlYj3OV50i7fskps1jZWK1kApMWWT9G6RRUeYedLcBDIhnSDaUvJMb3AhUlaEA==,
       }
     dependencies:
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       minimalistic-assert: 1.0.1
     dev: false
 
@@ -2836,7 +2836,7 @@ packages:
       brorand: 1.1.0
       hash.js: 1.1.7
       hmac-drbg: 1.0.1
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
     dev: false
@@ -3769,7 +3769,7 @@ packages:
       }
     engines: { node: ">=4" }
     dependencies:
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       readable-stream: 3.6.0
       safe-buffer: 5.2.1
     dev: false
@@ -3780,7 +3780,7 @@ packages:
         integrity: sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==,
       }
     dependencies:
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       minimalistic-assert: 1.0.1
     dev: false
 
@@ -3840,7 +3840,7 @@ packages:
     engines: { node: ">= 0.6" }
     dependencies:
       depd: 1.1.2
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       setprototypeof: 1.1.1
       statuses: registry.npmmirror.com/statuses/1.5.0
       toidentifier: 1.0.0
@@ -3854,7 +3854,7 @@ packages:
     engines: { node: ">= 0.6" }
     dependencies:
       depd: 1.1.2
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       setprototypeof: 1.2.0
       statuses: 1.5.0
       toidentifier: 1.0.1
@@ -3939,7 +3939,7 @@ packages:
     engines: { node: ">=12.0.0" }
     hasBin: true
     dependencies:
-      queue: 6.0.2
+      queue: registry.npmmirror.com/queue/6.0.2
     dev: false
 
   /import-fresh/3.3.0:
@@ -4436,7 +4436,7 @@ packages:
       }
     dependencies:
       hash-base: 3.1.0
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       safe-buffer: 5.2.1
     dev: false
 
@@ -5288,15 +5288,6 @@ packages:
       }
     dev: true
 
-  /queue/6.0.2:
-    resolution:
-      {
-        integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==,
-      }
-    dependencies:
-      inherits: 2.0.4
-    dev: false
-
   /randombytes/2.1.0:
     resolution:
       {
@@ -5579,7 +5570,7 @@ packages:
       }
     dependencies:
       core-util-is: 1.0.3
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       isarray: 1.0.0
       process-nextick-args: 2.0.1
       safe-buffer: 5.1.2
@@ -5594,7 +5585,7 @@ packages:
       }
     engines: { node: ">= 6" }
     dependencies:
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
     dev: false
@@ -5715,7 +5706,7 @@ packages:
       }
     dependencies:
       hash-base: 3.1.0
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
     dev: false
 
   /run-parallel/1.2.0:
@@ -5837,7 +5828,7 @@ packages:
       }
     hasBin: true
     dependencies:
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       safe-buffer: 5.2.1
     dev: false
 
@@ -6266,7 +6257,7 @@ packages:
       bl: 4.1.0
       end-of-stream: 1.4.4
       fs-constants: 1.0.0
-      inherits: 2.0.4
+      inherits: registry.npmmirror.com/inherits/2.0.4
       readable-stream: 3.6.0
     dev: false
 
@@ -11807,7 +11798,6 @@ packages:
       }
     name: inherits
     version: 2.0.4
-    dev: false
 
   registry.npmmirror.com/ini/1.3.8:
     resolution:

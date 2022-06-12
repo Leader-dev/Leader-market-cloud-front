@@ -30,7 +30,7 @@ import {
   Formik,
   useField,
 } from "formik";
-import { BasicLayout } from "src/layouts/basicLayout";
+import { BasicLayout } from "layouts/basicLayout";
 import { GetServerSideProps, NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

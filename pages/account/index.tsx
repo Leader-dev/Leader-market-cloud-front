@@ -32,7 +32,6 @@ import {
   EditablePreview,
   EditableInput,
   InputRightElement,
-  Tooltip,
   HStack,
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
@@ -44,11 +43,11 @@ import {
   AiOutlinePlus,
   AiOutlineSetting,
 } from "react-icons/ai";
-import { useState } from "react";
+import React, { useState } from "react";
 
-import { BasicLayout } from "src/layouts/basicLayout";
-import { ProjectsList } from "src/components/projectList";
-import { AgentList } from "src/components/partnerList";
+import { BasicLayout } from "layouts/basicLayout";
+import { ProjectsList } from "components/projectList";
+import { AgentList } from "components/partnerList";
 
 import getDrafts from "services/project/manage/getProjectDrafts";
 import getAgentFavoriteList from "services/agent/favorite/getAgentFavoriteList";
@@ -56,11 +55,10 @@ import getInterestedAgentList from "services/agent/interest/getInterestedAgentLi
 import getOrgManageList from "services/org/manage/getOrgManageList";
 import getAgentInfo from "services/agent/manage/getAgentInfo";
 import getProjectList from "services/project/manage/getProjectList";
-import { Loading } from "src/components/loading";
-import { Error } from "src/components/error";
+import { Loading } from "components/loading";
+import { Error } from "components/error";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { useColorModeValue } from "@chakra-ui/system";
-import { OrgAvatar, UserAvatar } from "src/components/image";
+import { OrgAvatar, UserAvatar } from "components/image";
 
 const ProjectPanel = ProjectsList;
 
@@ -87,7 +85,7 @@ const CollabWanted = () => {
       <Box>
         <AgentList partners={beingInterested} />
       </Box>
-      <Box>{t("partnersYouInterestedIn")}</Box>
+      <Box>{t("partners_you_interested_in")}</Box>
       <Box>
         <AgentList partners={interests} />
       </Box>
@@ -111,16 +109,68 @@ const Drafts = () => {
   return <ProjectsList projects={data!} />;
 };
 
+const InputField = ({
+  defaultValue,
+  leftElement,
+}: {
+  defaultValue: string;
+  leftElement?: React.ReactNode;
+}) => {
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent="center" size="sm">
+        <IconButton
+          icon={<CheckIcon />}
+          aria-label="check"
+          {...getSubmitButtonProps()}
+        />
+        <IconButton
+          icon={<CloseIcon />}
+          aria-label="close"
+          {...getCancelButtonProps()}
+        />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent="center">
+        <IconButton
+          size="sm"
+          aria-label="edit"
+          icon={<EditIcon />}
+          {...getEditButtonProps()}
+        />
+      </Flex>
+    );
+  }
+
+  return (
+    <Editable
+      defaultValue={defaultValue}
+      textAlign="left"
+      // fontSize='md'
+      isPreviewFocusable={false}
+    >
+      <Flex justify="space-between" align="center">
+        <Flex align="center">
+          {leftElement}
+          <EditablePreview />
+        </Flex>
+        <Input variant="flushed" as={EditableInput} />
+        <EditableControls />
+      </Flex>
+    </Editable>
+  );
+};
+
 const Settings = () => {
   const partner = useQuery(getAgentInfo({})).data!;
   const { t } = useTranslation("account");
-
-  const [mobile, setMobile] = useState(
-    partner.showContact ? partner.phone : ""
-  );
-  const [email, setEmail] = useState(partner.showContact ? partner.email : "");
-  const [mobileEdit, setMobileEdit] = useState(false);
-  const [emailEdit, setEmailEdit] = useState(false);
 
   return (
     <Flex>
@@ -129,91 +179,27 @@ const Settings = () => {
       </Box>
       <Box bg={"white"} borderRadius={"20px"} p={10} w={"40%"}>
         <Heading as={"h3"}>对外信息</Heading>
-        <Box>
+        <Box mt={2} mb={4}>
+          {t("show_contacts_hint")}
+        </Box>
+        <Flex align="center" mb={4}>
           {t("show_contacts")}
           <Switch isChecked={true} mx={2} />
           {t("hide_contacts")}
-        </Box>
-        <Stack spacing={4} textAlign="right">
-          <InputGroup>
-            <InputLeftElement>
-              <Icon as={AiOutlineMobile} w="24px" h="24px" color="blue.500" />
-            </InputLeftElement>
-            <Input
-              variant="flushed"
-              isDisabled={!mobileEdit}
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-            />
-            <InputRightElement>
-              {!mobileEdit ? (
-                <IconButton
-                  variant="ghost"
-                  colorScheme={"blue"}
-                  aria-label="edit"
-                  icon={<EditIcon />}
-                  onClick={() => setMobileEdit(true)}
-                />
-              ) : (
-                <ButtonGroup variant="ghost" spacing={0} size={"sm"}>
-                  <IconButton
-                    aria-label="save"
-                    colorScheme={"blue"}
-                    icon={<CheckIcon />}
-                    onClick={() => {
-                      // TODO: update mobile
-                      console.log(mobile);
-                      setMobileEdit(false);
-                    }}
-                  />
-                  <IconButton
-                    aria-label="cancel"
-                    icon={<CloseIcon />}
-                    onClick={() => setMobileEdit(false)}
-                  />
-                </ButtonGroup>
-              )}
-            </InputRightElement>
-          </InputGroup>
-          <InputGroup>
-            <InputLeftElement>
-              <Icon as={AiOutlineMail} w="24px" h="24px" color="blue.500" />
-            </InputLeftElement>
-            <Input
-              variant="flushed"
-              isDisabled={!emailEdit}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <InputRightElement>
-              {!emailEdit ? (
-                <IconButton
-                  variant="ghost"
-                  colorScheme={"blue"}
-                  aria-label="edit"
-                  icon={<EditIcon />}
-                  onClick={() => setEmailEdit(true)}
-                />
-              ) : (
-                <ButtonGroup variant="ghost" spacing={0} size={"sm"}>
-                  <IconButton
-                    aria-label="save"
-                    colorScheme={"blue"}
-                    icon={<CheckIcon />}
-                    onClick={() => {
-                      console.log(email);
-                      setEmailEdit(false);
-                    }}
-                  />
-                  <IconButton
-                    aria-label="cancel"
-                    icon={<CloseIcon />}
-                    onClick={() => setEmailEdit(false)}
-                  />
-                </ButtonGroup>
-              )}
-            </InputRightElement>
-          </InputGroup>
+        </Flex>
+        <Stack spacing={2} textAlign="right">
+          <InputField
+            defaultValue={partner.phone}
+            leftElement={
+              <Icon as={AiOutlineMobile} color="blue.500" mr={2} w={5} h={5} />
+            }
+          />
+          <InputField
+            defaultValue={partner.email}
+            leftElement={
+              <Icon as={AiOutlineMail} color="blue.500" mr={2.5} w={5} h={5} />
+            }
+          />
         </Stack>
       </Box>
     </Flex>
@@ -348,7 +334,7 @@ const AccountManagePage: NextPage = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <ProjectPanel projects={projects} />
+              <ProjectPanel projects={projects} displayAdd={true} />
             </TabPanel>
             <TabPanel>
               <CollabWanted />

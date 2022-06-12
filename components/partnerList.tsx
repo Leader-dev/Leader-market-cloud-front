@@ -29,11 +29,11 @@ import {
   AiOutlineMail,
   AiOutlineMobile,
 } from "react-icons/ai";
-import { Card } from "src/components/card";
-import { Divider } from "src/components/divider";
+import { Card } from "components/card";
+import { Divider } from "components/divider";
 import { Agent } from "types/user";
 import { useLoginStatus } from "utils/auth";
-import { UserAvatar } from "src/components/image";
+import { UserAvatar } from "components/image";
 import { sendInterestToAgent } from "services/agent/interest/sendInterestToAgent";
 import { addFavoriteAgent } from "services/agent/favorite/addFavoriteAgent";
 import { useMutation, useQueryClient } from "react-query";
@@ -100,6 +100,7 @@ export const AgentCard: React.FC<
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err, updatedAgent, context) => {
+      // @ts-ignore
       queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
     },
     // Always refetch after error or success:
@@ -129,6 +130,7 @@ export const AgentCard: React.FC<
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err, updatedAgent, context) => {
+      // @ts-ignore
       queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
     },
   });

@@ -4,7 +4,7 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { BasicLayout } from "src/layouts/basicLayout";
+import { BasicLayout } from "layouts/basicLayout";
 import { SiteLink } from "src/components/siteLink";
 import getOrgDetail from "services/org/getOrgDetail";
 import {
@@ -24,10 +24,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import getOrgProjects from "services/project/getOrgProjects";
-import { ProjectsPanelList } from "src/components/projectList";
-import { Error } from "src/components/error";
-import { Loading } from "src/components/loading";
-import { OrgAvatar } from "src/components/image";
+import { ProjectsPanelList } from "components/projectList";
+import { Error } from "components/error";
+import { Loading } from "components/loading";
+import { OrgAvatar } from "components/image";
 
 const OrgDetailsPage: NextPage = () => {
   const { query } = useRouter();

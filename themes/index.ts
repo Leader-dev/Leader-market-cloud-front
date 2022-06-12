@@ -1,7 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
-import { styles as Card } from "src/components/card";
-import { styles as Carousel } from "src/components/carousel";
+import { styles as Card } from "components/card";
+import { styles as Carousel } from "components/carousel";
 
 export default extendTheme({
   components: {
