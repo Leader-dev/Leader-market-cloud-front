@@ -81,9 +81,8 @@ export const AgentCard: React.FC<
       const previousAgents = queryClient.getQueryData(["/mc/agent/list", {}]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["/mc/agent/list", {}], (old) =>
-        // @ts-ignore
-        old.map((agent: Agent) =>
+      queryClient.setQueryData<Agent[] | undefined>(["/mc/agent/list", {}], (old) => old &&
+        old.map((agent) =>
           agent.id === agentId ? { ...agent, interested: true } : agent
         )
       );
@@ -119,9 +118,8 @@ export const AgentCard: React.FC<
       const previousAgents = queryClient.getQueryData(["/mc/agent/list", {}]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["/mc/agent/list", {}], (old) =>
-        // @ts-ignore
-        old.map((agent: Agent) =>
+      queryClient.setQueryData<Agent[] | undefined>(["/mc/agent/list", {}], (old) => old &&
+        old.map((agent) =>
           agent.id === agentId ? { ...agent, favorite: !agent.favorite } : agent
         )
       );
