@@ -81,10 +81,13 @@ export const AgentCard: React.FC<
       const previousAgents = queryClient.getQueryData(["/mc/agent/list", {}]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData<Agent[] | undefined>(["/mc/agent/list", {}], (old) => old &&
-        old.map((agent) =>
-          agent.id === agentId ? { ...agent, interested: true } : agent
-        )
+      queryClient.setQueryData<Agent[] | undefined>(
+        ["/mc/agent/list", {}],
+        (old) =>
+          old &&
+          old.map((agent) =>
+            agent.id === agentId ? { ...agent, interested: true } : agent
+          )
       );
 
       toast({
@@ -99,8 +102,7 @@ export const AgentCard: React.FC<
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err, updatedAgent, context) => {
-      // @ts-ignore
-      queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
+      queryClient.setQueryData(["/mc/agent/list", {}], context?.previousAgents);
     },
     // Always refetch after error or success:
     onSettled: () => {
@@ -118,18 +120,22 @@ export const AgentCard: React.FC<
       const previousAgents = queryClient.getQueryData(["/mc/agent/list", {}]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData<Agent[] | undefined>(["/mc/agent/list", {}], (old) => old &&
-        old.map((agent) =>
-          agent.id === agentId ? { ...agent, favorite: !agent.favorite } : agent
-        )
+      queryClient.setQueryData<Agent[] | undefined>(
+        ["/mc/agent/list", {}],
+        (old) =>
+          old &&
+          old.map((agent) =>
+            agent.id === agentId
+              ? { ...agent, favorite: !agent.favorite }
+              : agent
+          )
       );
       // Return a context object with the snapshotted value
       return { previousAgents };
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err, updatedAgent, context) => {
-      // @ts-ignore
-      queryClient.setQueryData(["/mc/agent/list", {}], context.previousAgents);
+      queryClient.setQueryData(["/mc/agent/list", {}], context?.previousAgents);
     },
   });
 
