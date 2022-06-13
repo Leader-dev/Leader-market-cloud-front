@@ -22,8 +22,12 @@ export default (projectId: Id) => {
       ]);
       queryClient.setQueryData<Project | undefined>(
         ["/mc/project/detail", { projectId: projectId }],
-        (oldProject) =>
-          oldProject && { ...oldProject, readCount: oldProject.readCount + 1 }
+        (oldProject) => {
+          console.log("oldProject", oldProject);
+          return (
+            oldProject && { ...oldProject, readCount: oldProject.readCount + 1 }
+          );
+        }
       );
       queryClient.setQueryData<Project[] | undefined>(
         ["/mc/project/list/all", {}],
@@ -43,6 +47,12 @@ export default (projectId: Id) => {
         context?.previousDetail
       );
       queryClient.setQueryData(["/mc/agent/list", {}], context?.previousList);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries([
+        "/mc/project/detail",
+        { projectId: projectId },
+      ]);
     },
   });
 };
