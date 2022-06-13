@@ -59,10 +59,10 @@ const ProjectDetailPage: NextPage = () => {
   const { data: projectDetail, isError } = useQuery(
     getProjectDetail({ projectId: id })
   );
-  const { mutate } = readProject(id);
-  useEffect(() => {
-    mutate(id);
-  }, []);
+  // const { mutate } = readProject(id);
+  // useEffect(() => {
+  //   mutate(id);
+  // }, []);
   const { t } = useTranslation("projects");
 
   if (isError) return <Error />;

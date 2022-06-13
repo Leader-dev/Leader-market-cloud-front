@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { SiteLink } from "src/components/siteLink";
+import { SiteLink } from "components/siteLink";
 import getOrgDetail from "services/org/getOrgDetail";
 import {
   Avatar,

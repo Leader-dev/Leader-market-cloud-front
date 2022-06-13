@@ -9,50 +9,51 @@ const readProject = (projectId: Id) => {
 
 export default (projectId: Id) => {
   const queryClient = useQueryClient();
-  return useMutation(readProject, {
-    onMutate: async (projectId: Id) => {
-      await queryClient.cancelQueries("/mc/project/detail");
-      const previousDetail = queryClient.getQueryData([
-        "/mc/project/detail",
-        { projectId: projectId },
-      ]);
-      const previousList = queryClient.getQueryData([
-        "/mc/project/list/all",
-        {},
-      ]);
-      queryClient.setQueryData<Project | undefined>(
-        ["/mc/project/detail", { projectId: projectId }],
-        (oldProject) => {
-          console.log("oldProject", oldProject);
-          return (
-            oldProject && { ...oldProject, readCount: oldProject.readCount + 1 }
-          );
-        }
-      );
-      queryClient.setQueryData<Project[] | undefined>(
-        ["/mc/project/list/all", {}],
-        (oldList) =>
-          oldList &&
-          oldList.map((project) =>
-            project.id === projectId
-              ? { ...project, readCount: project.readCount + 1 }
-              : project
-          )
-      );
-      return { previousDetail, previousList };
-    },
-    onError: (err, updatedAgent, context) => {
-      queryClient.setQueryData(
-        ["/mc/project/detail", { projectId: projectId }],
-        context?.previousDetail
-      );
-      queryClient.setQueryData(["/mc/agent/list", {}], context?.previousList);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries([
-        "/mc/project/detail",
-        { projectId: projectId },
-      ]);
-    },
-  });
+  // return useMutation(readProject, {
+  //   onMutate: async (projectId: Id) => {
+  //     await queryClient.cancelQueries(["/mc/project/detail", { projectId: projectId }]);
+  //     await queryClient.cancelQueries(["/mc/project/list/all", {}]);
+  //     const previousDetail = queryClient.getQueryData([
+  //       "/mc/project/detail",
+  //       { projectId: projectId },
+  //     ]);
+  //     const previousList = queryClient.getQueryData([
+  //       "/mc/project/list/all",
+  //       {},
+  //     ]);
+  //     queryClient.setQueryData<Project | undefined>(
+  //       ["/mc/project/detail", { projectId: projectId }],
+  //       (oldProject) => {
+  //         console.log("oldProject", oldProject);
+  //         return (
+  //           oldProject && { ...oldProject, readCount: oldProject.readCount + 1 }
+  //         );
+  //       }
+  //     );
+  //     queryClient.setQueryData<Project[] | undefined>(
+  //       ["/mc/project/list/all", {}],
+  //       (oldList) =>
+  //         oldList &&
+  //         oldList.map((project) =>
+  //           project.id === projectId
+  //             ? { ...project, readCount: project.readCount + 1 }
+  //             : project
+  //         )
+  //     );
+  //     return { previousDetail, previousList };
+  //   },
+  //   onError: (err, updatedAgent, context) => {
+  //     queryClient.setQueryData(
+  //       ["/mc/project/detail", { projectId: projectId }],
+  //       context?.previousDetail
+  //     );
+  //     queryClient.setQueryData(["/mc/agent/list", {}], context?.previousList);
+  //   },
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries([
+  //       "/mc/project/detail",
+  //       { projectId: projectId },
+  //     ]);
+  //   },
+  // });
 };
