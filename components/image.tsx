@@ -2,11 +2,11 @@ import NextImage from "next/image";
 import {
   Avatar,
   AvatarProps,
-  Box,
   chakra,
   Tag,
   Img,
   ImgProps,
+  Center,
 } from "@chakra-ui/react";
 import accessStartUrl from "services/image/accessStartUrl";
 import { useTranslation } from "next-i18next";
@@ -82,7 +82,7 @@ export const OrgAvatar = ({
         {...props}
       />
       {showTag && certification !== "" && (
-        <Box mt={2}>
+        <Center mt={2}>
           <Tag
             borderRadius="full"
             bgGradient={bgGradient}
@@ -93,7 +93,7 @@ export const OrgAvatar = ({
           >
             {t(certification)}
           </Tag>
-        </Box>
+        </Center>
       )}
     </>
   );
