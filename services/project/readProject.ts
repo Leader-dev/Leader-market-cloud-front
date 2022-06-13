@@ -7,7 +7,7 @@ const readProject = (projectId: Id) => {
   return request.post("/mc/project/read", { projectId: projectId });
 };
 
-export default (projectId: Id) => {
+export const useReadProject = (projectId: Id) => {
   const queryClient = useQueryClient();
   return useMutation(readProject, {
     onMutate: async (projectId: Id) => {

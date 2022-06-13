@@ -1,26 +1,9 @@
-import type {
-  NextPage,
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-} from "next";
-import {
-  Box,
-  Avatar,
-  Heading,
-  Text,
-  Container,
-  Image,
-  Flex,
-  Spacer,
-  Icon,
-  Button,
-  IconButton,
-} from "@chakra-ui/react";
+import type { NextPage, GetServerSideProps } from "next";
+import { Box, Heading, Container, Flex, Spacer, Icon } from "@chakra-ui/react";
 
 import { BasicLayout } from "layouts/basicLayout";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
 import { Tags } from "components/tags";
 import { Label } from "components/label";
 import getProjectDetail from "services/project/getProjectDetail";
@@ -28,14 +11,10 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { Error } from "components/error";
 import { Loading } from "components/loading";
-import {
-  AiOutlineClockCircle,
-  AiOutlineEye,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiOutlineClockCircle, AiOutlineEye } from "react-icons/ai";
 import { UseImage } from "components/image";
 import { AgentCard } from "components/partnerList";
-import readProject from "services/project/readProject";
+import { useReadProject } from "services/project/readProject";
 import { useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
@@ -59,7 +38,7 @@ const ProjectDetailPage: NextPage = () => {
   const { data: projectDetail, isError } = useQuery(
     getProjectDetail({ projectId: id })
   );
-  const { mutate } = readProject(id);
+  const { mutate } = useReadProject(id);
   useEffect(() => {
     mutate(id);
   }, []);
