@@ -7,9 +7,9 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 
-import { SiteLink } from "src/components/siteLink";
+import { SiteLink } from "components/siteLink";
 import LeaderCloud from "public/images/leader-cloud.svg";
-import { Image } from "src/components/image";
+import { Image } from "components/image";
 
 const FooterHeading: React.FC = ({ children }) => {
   return (

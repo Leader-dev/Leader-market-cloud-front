@@ -24,7 +24,7 @@ import {
   AiOutlineEnvironment,
   AiOutlineEye,
 } from "react-icons/ai";
-import { UseImage, UserAvatar } from "src/components/image";
+import { UseImage, UserAvatar } from "components/image";
 
 type ProjectInfo = Omit<Project, "draft">;
 

@@ -18,11 +18,11 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { Image } from "src/components/image";
+import { Image } from "components/image";
 
 import { AiOutlineUser, AiOutlineGlobal } from "react-icons/ai";
 
-import { SiteLink } from "src/components/siteLink";
+import { SiteLink } from "components/siteLink";
 import { useLoginStatus } from "utils/auth";
 
 import LeaderCloud from "public/images/leader-cloud.svg";
