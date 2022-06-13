@@ -37,15 +37,16 @@ import { AiOutlineSwap } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
-import { ProjectsPanelList } from "src/components/projectList";
+import { ProjectsPanelList } from "components/projectList";
 
 import getOrgManageList from "services/org/manage/getOrgManageList";
 import getOrgDetail from "services/org/getOrgDetail";
 import getOrgProjects from "services/project/getOrgProjects";
 import getOrgManageRoles from "services/org/manage/getOrgManageRoles";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Loading } from "src/components/loading";
-import { Error } from "src/components/error";
+import { Loading } from "components/loading";
+import { Error } from "components/error";
+import { OrgAvatar } from "components/image";
 // import { UserAvatar } from "src/components/image";
 
 const Members: React.FC = () => {
@@ -146,14 +147,15 @@ const OrgManagePage: NextPage = () => {
   return (
     <BasicLayout pageTitle={`${orgInfo.name}`}>
       <Box pb={12}>
-        <Avatar
-          position="absolute"
-          mt="24px"
-          ml={`${imageMarginLeft}px`}
-          size="2xl"
-          src={orgInfo.avatarUrl}
-          name={orgInfo.name}
-        />
+        <Box position="absolute" mt="24px" ml={`${imageMarginLeft}px`}>
+          <OrgAvatar
+            src={orgInfo.avatarUrl}
+            name={orgInfo.name}
+            size="2xl"
+            certification={orgInfo.certification}
+          />
+        </Box>
+
         <Flex w="full" bgColor="white" py={3} px={4} pl={`${imageSize}px`}>
           <Box>
             <Heading>{orgInfo.name}</Heading>
