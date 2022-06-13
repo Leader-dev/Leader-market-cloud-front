@@ -33,9 +33,10 @@ import {
   AiOutlineEye,
   AiOutlineStar,
 } from "react-icons/ai";
-import { UseImage } from "src/components/image";
-import { AgentCard } from "src/components/partnerList";
+import { UseImage } from "components/image";
+import { AgentCard } from "components/partnerList";
 import readProject from "services/project/readProject";
+import { useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
@@ -55,10 +56,13 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
 const ProjectDetailPage: NextPage = () => {
   const { query } = useRouter();
   const id = query.id as string;
-  readProject(id);
   const { data: projectDetail, isError } = useQuery(
     getProjectDetail({ projectId: id })
   );
+  const { mutate } = readProject(id);
+  useEffect(() => {
+    mutate(id);
+  }, []);
   const { t } = useTranslation("projects");
 
   if (isError) return <Error />;
