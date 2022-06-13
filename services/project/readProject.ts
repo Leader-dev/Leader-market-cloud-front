@@ -11,7 +11,11 @@ export default (projectId: Id) => {
   const queryClient = useQueryClient();
   return useMutation(readProject, {
     onMutate: async (projectId: Id) => {
-      await queryClient.cancelQueries("/mc/project/detail");
+      await queryClient.cancelQueries([
+        "/mc/project/detail",
+        { projectId: projectId },
+      ]);
+      await queryClient.cancelQueries(["/mc/project/list/all", {}]);
       const previousDetail = queryClient.getQueryData([
         "/mc/project/detail",
         { projectId: projectId },
