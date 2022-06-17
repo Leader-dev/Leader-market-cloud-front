@@ -1,9 +1,34 @@
 import { request } from "utils/request";
-import { createService } from "services/index";
-import { EditableAgent } from "types/user";
+import { AgentProfile } from "types/user";
+import { useMutation, useQueryClient } from "react-query";
 
-export default createService<{}, EditableAgent>({
-  url: () => "/mc/agent/manage/info/update",
-  get: (url, info) =>
-    request.post(url, { info: info }).then(({ data }) => data),
-});
+const updateAgentInfo = (info: AgentProfile) => {
+  return request.post("/mc/agent/manage/info/update", { info: info });
+};
+
+export default () => {
+  const queryClient = useQueryClient();
+  return useMutation(updateAgentInfo, {
+    onMutate: async (info: AgentProfile) => {
+      await queryClient.cancelQueries(["/mc/agent/manage/info", {}]);
+      const previousInfo = queryClient.getQueryData([
+        "/mc/agent/manage/info",
+        {},
+      ]);
+      queryClient.setQueryData<AgentProfile | undefined>(
+        ["/mc/agent/manage/info", {}],
+        info
+      );
+      return { previousInfo };
+    },
+    onError: (err, updatedAgent, context) => {
+      queryClient.setQueryData(
+        ["/mc/agent/manage/info", {}],
+        context?.previousInfo
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["/mc/agent/manage/info", {}]);
+    },
+  });
+};

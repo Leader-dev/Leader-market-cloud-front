@@ -1,7 +1,18 @@
+import { useRouter } from "next/router";
+import { useMutation, useQueryClient } from "react-query";
 import { request } from "utils/request";
-import { createService } from "services";
 
-export default createService<any, any>({
-  url: () => "/user/logout",
-  get: (url) => request.post(url).then(({ data }) => data),
-});
+const logout = () => {
+  return request.post("/user/logout").then(({ data }) => data);
+};
+
+export default () => {
+  const { push } = useRouter();
+  const queryClient = useQueryClient();
+  return useMutation(logout, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["/user/userId", {}]);
+      push("/");
+    },
+  });
+};
