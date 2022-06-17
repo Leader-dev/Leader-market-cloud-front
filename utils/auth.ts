@@ -3,6 +3,6 @@ import userId from "services/user/userid";
 
 export const useLoginStatus = () => {
   // console.log("useLoginStatus");
-  const { data } = useQuery("userId", userId({}));
+  const { data } = useQuery(userId({}));
   return data ? data : false;
 };
