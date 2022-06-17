@@ -21,7 +21,8 @@
       "required": "密码不得为空"
     },
     "n": {
-      "required": "手机号不得为空"
+      "required": "手机号不得为空",
+      "invalid": "手机号格式不正确"
     },
     "a": {
       "required": "验证码不得为空",

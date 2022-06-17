@@ -21,7 +21,8 @@
       "required": "Password cannot be empty"
     },
     "n": {
-      "required": "Phone number cannot be empty"
+      "required": "Phone number cannot be empty",
+      "invalid": "Phone number is invalid"
     },
     "a": {
       "required": "Auth code cannot be empty",

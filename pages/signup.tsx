@@ -1,8 +1,6 @@
 import { NextPage, GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
-  Grid,
-  GridItem,
   Box,
   Button,
   Tabs,
@@ -14,11 +12,8 @@ import {
   InputGroup,
   InputRightElement,
   FormControl,
-  FormLabel,
   FormErrorMessage,
-  FormHelperText,
   Checkbox,
-  useControllableState,
   InputLeftElement,
   Icon,
   InputProps,
@@ -27,10 +22,6 @@ import {
   Flex,
   BoxProps,
   InputLeftAddon,
-  useMultiStyleConfig,
-  useTab,
-  textDecoration,
-  ButtonProps,
   Center,
 } from "@chakra-ui/react";
 import { Formik, Field, Form, FieldProps } from "formik";
@@ -44,43 +35,39 @@ import { login } from "services/user/login";
 import { useRouter } from "next/router";
 import { getAuthCode } from "services/user/getAuthcode";
 import { register } from "services/user/register";
-import {
-  AiOutlineKey,
-  AiOutlineMobile,
-  AiOutlinePhone,
-  AiOutlineUser,
-} from "react-icons/ai";
+import { AiOutlineKey, AiOutlineMobile, AiOutlineUser } from "react-icons/ai";
 import indexCover from "public/images/indexCover.png";
 import { Image } from "components/image";
 import React from "react";
 import { checkAuthCode } from "services/user/checkAuthcode";
 import { Cookies } from "react-cookie";
 
-type ResponsiveLeftImageProps = {
-  left: React.ReactNode;
-};
-const ResponsiveLeftImage: React.FC<ResponsiveLeftImageProps> = ({
-  left,
-  children,
-}) => {
-  return (
-    <Grid
-      templateColumns={[
-        "repeat(1, 1fr)",
-        null,
-        "repeat(2, 1fr)",
-        "repeat(3, 1fr)",
-      ]}
-      gap={[0, null, 4]}
-      p={[0, null, 4]}
-    >
-      <GridItem display={["none", null, "block"]} colSpan={[0, null, 1, 2]}>
-        {left}
-      </GridItem>
-      <GridItem>{children}</GridItem>
-    </Grid>
-  );
-};
+// type ResponsiveLeftImageProps = {
+//   left: React.ReactNode;
+// };
+
+// const ResponsiveLeftImage: React.FC<ResponsiveLeftImageProps> = ({
+//   left,
+//   children,
+// }) => {
+//   return (
+//     <Grid
+//       templateColumns={[
+//         "repeat(1, 1fr)",
+//         null,
+//         "repeat(2, 1fr)",
+//         "repeat(3, 1fr)",
+//       ]}
+//       gap={[0, null, 4]}
+//       p={[0, null, 4]}
+//     >
+//       <GridItem display={["none", null, "block"]} colSpan={[0, null, 1, 2]}>
+//         {left}
+//       </GridItem>
+//       <GridItem>{children}</GridItem>
+//     </Grid>
+//   );
+// };
 
 const InputField = ({
   name,
@@ -96,7 +83,6 @@ const InputField = ({
   rightElement?: React.ReactNode;
   placeholder?: string;
 }) => {
-  const { t } = useTranslation("signup");
   const { t: te } = useTranslation("signup", { keyPrefix: "errors" });
   return (
     <Field name={name}>
@@ -105,7 +91,6 @@ const InputField = ({
           mb={3}
           isInvalid={!!(form.errors[name] && form.touched[name])}
         >
-          {/* <FormLabel htmlFor={name}>{t(name)}</FormLabel> */}
           <InputGroup>
             {leftElement}
             <Input
@@ -129,7 +114,9 @@ const InputField = ({
 };
 
 const LoginSchema = Yup.object().shape({
-  username: Yup.string().required("u.required"),
+  phone: Yup.string()
+    .required("n.required")
+    .matches(/^[0-9]{11}$/, "phone.invalid"),
   password: Yup.string().required("p.required"),
 });
 const Login = () => {
@@ -138,13 +125,13 @@ const Login = () => {
   return (
     <Formik
       initialValues={{
-        username: "",
+        phone: "",
         password: "",
       }}
       validationSchema={LoginSchema}
       onSubmit={(values, { setSubmitting }) => {
         login({
-          phone: values.username,
+          phone: values.phone,
           password: values.password,
           authcode: null,
         })
@@ -161,11 +148,11 @@ const Login = () => {
       {(props) => (
         <Form>
           <InputField
-            name="username"
-            placeholder={t("input_username")}
+            name="phone"
+            placeholder={t("input_phone_number")}
             leftElement={
               <InputLeftElement>
-                <Icon as={AiOutlineUser} />
+                <Icon as={AiOutlineMobile} />
               </InputLeftElement>
             }
           />
@@ -182,11 +169,11 @@ const Login = () => {
           />
           <Center>
             <Button
-              w="full"
+              w="70%"
               variant="solid"
               colorScheme="blue"
               type="submit"
-              mt={10}
+              mt={14}
               borderRadius={"full"}
               bgColor="#163CAA"
               isLoading={props.isSubmitting}
@@ -201,7 +188,9 @@ const Login = () => {
 };
 
 const RegisterStep1Schema = Yup.object().shape({
-  phone_number: Yup.string().required("n.required"),
+  phone_number: Yup.string()
+    .required("n.required")
+    .matches(/^[0-9]{11}$/, "n.invalid"),
   auth_code: Yup.string().required("a.required"),
   agree: Yup.boolean().oneOf([true], "l.required"),
 });
@@ -244,17 +233,16 @@ const RegisterStep1: React.FC<{
             placeholder={t("input_phone_number")}
             paddingLeft={2}
             leftElement={<InputLeftAddon>+86</InputLeftAddon>}
-            // mb={10}
           />
           <InputField
             name="auth_code"
-            // placeholder={t("input_auth_code")}
-            // mb={10}
+            mt={2}
             rightElement={
               <Button
                 variant="link"
                 size="sm"
                 h="1.5rem"
+                mt={2}
                 disabled={disable}
                 onClick={() => {
                   props.setFieldTouched("phone_number", true, true);
@@ -310,18 +298,20 @@ const RegisterStep1: React.FC<{
               {t(`errors.${props.errors["agree"]}`)}
             </FormErrorMessage>
           </FormControl>
-          <Button
-            w="full"
-            variant="solid"
-            colorScheme="blue"
-            type="submit"
-            isLoading={props.isSubmitting}
-            bgColor="#163CAA"
-            borderRadius={"full"}
-            mt={2}
-          >
-            {t("next_step")}
-          </Button>
+          <Center>
+            <Button
+              w="70%"
+              variant="solid"
+              colorScheme="blue"
+              type="submit"
+              isLoading={props.isSubmitting}
+              bgColor="#163CAA"
+              borderRadius={"full"}
+              mt={3}
+            >
+              {t("next_step")}
+            </Button>
+          </Center>
         </Form>
       )}
     </Formik>
@@ -354,15 +344,22 @@ const RegisterStep2: React.FC<{
           <InputField
             name="username"
             placeholder={t("input_username")}
-            leftElement={<Icon as={AiOutlineUser} />}
-            // mb={5}
+            leftElement={
+              <InputLeftElement>
+                <Icon as={AiOutlineUser} />
+              </InputLeftElement>
+            }
           />
           <InputField
+            mt={5}
             name="password"
             hide
             placeholder={t("input_password")}
-            leftElement={<Icon as={AiOutlineKey} />}
-            // mb={5}
+            leftElement={
+              <InputLeftElement mt={5}>
+                <Icon as={AiOutlineKey} />
+              </InputLeftElement>
+            }
           />
           <Button
             w="full"
@@ -372,6 +369,7 @@ const RegisterStep2: React.FC<{
             isLoading={props.isSubmitting}
             bgColor="#163CAA"
             borderRadius={"full"}
+            mt={8}
           >
             {t("register")}
           </Button>
@@ -382,7 +380,6 @@ const RegisterStep2: React.FC<{
 };
 
 const Register = () => {
-  const { t } = useTranslation("signup");
   const [stage1Done, setStage1Done] = useState(false);
   const [phone, setPhone] = useState("");
   const [authCode, setAuthCode] = useState("");
@@ -412,26 +409,24 @@ const SignupBox = ({ ...props }: BoxProps) => {
     <Box {...props}>
       <Tabs variant={"unstyled"}>
         <Stack h="full" align="stretch">
-          <TabList w="full">
-            <Flex w="full" px={"10%"}>
-              <Tab
-                _selected={{ borderBottom: "4px solid #163CAA" }}
-                fontWeight="bold"
-                fontSize={["34px", "30px"]}
-              >
-                {t("login")}
-              </Tab>
-              <Spacer />
-              <Tab
-                _selected={{ borderBottom: "4px solid #163CAA" }}
-                fontWeight="bold"
-                fontSize={["36px", "32px"]}
-              >
-                {t("register")}
-              </Tab>
-            </Flex>
+          <TabList w="full" px="15%">
+            <Tab
+              _selected={{ borderBottom: "4px solid #163CAA" }}
+              fontWeight="bold"
+              fontSize={["34px", "30px"]}
+            >
+              {t("login")}
+            </Tab>
+            <Spacer />
+            <Tab
+              _selected={{ borderBottom: "4px solid #163CAA" }}
+              fontWeight="bold"
+              fontSize={["36px", "32px"]}
+            >
+              {t("register")}
+            </Tab>
           </TabList>
-          <TabPanels py={5}>
+          <TabPanels pt={6}>
             <TabPanel>
               <Login />
             </TabPanel>
@@ -453,7 +448,12 @@ const SignupPage: NextPage = () => {
       </ResponsiveLeftImage> */}
       <Flex px="10vw" w="full" h="40vh" align="center" pt="20vh">
         <Box w="40%" pos="relative">
-          <Image layout="responsive" borderRadius="30px" src={indexCover} />
+          <Image
+            alt="logo"
+            layout="responsive"
+            borderRadius="30px"
+            src={indexCover}
+          />
         </Box>
         <Spacer />
         <SignupBox w="30vw" />
