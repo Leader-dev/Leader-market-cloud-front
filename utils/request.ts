@@ -27,14 +27,24 @@ const axiosInstance = axios.create({
 });
 
 // TODO: save using native APIs
-let currentKey: string;
+let ssrApiKey = "";
+
+const isClientSide = () => typeof window !== "undefined";
 
 export const saveKey = (key: string) => {
-  localStorage.setItem("apikey", key);
+  if (isClientSide()) {
+    localStorage.setItem("apikey", key);
+  } else {
+    ssrApiKey = key;
+  }
 };
 
 export const getKey = (): string | null => {
-  return localStorage.getItem("apikey") as string;
+  if (isClientSide()) {
+    return localStorage.getItem("apikey") as string;
+  } else {
+    return ssrApiKey;
+  }
 };
 
 axiosInstance.interceptors.response.use(
