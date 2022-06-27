@@ -1,13 +1,15 @@
 import {
   BoxProps,
-  Box,
   FormControl,
   FormErrorMessage,
+  Icon,
   Image,
+  Center,
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 import { UseImage } from "./image";
 
 export const SelectImage = ({
@@ -17,7 +19,11 @@ export const SelectImage = ({
   const [field, meta, { setValue }] = useField(name);
   const { t: te } = useTranslation("error");
   const [imagePreview, setImagePreview] = useState<string | undefined>();
-  let initialBox = <Box bgColor={"gray"} {...props} />;
+  let initialBox = (
+    <Center bgColor={"gray"} {...props}>
+      <Icon color="white" boxSize="30%" as={AiOutlinePlus} />
+    </Center>
+  );
   if (typeof field.value === "string") {
     initialBox = <UseImage src={field.value} {...props} />;
   }
@@ -39,15 +45,17 @@ export const SelectImage = ({
         hidden
         accept="image/*"
         onChange={(e: any) => {
-          const fileReader = new FileReader();
           const file = e.target.files[0] as File;
-          setValue(file);
-          fileReader.onload = () => {
-            if (fileReader.readyState === 2) {
-              setImagePreview(fileReader.result as string);
-            }
-          };
-          fileReader.readAsDataURL(file);
+          if (file) {
+            const fileReader = new FileReader();
+            setValue(file);
+            fileReader.onload = () => {
+              if (fileReader.readyState === 2) {
+                setImagePreview(fileReader.result as string);
+              }
+            };
+            fileReader.readAsDataURL(file);
+          }
         }}
       />
       <FormControl isInvalid={!!(meta.error && meta.touched)}>
