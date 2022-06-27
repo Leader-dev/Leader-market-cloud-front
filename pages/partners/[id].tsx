@@ -3,34 +3,20 @@ import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import {
   Box,
-  Text,
   Avatar,
   Heading,
-  Grid,
-  GridItem,
-  Image,
   Flex,
   Spacer,
-  Button,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
-  Spinner,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
-  Switch,
-  Icon,
 } from "@chakra-ui/react";
-import { useTranslation, Trans } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
 import { BasicLayout } from "layouts/basicLayout";
 import { ProjectsList } from "components/projectList";
-
 import getAgentDetail from "services/agent/getAgentDetail";
 import getAgentProjects from "services/project/getAgentProjects";
 import { Error } from "components/error";
@@ -78,7 +64,7 @@ const AgentDetailsPage: NextPage = () => {
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Box pr={4}>
             <Box color="blue.700">
-              {agent.displayOrgId ? `@${agent.orgInfo.name}` : t("no_org")}
+              {agent.orgId ? `@${agent.orgInfo.name}` : t("no_org")}
             </Box>
             <Box w="sm">{agent.description}</Box>
           </Box>

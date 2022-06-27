@@ -2,11 +2,13 @@ import { extendTheme } from "@chakra-ui/react";
 
 import { styles as Card } from "components/card";
 import { styles as Carousel } from "components/carousel";
+import { datePickerStyles as DatePicker } from "components/DatePicker";
 
 export default extendTheme({
   components: {
     Card,
     Carousel,
+    DatePicker,
   },
   colors: {
     paleBlue: "#91BCFF",
@@ -34,8 +36,8 @@ export default extendTheme({
       fontWeight: "semibold",
     },
     description: {
-      fontSize: ["16px", "18px"],
-      color: "gray.700",
+      fontSize: ["14px", "16px"],
+      color: "gray.600",
       fontWeight: "normal",
     },
     pTitle: {
