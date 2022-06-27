@@ -4,13 +4,11 @@ import {
   Flex,
   Tag,
   Text,
-  Avatar,
   Icon,
   Spacer,
   Stack,
   VStack,
   AspectRatio,
-  Center,
   BoxProps,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
@@ -32,18 +30,19 @@ const ProjectAddIcon = ({ ...props }: BoxProps) => {
   const { t } = useTranslation("account");
   const { push } = useRouter();
   return (
-    <Center
+    <AspectRatio
+      ratio={4 / 3}
       backgroundImage={`linear-gradient(to right, #ccc 50%, #f5f5f5 0%), /* top */
-      linear-gradient(#ccc 50%, #f5f5f5 0%), /* right */
-      linear-gradient(to right, #ccc 50%, #f5f5f5 0%), /* bottom */
-      linear-gradient(#ccc 50%, #f5f5f5 0%)`}
+                        linear-gradient(#ccc 50%, #f5f5f5 0%), /* right */
+                        linear-gradient(to right, #ccc 50%, #f5f5f5 0%), /* bottom */
+                        linear-gradient(#ccc 50%, #f5f5f5 0%)`}
       backgroundPosition="top, right, bottom, left"
       backgroundSize="20px 3px, 3px 20px"
       backgroundRepeat="repeat-x, repeat-y"
       borderRadius="xl"
       pos="relative"
       color="gray.500"
-      transition="box-shadow 0.2s"
+      transition="box-shadow 0.2s ease-in-out"
       {...props}
       _hover={{
         boxShadow: "lg",
@@ -56,7 +55,7 @@ const ProjectAddIcon = ({ ...props }: BoxProps) => {
         <AddIcon w={20} h={20} />
         <Box>{t("new_project")}</Box>
       </VStack>
-    </Center>
+    </AspectRatio>
   );
 };
 
