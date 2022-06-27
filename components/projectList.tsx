@@ -7,7 +7,6 @@ import {
   Icon,
   Spacer,
   Stack,
-  VStack,
   AspectRatio,
   BoxProps,
 } from "@chakra-ui/react";
@@ -51,10 +50,10 @@ const ProjectAddIcon = ({ ...props }: BoxProps) => {
         push("create/project");
       }}
     >
-      <VStack>
-        <AddIcon w={20} h={20} />
-        <Box>{t("new_project")}</Box>
-      </VStack>
+      <Stack>
+        <AddIcon boxSize="30%" />
+        <Box pt={2}>{t("new_project")}</Box>
+      </Stack>
     </AspectRatio>
   );
 };
