@@ -7,8 +7,6 @@ import { appWithTranslation } from "next-i18next";
 import "focus-visible/dist/focus-visible";
 import theme from "themes";
 import Fonts from "themes/fonts";
-import Head from "next/head";
-
 import { Global, css } from "@emotion/react";
 const GlobalStyles = css`
   /*
@@ -36,13 +34,10 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
         <ChakraProvider theme={theme}>
           <Global styles={GlobalStyles} />
           <Fonts />
-          <Head>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
           <Component {...pageProps} />
         </ChakraProvider>
       </Hydrate>

@@ -12,7 +12,7 @@ export type EditableProject = {
   status: "active" | "pass";
   content: string;
   draft: boolean;
-  orgId: Id;
+  orgId: Id | null;
   imageUrls: string[];
 };
 

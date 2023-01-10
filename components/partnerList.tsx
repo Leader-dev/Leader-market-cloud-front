@@ -16,19 +16,13 @@ import {
   Icon,
   IconButton,
   Spacer,
-  Stack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import {
-  AiFillHeart,
-  AiOutlineHeart,
-  AiOutlineMail,
-  AiOutlineMobile,
-} from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Card } from "components/card";
 import { Divider } from "components/divider";
 import { Agent } from "types/user";
@@ -46,29 +40,9 @@ export const AgentCard: React.FC<
   const { t: te } = useTranslation("common", { keyPrefix: "errors" });
   const { push } = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef(null);
+  const cancelRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
   const loggedIn = useLoginStatus();
   const [loading, setLoading] = useState(false);
-
-  let contactInfo = <Box pt={2}>{t("no_contact_info")}</Box>;
-  if (partner.showContact && (partner.phone || partner.email)) {
-    contactInfo = (
-      <Stack pt={2} align="flex-end" spacing={0}>
-        {partner.phone && (
-          <Flex align="center">
-            {partner.phone}
-            <Icon as={AiOutlineMobile} color="blue.500" ml={1} w={4} h={4} />
-          </Flex>
-        )}
-        {partner.email && (
-          <Flex align="center">
-            {partner.email}
-            <Icon as={AiOutlineMail} color="blue.500" ml={1} w={4} h={4} />
-          </Flex>
-        )}
-      </Stack>
-    );
-  }
 
   const queryClient = useQueryClient();
   const toast = useToast();
@@ -192,9 +166,7 @@ export const AgentCard: React.FC<
               pointerEvents="auto"
             />
             <Spacer />
-            {partner.interested || partner.userId === loggedIn ? (
-              contactInfo
-            ) : (
+            {partner.userId === loggedIn ? null : partner.showContact ? (
               <Button
                 onClick={(e) => {
                   if (!loggedIn) {
@@ -214,8 +186,12 @@ export const AgentCard: React.FC<
                 mb={-2}
                 pointerEvents="auto"
               >
-                {t("interested")}
+                {partner.interested
+                  ? t("check_namecard")
+                  : t("exchange_namecard")}
               </Button>
+            ) : (
+              <Box>{t("not_open")}</Box>
             )}
 
             {partner.userId !== loggedIn ? (

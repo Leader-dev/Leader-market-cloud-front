@@ -5,50 +5,36 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Image,
   Button,
-  ButtonGroup,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   HStack,
-  Input,
   Stack,
   useDisclosure,
   AlertDialogCloseButton,
-  Box,
-  InputProps,
-  Textarea,
-  AspectRatio,
   Container,
+  Flex,
 } from "@chakra-ui/react";
-import {
-  ErrorMessage,
-  Field,
-  FieldHookConfig,
-  FieldProps,
-  Form,
-  Formik,
-  FormikProps,
-  useField,
-} from "formik";
+import { Form, Formik } from "formik";
 import { BasicLayout } from "layouts/basicLayout";
 import { GetServerSideProps, NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   dehydrate,
   QueryClient,
   useMutation,
-  useQuery,
   useQueryClient,
 } from "react-query";
 import publishProject from "services/project/manage/publishProject";
 import { EditableProject } from "types/project";
 import * as Yup from "yup";
 import getOrgManageList from "services/org/manage/getOrgManageList";
+import { DatePicker } from "components/DatePicker";
+import { SelectImage } from "components/SelectImage";
+import { SelectOrg } from "components/SelectOrg";
+import { Switch } from "components/Switch";
+import { TextField } from "components/TextField";
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   const queryClient = new QueryClient();
@@ -57,60 +43,66 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(ctx.locale!, ["common", "create"])),
+      ...(await serverSideTranslations(ctx.locale!, [
+        "common",
+        "create",
+        "errors",
+      ])),
     },
   };
-};
-
-const TextField = ({
-  label,
-  as,
-  ...props
-}: { label?: string } & FieldHookConfig<string> & InputProps) => {
-  const [field, meta] = useField(props);
-  const { t: te } = useTranslation("create", { keyPrefix: "errors" });
-  return (
-    <FormControl isInvalid={!!(meta.error && meta.touched)}>
-      {label ?? <FormLabel>{label}</FormLabel>}
-      <Field as={as} {...field} {...props} />
-      <FormErrorMessage>{meta.error && te(meta.error)}</FormErrorMessage>
-    </FormControl>
-  );
 };
 
 const NewProjectSchema = Yup.object().shape({
   title: Yup.string().required("title.required"),
   coverUrl: Yup.mixed().required("cover.required"),
   content: Yup.string().required("content.required"),
+  startDate: Yup.date()
+    .nullable()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .required("start.required"),
+  endDate: Yup.date()
+    .nullable()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .required("end.required")
+    .min(Yup.ref("startDate"), "end.min"),
 });
 
-type CreateProjectInfo = Omit<EditableProject, "coverUrl"> & {
+type CreateProjectInfo = Omit<
+  EditableProject,
+  "coverUrl" | "startDate" | "endDate"
+> & {
+  coverUrl: File | null;
+  startDate: Date;
+  endDate: Date;
+};
+
+type SubmitProjectInfo = Omit<EditableProject, "coverUrl"> & {
   coverUrl: File | null;
 };
 
 const NewProjectPage: NextPage = () => {
-  const { t } = useTranslation("project");
+  const { t } = useTranslation("create", { keyPrefix: "project" });
   const { isOpen, onOpen: onDelete, onClose } = useDisclosure();
-  const cancelRef = useRef();
-  const { back } = useRouter();
-  const { data: orgManageList } = useQuery(getOrgManageList({}));
+  const cancelRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
+  const { back, push } = useRouter();
 
   const initialValues: CreateProjectInfo = {
     coverUrl: null,
     title: "",
     status: "active",
     content: "",
-    tags: ["线下"],
-    startDate: "1609459200",
-    endDate: "1609459200",
-    orgId: "",
+    tags: ["线下", "线上"],
+    startDate: new Date(),
+    endDate: new Date(),
+    orgId: null,
     imageUrls: [],
-    draft: true,
+    draft: false,
   };
 
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (values: CreateProjectInfo) => {
+    // TODO optimistic update
+    (values: SubmitProjectInfo) => {
       return publishProject(values);
     },
     {
@@ -118,9 +110,6 @@ const NewProjectPage: NextPage = () => {
         queryClient.invalidateQueries("/mc/project/list/all");
         queryClient.invalidateQueries("/mc/project/manage/list");
         back();
-      },
-      onError: (err) => {
-        console.log(err);
       },
     }
   );
@@ -130,7 +119,6 @@ const NewProjectPage: NextPage = () => {
       <AlertDialog
         isOpen={isOpen}
         onClose={onClose}
-        // @ts-ignore
         leastDestructiveRef={cancelRef}
         motionPreset="slideInBottom"
         isCentered
@@ -143,11 +131,7 @@ const NewProjectPage: NextPage = () => {
           <AlertDialogCloseButton />
           <AlertDialogBody>{t("delete_project_confirm")}</AlertDialogBody>
           <AlertDialogFooter>
-            <Button
-              // @ts-ignore
-              ref={cancelRef}
-              onClick={onClose}
-            >
+            <Button ref={cancelRef} onClick={onClose}>
               {t("cancel")}
             </Button>
             <Button colorScheme="red" onClick={() => back()} ml={3}>
@@ -159,14 +143,23 @@ const NewProjectPage: NextPage = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("submit", values);
-          values.draft = false;
-          mutation.mutate(values);
-          setSubmitting(false);
+          const startDate = values.startDate.getTime().toString();
+          const endDate = values.endDate.getTime().toString();
+          const modifieldValues: SubmitProjectInfo = {
+            ...values,
+            startDate: startDate,
+            endDate: endDate,
+          };
+          // console.log("submit", modifieldValues);
+          mutation.mutate(modifieldValues);
+          if (mutation.isSuccess) {
+            setSubmitting(false);
+            push("/account");
+          }
         }}
         validationSchema={NewProjectSchema}
       >
-        {({ values, isSubmitting, setFieldValue }) => (
+        {({ isSubmitting, setFieldValue, submitForm }) => (
           <Form>
             <HStack
               w="100vw"
@@ -179,7 +172,14 @@ const NewProjectPage: NextPage = () => {
               <Button colorScheme={"red"} variant="outline" onClick={onDelete}>
                 {t("delete")}
               </Button>
-              <Button variant="outline" colorScheme={"blue"}>
+              <Button
+                variant="outline"
+                colorScheme={"blue"}
+                onClick={() => {
+                  setFieldValue("draft", true);
+                  submitForm();
+                }}
+              >
                 {t("save_as_draft")}
               </Button>
               <Button
@@ -192,50 +192,42 @@ const NewProjectPage: NextPage = () => {
               </Button>
             </HStack>
 
-            <Container maxW="4xl" p={0} bg="white">
-              <label>
-                {values.coverUrl ? (
-                  <Image
-                    src={URL.createObjectURL(values.coverUrl)}
-                    w="100%"
-                    maxH="40vh"
-                    alt="none"
-                    layout="fill"
-                  />
-                ) : (
-                  <Box w="100%" h="40vh" bgColor={"gray"} />
-                )}
-                <input
-                  name="coverUrl"
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  onChange={(e: any) => {
-                    setFieldValue("coverUrl", e.currentTarget.files[0] as File);
-                  }}
-                />
-                <Box color={"red.500"}>
-                  <ErrorMessage name={"coverUrl"} />
-                </Box>
-              </label>
-
-              <Box px={6}>
+            <Container maxW="4xl" px={0} pb={10} bg="white">
+              <SelectImage name="coverUrl" w="full" h="40vh" />
+              <Stack px={6} spacing={4} pt={4}>
                 <TextField
                   name="title"
                   variant="flushed"
-                  placeholder="enter project title"
-                  as={Input}
-                  type="text"
+                  placeholder={t("enter_project_title")}
+                  size="lg"
                 />
+                <Switch
+                  name="status"
+                  label={t("choose_project_status")}
+                  activeLabel={t("active")}
+                  inactiveLabel={t("inactive")}
+                />
+                <SelectOrg label={t("select_org")} name="orgId" width="40%" />
+                <Stack>{t("choose_project_tags")}</Stack>
+                <Stack>
+                  {t("choose_project_duration")}
+                  <Flex align="flex-start">
+                    <DatePicker
+                      name="startDate"
+                      label={t("start_date")}
+                      mr={2}
+                    />
+                    <DatePicker name="endDate" label={t("end_date")} />
+                  </Flex>
+                </Stack>
                 <TextField
                   name="content"
                   variant="flushed"
-                  placeholder="enter project content"
-                  type="text"
-                  label={t("content")}
-                  as={Textarea}
+                  placeholder={t("enter_project_content")}
+                  label={t("project_content")}
+                  multiLine={true}
                 />
-              </Box>
+              </Stack>
             </Container>
           </Form>
         )}

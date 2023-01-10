@@ -5,7 +5,6 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import {
   Box,
   Text,
-  Avatar,
   Heading,
   Flex,
   Spacer,
@@ -16,29 +15,20 @@ import {
   Tab,
   TabPanel,
   SimpleGrid,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
   Editable,
   EditablePreview,
   // @ts-ignore
   useEditableControls,
   ButtonGroup,
   IconButton,
-  Input,
   Stack,
-  EditableInput,
-  theme,
 } from "@chakra-ui/react";
-import { useTranslation, Trans } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AiOutlineSwap } from "react-icons/ai";
 import { useEffect, useState } from "react";
-
 import { BasicLayout } from "layouts/basicLayout";
 import { ProjectsPanelList } from "components/projectList";
-
 import getOrgManageList from "services/org/manage/getOrgManageList";
 import getOrgDetail from "services/org/getOrgDetail";
 import getOrgProjects from "services/project/getOrgProjects";
@@ -47,6 +37,7 @@ import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { Loading } from "components/loading";
 import { Error } from "components/error";
 import { OrgAvatar } from "components/image";
+import OrgHStack from "components/orgHStack";
 // import { UserAvatar } from "src/components/image";
 
 const Members: React.FC = () => {
@@ -69,7 +60,7 @@ const SettingCard: React.FC<{
 };
 
 const Settings: React.FC = () => {
-  return <SimpleGrid columns={3} spacing={10}></SimpleGrid>;
+  return <SimpleGrid columns={3} spacing={10} />;
 };
 
 const OrgManagePage: NextPage = () => {
@@ -95,6 +86,7 @@ const OrgManagePage: NextPage = () => {
 
   const [slogan, setSlogan] = useState<string>();
   const [description, setDescription] = useState<string>();
+  const { push } = useRouter();
 
   useEffect(() => {
     if (orgInfo) {
@@ -156,26 +148,29 @@ const OrgManagePage: NextPage = () => {
           />
         </Box>
 
-        <Flex w="full" bgColor="white" py={3} px={4} pl={`${imageSize}px`}>
+        <Flex
+          w="full"
+          bgColor="white"
+          py={3}
+          px={4}
+          pl={`${imageSize}px`}
+          align="center"
+        >
           <Box>
             <Heading>{orgInfo.name}</Heading>
           </Box>
           <Spacer />
           <>
-            <Box>
-              {orgList.map((org) => (
-                <Avatar key={org.id} name={org.name} src={org.avatarUrl} />
-              ))}
-            </Box>
+            <OrgHStack orgList={orgList} />
             <Button
               variant="outline"
               colorScheme="blue"
               size="lg"
               ml={3}
               leftIcon={<AiOutlineSwap />}
-              onClick={() => {}}
+              onClick={() => push("/account")}
             >
-              {t("my_org")}
+              {t("switch_to_person")}
             </Button>
           </>
         </Flex>

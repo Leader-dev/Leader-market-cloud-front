@@ -41,7 +41,7 @@ const ProjectDetailPage: NextPage = () => {
   const { mutate } = useReadProject(id);
   useEffect(() => {
     mutate(id);
-  }, []);
+  }, [id]);
   const { t } = useTranslation("projects");
 
   if (isError) return <Error />;

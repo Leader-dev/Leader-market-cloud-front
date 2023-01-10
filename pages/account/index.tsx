@@ -1,14 +1,9 @@
-import {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  NextPage,
-} from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import {
   Box,
   Text,
-  Avatar,
   Heading,
   Flex,
   Spacer,
@@ -19,36 +14,33 @@ import {
   Tab,
   TabPanel,
   Spinner,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
   Switch,
-  Icon,
-  ButtonGroup,
-  useEditableControls,
-  IconButton,
-  Editable,
-  EditablePreview,
-  EditableInput,
-  InputRightElement,
-  HStack,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  ModalCloseButton,
+  ModalHeader,
+  ModalBody,
+  ButtonProps,
+  Stack,
+  ModalFooter,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Center,
 } from "@chakra-ui/react";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import {
-  AiOutlineSwap,
-  AiOutlineMobile,
-  AiOutlineMail,
-  AiOutlinePlus,
-  AiOutlineSetting,
-} from "react-icons/ai";
-import React, { useState } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import React from "react";
 
 import { BasicLayout } from "layouts/basicLayout";
 import { ProjectsList } from "components/projectList";
 import { AgentList } from "components/partnerList";
-
 import getDrafts from "services/project/manage/getProjectDrafts";
 import getAgentFavoriteList from "services/agent/favorite/getAgentFavoriteList";
 import getInterestedAgentList from "services/agent/interest/getInterestedAgentList";
@@ -57,8 +49,16 @@ import getAgentInfo from "services/agent/manage/getAgentInfo";
 import getProjectList from "services/project/manage/getProjectList";
 import { Loading } from "components/loading";
 import { Error } from "components/error";
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { OrgAvatar, UserAvatar } from "components/image";
+import { UserAvatar } from "components/image";
+import OrgHStack from "components/orgHStack";
+import updateAgentInfo from "services/agent/manage/updateAgentInfo";
+import NameCard from "components/nameCard";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import { TextField } from "components/TextField";
+import logout from "services/user/logout";
+import { SelectImage } from "components/SelectImage";
+import { SelectOrg } from "components/SelectOrg";
 
 const ProjectPanel = ProjectsList;
 
@@ -109,98 +109,182 @@ const Drafts = () => {
   return <ProjectsList projects={data!} />;
 };
 
-const InputField = ({
-  defaultValue,
-  leftElement,
-}: {
-  defaultValue: string;
-  leftElement?: React.ReactNode;
+const ButtonLink: React.FC<{ onOpen: () => void } & ButtonProps> = ({
+  onOpen,
+  children,
+  ...props
 }) => {
-  function EditableControls() {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls();
-
-    return isEditing ? (
-      <ButtonGroup justifyContent="center" size="sm">
-        <IconButton
-          icon={<CheckIcon />}
-          aria-label="check"
-          {...getSubmitButtonProps()}
-        />
-        <IconButton
-          icon={<CloseIcon />}
-          aria-label="close"
-          {...getCancelButtonProps()}
-        />
-      </ButtonGroup>
-    ) : (
-      <Flex justifyContent="center">
-        <IconButton
-          size="sm"
-          aria-label="edit"
-          icon={<EditIcon />}
-          {...getEditButtonProps()}
-        />
-      </Flex>
-    );
-  }
-
   return (
-    <Editable
-      defaultValue={defaultValue}
-      textAlign="left"
-      // fontSize='md'
-      isPreviewFocusable={false}
+    <Button
+      onClick={onOpen}
+      variant="link"
+      colorScheme="blue"
+      size="lg"
+      _hover={{ textUnderlineOffset: "4px", textDecoration: "underline" }}
+      {...props}
     >
-      <Flex justify="space-between" align="center">
-        <Flex align="center">
-          {leftElement}
-          <EditablePreview />
-        </Flex>
-        <Input variant="flushed" as={EditableInput} />
-        <EditableControls />
-      </Flex>
-    </Editable>
+      {children}
+    </Button>
   );
 };
 
+const ProfileValidationSchema = Yup.object().shape({
+  name: Yup.string().required("name.required"),
+  description: Yup.string().required("description.required"),
+});
+
 const Settings = () => {
-  const partner = useQuery(getAgentInfo({})).data!;
+  const agent = useQuery(getAgentInfo({})).data!;
   const { t } = useTranslation("account");
+  const useUpdateAgentInfo = updateAgentInfo();
+  const {
+    isOpen: isOpenProfile,
+    onOpen: onOpenProfile,
+    onClose: onCloseProfile,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenSecurity,
+    onOpen: onOpenSecurity,
+    onClose: onCloseSecurity,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenPolicy,
+    onOpen: onOpenPolicy,
+    onClose: onCLosePolicy,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
+  } = useDisclosure();
+  const cancelRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
+  const useLogout = logout();
 
   return (
     <Flex>
       <Box bg={"white"} borderRadius={"20px"} w={"60%"} mr={10} p={10}>
-        <Heading as={"h3"}>账号设置</Heading>
+        <Heading as={"h3"}>{t("account_settings")}</Heading>
+        <Stack spacing={4} align="flex-start" mt={8}>
+          <ButtonLink onOpen={onOpenProfile}>{t("profile")}</ButtonLink>
+          <Modal
+            isOpen={isOpenProfile || useUpdateAgentInfo.isLoading}
+            onClose={onCloseProfile}
+            closeOnOverlayClick={false}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <Text>{t("profile")}</Text>
+                <ModalCloseButton />
+              </ModalHeader>
+              <ModalBody>
+                <Formik
+                  initialValues={agent}
+                  validationSchema={ProfileValidationSchema}
+                  onSubmit={(values) => {
+                    useUpdateAgentInfo.mutate(values);
+                    onCloseProfile();
+                  }}
+                >
+                  {() => (
+                    <Form>
+                      <Center>
+                        <SelectImage
+                          name="avatarUrl"
+                          w="100px"
+                          h="100px"
+                          borderRadius="50%"
+                        />
+                      </Center>
+                      <TextField label={t("name")} name="name" />
+                      <TextField label={t("description")} name="description" />
+                      <SelectOrg label={t("display_org")} name="orgId" />
+                      <ModalFooter mt={10} pr={0}>
+                        <Button
+                          variant="outline"
+                          mr={3}
+                          onClick={onCloseProfile}
+                        >
+                          Close
+                        </Button>
+                        <Button
+                          type="submit"
+                          colorScheme="blue"
+                          isLoading={useUpdateAgentInfo.isLoading}
+                        >
+                          Submit
+                        </Button>
+                      </ModalFooter>
+                    </Form>
+                  )}
+                </Formik>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+          <ButtonLink onOpen={onOpenSecurity}>{t("security")}</ButtonLink>
+          <ButtonLink onOpen={onOpenPolicy}>{t("policy")}</ButtonLink>
+          <ButtonLink onOpen={onOpenLogout}>{t("logout")}</ButtonLink>
+          <AlertDialog
+            isOpen={isOpenLogout}
+            onClose={onCloseLogout}
+            leastDestructiveRef={cancelRef}
+            // isCentered
+          >
+            <AlertDialogOverlay />
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <Text>{t("logout")}</Text>
+              </AlertDialogHeader>
+              <AlertDialogBody>
+                <Text>{t("logout_confirm")}</Text>
+              </AlertDialogBody>
+              <AlertDialogFooter>
+                <Button onClick={onCloseLogout}>{t("cancel")}</Button>
+                <Button
+                  onClick={() => {
+                    useLogout.mutate();
+                  }}
+                  isLoading={useLogout.isLoading}
+                  colorScheme="red"
+                  ml={3}
+                >
+                  {t("confirm")}
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </Stack>
       </Box>
       <Box bg={"white"} borderRadius={"20px"} p={10} w={"40%"}>
-        <Heading as={"h3"}>对外信息</Heading>
-        <Box mt={2} mb={4}>
-          {t("show_contacts_hint")}
-        </Box>
-        <Flex align="center" mb={4}>
-          {t("show_contacts")}
-          <Switch isChecked={true} mx={2} />
-          {t("hide_contacts")}
+        <Heading as={"h3"}>{t("my_name_card")}</Heading>
+        <Flex mt={2} mb={4}>
+          <Box textStyle="description">{t("name_card_description")}</Box>
+          <Spacer />
+          <Flex align="center" mb={4}>
+            <Text color={agent.showContact ? "gray.400" : "black"}>
+              {t("hide_contacts")}
+            </Text>
+
+            <Switch
+              // TODO which api???
+              isDisabled={true}
+              id="name_card"
+              defaultChecked={agent.showContact}
+              mx={2}
+              sx={{ "--switch-track-width": "3rem" }}
+              onChange={(e) =>
+                useUpdateAgentInfo.mutate({
+                  ...agent,
+                  showContact: e.target.checked,
+                })
+              }
+            />
+            <Text color={agent.showContact ? "black" : "gray.400"}>
+              {t("show_contacts")}
+            </Text>
+          </Flex>
         </Flex>
-        <Stack spacing={2} textAlign="right">
-          <InputField
-            defaultValue={partner.phone}
-            leftElement={
-              <Icon as={AiOutlineMobile} color="blue.500" mr={2} w={5} h={5} />
-            }
-          />
-          <InputField
-            defaultValue={partner.email}
-            leftElement={
-              <Icon as={AiOutlineMail} color="blue.500" mr={2.5} w={5} h={5} />
-            }
-          />
-        </Stack>
+        <NameCard info={agent} editable={true} />
       </Box>
     </Flex>
   );
@@ -221,10 +305,8 @@ const AccountManagePage: NextPage = () => {
   if (!partner || !projects || !orgList) return <Loading />;
 
   let displayOrgName = undefined;
-  if (partner.displayOrgId) {
-    displayOrgName = orgList.find(
-      (org) => org.id === partner.displayOrgId
-    )?.name;
+  if (partner.orgId) {
+    displayOrgName = orgList.find((org) => org.id === partner.orgId)?.name;
   }
 
   const imageMarginLeft = 36;
@@ -246,7 +328,7 @@ const AccountManagePage: NextPage = () => {
         <Flex
           w="full"
           bgColor="white"
-          pt={8}
+          pt={4}
           pb={4}
           px={4}
           pl={`${imageSize}px`}
@@ -256,71 +338,28 @@ const AccountManagePage: NextPage = () => {
             <Heading>{partner.name}</Heading>
           </Box>
           <Spacer />
-          <Flex>
-            <HStack spacing={4} mr={2}>
-              {orgList.map((org) => (
-                <OrgAvatar
-                  certification={org.certification}
-                  showTag={false}
-                  key={org.id}
-                  name={org.name}
-                  src={org.avatarUrl}
-                  onClick={() => {
-                    push(`/account/org/${org.id}`);
-                  }}
-                  variant={"with-shadow"}
-                />
-              ))}
-            </HStack>
+          <>
+            <OrgHStack orgList={orgList} />
             <Button
               variant="outline"
               colorScheme="blue"
               size="lg"
               ml={3}
-              leftIcon={<AiOutlineSwap />}
-              onClick={() => {}}
+              leftIcon={<AiOutlinePlus />}
+              onClick={() => push("create/org")}
             >
-              {t("my_org")}
+              {t("new_org")}
             </Button>
-          </Flex>
+          </>
         </Flex>
         <Flex w="full" py={3} pl={`${imageSize}px`}>
           <Box pr={4}>
             <Box color="blue.700">
-              {partner.displayOrgId ? `@${displayOrgName}` : t("no_org")}
+              {partner.orgId ? `@${displayOrgName}` : t("no_org")}
             </Box>
             <Box w="sm">{partner.description}</Box>
           </Box>
           <Spacer />
-          <Box>
-            <Stack spacing={4}>
-              <Box textAlign="right">
-                <Button
-                  leftIcon={<AiOutlinePlus />}
-                  variant="solid"
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={() => {
-                    push("/create/project");
-                  }}
-                >
-                  {t("new_project")}
-                </Button>
-                <Button
-                  leftIcon={<AiOutlinePlus />}
-                  variant="outline"
-                  colorScheme="blue"
-                  borderStyle="dashed"
-                  mr={3}
-                  onClick={() => {
-                    push("/create/org");
-                  }}
-                >
-                  {t("new_org")}
-                </Button>
-              </Box>
-            </Stack>
-          </Box>
         </Flex>
       </Box>
       <Box px={4} py={2}>
@@ -370,7 +409,11 @@ export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(ctx.locale!, ["common", "account"])),
+      ...(await serverSideTranslations(ctx.locale!, [
+        "common",
+        "account",
+        "errors",
+      ])),
     },
   };
 };
