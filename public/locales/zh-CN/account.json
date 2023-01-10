@@ -4,21 +4,39 @@
   "favorites": "收藏",
   "drafts": "草稿",
   "settings": "设置",
+  "account_settings": "账号设置",
   "show_contacts": "显示",
   "hide_contacts": "隐藏",
   "partners_want_to_collab_with_you": "已有<1>一位</1>合作方希望与您合作",
   "partners_want_to_collab_with_you_plural": "已有<1>{{count}}</1>位合作方希望与您合作",
   "partnersYouInterestedIn": "您感兴趣的合作方",
-  "my_org": "我的组织",
-  "new_org": "新建组织",
   "new_project": "新建项目",
+  "new_org": "新建组织",
   "no_org": "暂无组织",
   "orgManage": {
     "members": "成员",
     "projects": "项目活动",
-    "settings": "设置",
+    "settings": "账号设置",
     "org_description": "组织简介",
     "org_slogan": "品牌标语",
-    "my_org": "我的组织"
+    "switch_to_person": "个人账号"
+  },
+  "profile": "我的资料",
+  "name": "姓名",
+  "description": "简介",
+  "policy": "用户协议与隐私政策",
+  "logout": "退出登录",
+  "logout_confirm": "确定退出登录？",
+  "security": "登陆安全",
+  "display_org": "展示组织名称",
+  "my_name_card": "我的名片",
+  "name_card_description": "将在有⼈点击“交换名⽚”时与对⽅名⽚⾃动交换",
+  "name_card": {
+    "name": "姓名",
+    "position": "职位",
+    "email": "邮箱",
+    "phone": "电话",
+    "edit": "编辑名片",
+    "display_org": "展示组织名称"
   }
 }
